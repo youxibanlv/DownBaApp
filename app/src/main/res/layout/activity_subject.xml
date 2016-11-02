@@ -40,7 +40,7 @@
         android:text="致甜蜜的恋人、亲密的家人、可爱的伙伴、亦或是一缕淡淡的忧伤、无法言喻的情怀，你若安好 、便是晴天，你若幸福、便是"
         android:textSize="@dimen/wdp23" />
 
-    <com.a82down.app.view.library.PullToRefreshListView
+    <com.strike.downba_app.view.library.PullToRefreshListView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -57,7 +57,7 @@
             android:numStars="1"
             />
     </RelativeLayout>
-    <com.a82down.app.view.DownloadBtn
+    <com.strike.downba_app.app.view.DownloadBtn
         android:id="@+id/app_install"
         android:layout_width="@dimen/wdp100"
         android:layout_height="@dimen/wdp40"

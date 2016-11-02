@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <com.a82down.app.view.HomeTitleBar
+    <com.strike.downba_app.view.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.a82down.app.view.HomeTitleBar>
-    <com.a82down.app.view.IconTabPageIndicator
+    </com.strike.downba_app.view.HomeTitleBar>
+    <com.strike.downba_app.view.IconTabPageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

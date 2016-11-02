@@ -126,7 +126,7 @@
             android:paddingBottom="@dimen/wdp10"
             android:paddingTop="@dimen/wdp10">
 
-            <com.a82down.app.view.DownloadBtn
+            <com.strike.downba_app.view.DownloadBtn
                 android:id="@+id/tv_down"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/wdp40"
@@ -164,7 +164,7 @@
                 android:text="@string/img"
                 android:textSize="@dimen/wdp28" />
 
-            <com.a82down.app.view.MyHorizontalScrollView
+            <com.strike.downba_app.view.MyHorizontalScrollView
                 android:id="@+id/imgList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@color/white"
                     android:orientation="horizontal" />
-            </com.a82down.app.view.MyHorizontalScrollView>
+            </com.strike.downba_app.view.MyHorizontalScrollView>
 
             <TextView
                 android:layout_width="match_parent"

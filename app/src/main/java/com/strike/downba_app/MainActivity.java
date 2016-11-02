@@ -1,15 +1,128 @@
 package com.strike.downba_app;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 
+import com.strike.downba_app.base.BaseActivity;
+import com.strike.downba_app.base.BaseFragment;
+import com.strike.downba_app.fragment.AppFragment;
+import com.strike.downba_app.fragment.ArticleFragment;
+import com.strike.downba_app.fragment.GameFragment;
+import com.strike.downba_app.fragment.HomeFragment;
+import com.strike.downba_app.utils.UiUtils;
+import com.strike.downba_app.view.HomeTitleBar;
+import com.strike.downba_app.view.IconTabPageIndicator;
+import com.strike.downba_app.view.TabAdapter;
 import com.strike.downbaapp.R;
 
-public class MainActivity extends AppCompatActivity {
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@ContentView(R.layout.activity_main)
+public class MainActivity extends BaseActivity {
+
+    /**
+     * The instance.
+     */
+    public static MainActivity instance;
+
+    /**
+     * The Constant TAG.
+     */
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    @ViewInject(R.id.indicator)
+    private IconTabPageIndicator mIndicator;
+
+    @ViewInject(R.id.view_pager)
+    private ViewPager mViewPager;
+
+
+    private long mExitTime;
+
+    @ViewInject(R.id.title_bar)
+    private HomeTitleBar title_bar;
+
+    private TabAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        instance = this;
+        List<BaseFragment> fragments = initFragments();
+        mAdapter = new TabAdapter(fragments, getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(fragments.size());//三页都进行预加载，避免每次都多次切换进行重新创建
+        mIndicator.setViewPager(mViewPager);
+    }
+
+    public void setCurrentFragment(int position) {
+        mViewPager.setCurrentItem(position);
+        BaseFragment baseFragment = (BaseFragment) mAdapter.instantiateItem(mViewPager, position);
+        baseFragment.freshView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mViewPager != null) {
+            int curItem = mViewPager.getCurrentItem();
+            if (mAdapter != null && mAdapter.getCount() > curItem) {
+                BaseFragment baseFragment = (BaseFragment) mAdapter.instantiateItem(mViewPager, curItem);
+                baseFragment.freshView();
+            }
+        }
+        if (title_bar!= null){
+            title_bar.refresh();
+        }
+    }
+
+    private List<BaseFragment> initFragments() {
+        List<BaseFragment> fragments = new ArrayList<BaseFragment>();
+        BaseFragment recommend = new HomeFragment();
+        recommend.setTitle("推荐");
+        recommend.setIconId(R.drawable.recommend_icon_selector);
+        fragments.add(recommend);
+
+        BaseFragment game = new GameFragment();
+        game.setTitle("游戏");
+        game.setIconId(R.drawable.game_icon_selector);
+        fragments.add(game);
+
+        BaseFragment app = new AppFragment();
+        app.setTitle("应用");
+        app.setIconId(R.drawable.app_icon_selector);
+        fragments.add(app);
+
+        BaseFragment article = new ArticleFragment();
+        article.setTitle("资讯");
+        article.setIconId(R.drawable.info_icon_selector);
+        fragments.add(article);
+
+        return fragments;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - mExitTime > 2000) {
+                UiUtils.showTipToast(true,getString(R.string.press_to_exit));
+                mExitTime = System.currentTimeMillis();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -85,7 +85,7 @@
         android:paddingBottom="@dimen/wdp10"
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
-        <com.a82down.app.view.DownloadBtn
+        <com.strike.downba_app.view.DownloadBtn
             android:id="@+id/tv_down"
             android:layout_width="match_parent"
             android:layout_height="@dimen/wdp40"

@@ -28,7 +28,7 @@
             android:textSize="@dimen/wdp30" />
 
     </RelativeLayout>
-    <com.a82down.app.view.library.PullToRefreshListView
+    <com.strike.downba_app.view.library.PullToRefreshListView
         android:id="@+id/pull_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

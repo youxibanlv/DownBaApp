@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/wdp18"
                     android:text="版本：8 ｜更新时间：2015－12-30"/>
-                <com.a82down.app.view.DownloadBtn
+                <com.strike.downba_app.view.DownloadBtn
                     android:id="@+id/tv_down"
                     android:layout_width="@dimen/wdp100"
                     android:layout_height="@dimen/wdp40"
@@ -97,7 +97,7 @@
             android:textSize="@dimen/wdp20"
             android:text="-----QQ·乐在沟通----- √服务超过90%的移动互联网用户 √多人视频、文件多端互传，不断创新满足沟通所需 √致力于打造欢乐无限的沟通、娱乐与生活体验 -----主要功能----- ·聊天消息：随时随地收发好友和群消息，一触即达。 ·语音通话：两人、多人语音通话，高清畅聊。 ·视频聊天：亲朋好友，想念不如相见。 ·文件传输：手机、电脑多端互传，方便快捷。 ·空间动态：更快获知好友动态，分享生活留住感动。 ·个性装扮：主题、名片、彩铃、气泡、挂件自由选。 ·游戏中心：天天、全民等最热手游，根本停不下来。 ·移动支付：话费充值、网购、转账收款，一应俱全。 乐在沟通16年，聊天欢乐8亿人！ -----联系我们----- 如在使用过程中遇到任何问题，请联系我们： - 在线帮助：进入QQ设置 -> 关于QQ -> 帮助与反馈 - 客服热线：0755-83763333 (服务时间：8:00 - 23:00)"
             />
-        <com.a82down.app.view.MyHorizontalScrollView
+        <com.strike.downba_app.view.MyHorizontalScrollView
             android:id="@+id/imgList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@color/white"
                 android:orientation="horizontal" />
-        </com.a82down.app.view.MyHorizontalScrollView>
+        </com.strike.downba_app.view.MyHorizontalScrollView>
         <TextView
             android:id="@+id/details"
             android:layout_width="match_parent"
