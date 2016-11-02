@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_choice_title"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="选择方式"
+        android:layout_marginTop="@dimen/wdp10"
+        android:layout_marginLeft="@dimen/wdp20"
+        android:layout_marginRight="@dimen/wdp20"
+        android:background="@color/white"
+        android:textColor="@color/light_black" />
+
+    <ListView
+        android:id="@+id/lv_choice_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/wdp20"
+        android:layout_marginRight="@dimen/wdp20"
+        android:layout_marginTop="@dimen/wdp10"
+        android:background="#ffffff" >
+    </ListView>
+    <TextView
+        android:id="@+id/tv_cancel_send"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wdp60"
+        android:layout_marginLeft="@dimen/wdp20"
+        android:layout_marginRight="@dimen/wdp20"
+        android:layout_marginTop="@dimen/wdp10"
+        android:layout_marginBottom="@dimen/wdp10"
+        android:gravity="center"
+        android:text="取消"
+        android:background="@color/white"
+        android:textColor="@color/light_black"
+        android:textSize="15sp" />
+</LinearLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wdp80"
+        android:background="@color/light_black"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/wdp45"
+            android:layout_height="@dimen/wdp45"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wdp20"
+            android:src="@mipmap/icon_back" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="你若安好，并是晴天"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wdp30"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/area_html"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/wdp10"
+        android:textStyle="bold"
+        android:background="@color/light_gray"
+        android:lineSpacingExtra="@dimen/wdp6"
+        android:text="致甜蜜的恋人、亲密的家人、可爱的伙伴、亦或是一缕淡淡的忧伤、无法言喻的情怀，你若安好 、便是晴天，你若幸福、便是"
+        android:textSize="@dimen/wdp23" />
+
+    <com.a82down.app.view.library.PullToRefreshListView
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/wdp10"
+        android:divider="@color/white"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:paddingBottom="@dimen/wdp10"
+        android:scrollbars="none"
+        android:smoothScrollbar="true" />
+</LinearLayout>

@@ -1,3 +1,53 @@
 <resources>
-    <string name="app_name">DownBaApp</string>
+    <!--通用-->
+    <string name="app_name">My82down</string>
+    <string name="press_to_exit">再按一次退出应用</string>
+    <string name="refresh_too_fast">你刷新的太快了，%1$d秒刷一次哦</string>
+    <!--登录注册-->
+    <string name="register_success">注册成功，自动登录中。。。</string>
+    <string name="login">登  录</string>
+    <string name="forget_pass">忘记密码</string>
+    <string name="register">注  册</string>
+    <string name="login_success">登录成功</string>
+    <string name="format_error_username">用户名格式不正确，只能输入（3-32）位字母和数字</string>
+    <string name="format_error_password">密码格式不正确，只能输入（3-32）位字母和数字</string>
+    <string name="enter_account">请输入账号</string>
+    <string name="enter_pass">请输入密码</string>
+    <string name="enter_pass_again">请再次输入密码</string>
+    <string name="confirm_error_pass">两次输入密码不一致，请重新输入</string>
+
+    <!--首页相关-->
+    <string name="install">安装</string>
+    <string name="recommend">精品推荐</string>
+    <string name="app_title">__</string>
+
+    <!--错误相关-->
+    <string name="connect_timeout">连接服务器超时</string>
+    <string name="this_is_last">已经到底了</string>
+    <string name="free_down">免费下载</string>
+    <string name="continue_down">继续下载</string>
+    <string name="queue_down">队列中...</string>
+    <string name="restart_down">重新开始</string>
+    <string name="click_too_fast">你点的太快了</string>
+    <string name="please_wait">队列中，稍后将自动下载。。。</string>
+    <string name="retry_download">安装包不完整，请重新下载</string>
+    <string name="open">打开</string>
+    <string name="cancellde">已取消</string>
+    <string name="server_busy">服务器忙，请稍后重试</string>
+    <string name="server_not_found">下载资源出错了，请联系管理员！</string>
+    <string name="error_null_id">未获取到应用id，请联系管理员</string>
+    <string name="details_app">应用详情</string>
+    <string name="info">简介：</string>
+    <string name="img">截图：</string>
+    <string name="guess_you_like">猜你喜欢</string>
+    <string name="loading">加载中，请稍后</string>
+    <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="uer_center">个人中心</string>
+
+    <!--=======-->
+
+
+
+
+
 </resources>
