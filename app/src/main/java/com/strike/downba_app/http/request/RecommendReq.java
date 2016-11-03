@@ -10,20 +10,17 @@ public class RecommendReq extends BaseRequest {
 
     RequestParam requestParams;
 
-    public RecommendReq(String pageNo,String pageSize,String areaType){
+    public RecommendReq(String recommend_type){
         cmdType = "appService";
         methodName = "getRecommend";
-        requestParams = new RequestParam(pageNo,pageSize,areaType);
+        requestParams = new RequestParam(recommend_type);
     }
     class RequestParam{
-        String pageNo;
-        String pageSize;
-        String type;
+        String recommend_type;
 
-        public RequestParam(String pn,String ps,String at){
-            pageNo = pn;
-            pageSize = ps;
-            type = at;
+        public RequestParam(String recommend_type){
+
+            this.recommend_type = recommend_type;
         }
     }
 }

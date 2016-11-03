@@ -49,7 +49,7 @@ public class BaseRequest {
 
     public void sendRequest(Callback.CommonCallback<String> callback){
         LogUtil.e("url:"+UrlConfig.getUrl(cmdType));
-        this.postRequest(UrlConfig.getUrl(cmdType),this.getRequestData(),callback);
+        this.postRequest(UrlConfig.getUrl(cmdType)+methodName+".do",this.getRequestData(),callback);
     }
 
     private void postRequest(String url,String requestData,final Callback.CommonCallback<String> callback){

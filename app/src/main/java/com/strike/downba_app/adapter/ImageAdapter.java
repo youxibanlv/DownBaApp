@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
-import com.strike.downba_app.http.UrlConfig;
-import com.strike.downba_app.http.entity.WheelPage;
+import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downbaapp.R;
@@ -25,11 +24,11 @@ import java.util.List;
  */
 public class ImageAdapter extends PagerAdapter {
 
-    private List<WheelPage> pages;
+    private List<Recommend> pages;
     private List<ImageView> imageViews;
     private Context context;
 
-    public ImageAdapter(Context context,List<WheelPage> list) {
+    public ImageAdapter(Context context,List<Recommend> list) {
         this.pages = list;
         this.context = context;
         imageViews = new ArrayList<>();
@@ -37,16 +36,16 @@ public class ImageAdapter extends PagerAdapter {
         builder.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
         ImageOptions options = builder.build();
         if (list!= null && list.size()>0){
-            for (WheelPage wheelPage : list) {
+            for (Recommend wheelPage : list) {
                 ImageView imageView = new ImageView(context);
-                x.image().bind(imageView, UrlConfig.BASE_URL+wheelPage.getResource_url(),options);
+                x.image().bind(imageView, wheelPage.getRecommend_logo(),options);
                 imageViews.add(imageView);
             }
         }
 
     }
 
-    public void setPages(List<WheelPage> wheelPages){
+    public void setPages(List<Recommend> wheelPages){
         pages = wheelPages;
     }
 
@@ -63,7 +62,7 @@ public class ImageAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
-                String url = pages.get(position).getUrl();
+                String url = pages.get(position).getRecommend_logo();
                  String id = "";
                 if (url.contains("id=")){
                     id = url.substring(url.indexOf("id=")+3,url.length());

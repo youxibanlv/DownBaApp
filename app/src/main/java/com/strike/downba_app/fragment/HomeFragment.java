@@ -1,7 +1,6 @@
 package com.strike.downba_app.fragment;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,12 @@ import android.widget.ListView;
 
 import com.strike.downba_app.adapter.HomeAdapter;
 import com.strike.downba_app.base.BaseFragment;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.WheelPage;
+import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.http.request.RecommendReq;
-import com.strike.downba_app.http.request.WheelPageReq;
-import com.strike.downba_app.http.response.GetAppListRsp;
-import com.strike.downba_app.http.response.WheelPageRsp;
+import com.strike.downba_app.http.response.RecommendRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -60,9 +56,9 @@ public class HomeFragment extends BaseFragment {
                 if (lastRefreshTime == 0 || waitTime > minWaitTime){
                     lastRefreshTime = System.currentTimeMillis();
                     pageNo = 0;
-                    getWheelPage();
-                    getRecommend(recommedPageNo,recommendPageSize,"0",true);
-                    getRecommend(pageNo,pageSize,"1",true);
+//                    getRecommend(recommedPageNo,recommendPageSize,"0",true);
+//                    getRecommend(pageNo,pageSize,"1",true);
+                    getRecommend("1");
                 }else{
                     waitTime = System.currentTimeMillis() - lastRefreshTime;
                     showTipToast(false,String.format(getString(R.string.refresh_too_fast),minWaitTime/1000));
@@ -73,7 +69,7 @@ public class HomeFragment extends BaseFragment {
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                     if (pageNo <= totalPage){
                         pageNo ++;
-                        getRecommend(pageNo,pageSize,"1",false);
+//                        getRecommend(pageNo,pageSize,"1",false);
                     }else{
                         UiUtils.showTipToast(false,getString(R.string.this_is_last));
                         UiUtils.stopRefresh(pull_to_refresh);
@@ -81,57 +77,41 @@ public class HomeFragment extends BaseFragment {
             }
         });
         //加载轮播图片
-        getWheelPage();
-        getRecommend(recommedPageNo,recommendPageSize,"0",true);
-        getRecommend(pageNo,pageSize,"1",true);
+//        getRecommend(recommedPageNo,recommendPageSize,"0",true);
+//        getRecommend(pageNo,pageSize,"1",true);
         return view;
     }
-    //获取轮播图
-    private void getWheelPage(){
-        WheelPageReq req = new WheelPageReq();
-        req.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                if (!TextUtils.isEmpty(result)){
-                    WheelPageRsp rsp = (WheelPageRsp) BaseResponse.getRsp(result,WheelPageRsp.class);
-                    if (rsp!= null && rsp.result == HttpConstance.HTTP_SUCCESS){
-                        List<WheelPage> list = rsp.getWheelPages();
-                        if (list!= null && list.size()>0){
-                            adapter.refreshWheelPages(list);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onFinished() {
-                pull_to_refresh.onRefreshComplete();
-            }
-        });
-    }
-    //加载精品推荐
-    private void getRecommend(final int pageNo, int pageSize, final String type, final boolean isRefresh){
-        RecommendReq req = new RecommendReq(String.valueOf(pageNo),String.valueOf(pageSize),type);
-        req.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
-                if (rsp.result == HttpConstance.HTTP_SUCCESS){
-                    List<App> list = rsp.getAppList();
-                    if (list!= null && list.size()>0){
-                        if ("0".equals(type)){
-                            adapter.refreshRecommends(list);
-                        }else{
-                            if (pageNo == 0){
-                                totalPage = rsp.getTotalPage();
-                            }
-                            if (isRefresh){
-                                adapter.refreshGuessYouLike(list);
-                            }else {
-                                adapter.loadMore(list);
-                            }
 
+    //加载精品推荐
+    private void getRecommend(final String type){
+        RecommendReq req = new RecommendReq(type);
+        req.sendRequest(new NormalCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                RecommendRsp rsp = (RecommendRsp) BaseResponse.getRsp(result,RecommendRsp.class);
+                if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                    List<Recommend> list = rsp.getAppList();
+                    if (list!= null && list.size()>0){
+                        int recType = Integer.parseInt(type);
+                        if (Recommend.TYPE_WHEEL == recType){
+                            adapter.refreshWheelPages(list);
                         }
+
+
+
+//                        if ("0".equals(type)){
+//                            adapter.refreshRecommends(list);
+//                        }else{
+//                            if (pageNo == 0){
+//                                totalPage = rsp.getTotalPage();
+//                            }
+//                            if (isRefresh){
+//                                adapter.refreshGuessYouLike(list);
+//                            }else {
+//                                adapter.loadMore(list);
+//                            }
+//
+//                        }
                         adapter.notifyDataSetChanged();
                     }
                 }

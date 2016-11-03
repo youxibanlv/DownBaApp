@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.activity.RecommendActivity;
 import com.strike.downba_app.db.table.App;
-import com.strike.downba_app.http.entity.WheelPage;
+import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.DownloadBtn;
@@ -38,7 +38,7 @@ public class HomeAdapter extends BaseAdapter {
     private final int TYPE_RECOMMEND = 1;//精品推荐
     private final int TYPE_LIST = 2;//热门新游
 
-    private List<WheelPage> wheelPages = new ArrayList<>();//轮播图集合
+    private List<Recommend> wheelPages = new ArrayList<>();//轮播图集合
     private List<App> recommends = new ArrayList<>();//精品推荐
     private List<App> newGames = new ArrayList<>();//装机
 
@@ -54,7 +54,7 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     //设置轮播图数据
-    public void refreshWheelPages(List<WheelPage> list) {
+    public void refreshWheelPages(List<Recommend> list) {
         wheelPages = list;
         notifyDataSetChanged();
     }

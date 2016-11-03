@@ -14,6 +14,8 @@ import gson.Gson;
 public class BaseResponse {
     public int result;
     public String failReason;
+    public String cmdType;
+    public String methodName;
 
     public static BaseResponse getRsp(String result,Class resultClass){
         BaseResponse rsp = new BaseResponse();
