@@ -13,9 +13,9 @@ public class UrlConfig {
     /***
      * 服务器地址
      * **/
-//    public static String BASE_URL = "http://192.168.1.105/82down";//tp_link_youxi
-    public static String BASE_URL = "http://192.168.206.17:8080/DownBa_web";//公司
-//    public static String BASE_URL = "http://123.57.86.113";//外网
+//    public static String BASE_URL = "http://192.168.121.106:8080/DownBa_web";//tp_link_youxi
+//    public static String BASE_URL = "http://192.168.206.17:8080/DownBa_web";//公司
+    public static String BASE_URL = "http://123.57.86.113:8081/DownBa_web";//外网
 
     //用户相关
     public static String USER_SERVICE = BASE_URL+"/app/userService.php";

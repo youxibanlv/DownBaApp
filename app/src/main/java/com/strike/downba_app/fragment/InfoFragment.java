@@ -67,7 +67,7 @@ public class InfoFragment extends BaseFragment {
                 getInfo(false);
             }
         });
-        getInfo(true);
+//        getInfo(true);
         return view;
     }
 

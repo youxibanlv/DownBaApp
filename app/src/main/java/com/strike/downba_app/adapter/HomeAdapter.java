@@ -2,23 +2,18 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.activity.RecommendActivity;
 import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.http.entity.HomeBean;
 import com.strike.downba_app.http.entity.Recommend;
-import com.strike.downba_app.images.ImgConfig;
-import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.NoScrollGridView;
 import com.strike.downba_app.view.WheelViewPage;
 import com.strike.downbaapp.R;
@@ -36,13 +31,14 @@ public class HomeAdapter extends BaseAdapter {
 
     private final int TYPE_HEAD = 0;//轮播图
     private final int TYPE_RECOMMEND = 1;//精品推荐
-    private final int TYPE_LIST = 2;//热门新游
+    private final int TYPE_LIST = 2;//普通推荐
+    private final int TYPE_SUBJECT = 3;//专题推荐
 
     private List<Recommend> wheelPages = new ArrayList<>();//轮播图集合
-    private List<App> recommends = new ArrayList<>();//精品推荐
-    private List<App> newGames = new ArrayList<>();//装机
+    private List<HomeBean> homeBeens = new ArrayList<>();//精品推荐
 
     private GridRecommendAdapter gridAdapter;
+    private  AppLIstAdapter appListAdapter;
 
     private Context context;
     private LayoutInflater inflater;
@@ -50,6 +46,7 @@ public class HomeAdapter extends BaseAdapter {
     public HomeAdapter(Context context) {
         this.context = context;
         gridAdapter = new GridRecommendAdapter(context);
+        appListAdapter = new AppLIstAdapter(context);
         inflater = LayoutInflater.from(context);
     }
 
@@ -60,25 +57,20 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     //    设置精品推荐数据
-    public void refreshRecommends(List<App> list) {
-        recommends = list;
+    public void refreshRecommends(List<HomeBean> list) {
+        homeBeens = list;
         notifyDataSetChanged();
     }
 
-    //设置猜你喜欢
-    public void refreshGuessYouLike(List<App> list){
-        newGames = list;
-        notifyDataSetChanged();
-    }
-    public void loadMore(List<App> list){
-        newGames.addAll(list);
+    public void loadMore(List<HomeBean> list){
+        homeBeens.addAll(list);
         notifyDataSetChanged();
     }
     @Override
     public int getCount() {
-        int count = 2;
-        if (newGames.size() > 0) {
-            count = count + newGames.size();
+        int count = 1;
+        if (homeBeens.size() > 0) {
+            count = count + homeBeens.size();
         }
         return count;
     }
@@ -90,10 +82,10 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if (position < 2) {
+        if (position < 1) {
             return null;
         } else {
-            return newGames.get(position);
+            return homeBeens.get(position);
         }
 
     }
@@ -107,10 +99,15 @@ public class HomeAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEAD;
-        } else if (position == 1) {
-            return TYPE_RECOMMEND;
         } else {
-            return TYPE_LIST;
+            int  type = homeBeens.get(position-1).getHomeBeanType();
+           if (HomeBean.TYPE_RECOMMEND == type){
+               return TYPE_RECOMMEND;
+           }else if (HomeBean.TYPE_SUBJECT == type) {
+               return TYPE_SUBJECT;
+           }else{
+               return TYPE_LIST;
+           }
         }
     }
 
@@ -120,6 +117,7 @@ public class HomeAdapter extends BaseAdapter {
         WheelPageHolder wheelPageHolder = null;
         RecommendHolder recommendHolder = null;
         AppListViewHolder appListViewHolder = null;
+        SubjectHolder subjectHolder = null;
         if (convertView == null) {
             switch (type) {
                 case TYPE_HEAD:
@@ -134,11 +132,14 @@ public class HomeAdapter extends BaseAdapter {
                     convertView.setTag(recommendHolder);
                     break;
                 case TYPE_LIST:
-                    convertView = inflater.inflate(R.layout.item_app_list,parent,false);
+                    convertView = inflater.inflate(R.layout.item_home_nomal,parent,false);
                     appListViewHolder = new AppListViewHolder(convertView);
                     convertView.setTag(appListViewHolder);
                     break;
-
+                case TYPE_SUBJECT:
+                    convertView = inflater.inflate(R.layout.item_subject,parent,false);
+                    subjectHolder = new SubjectHolder(convertView);
+                    convertView.setTag(subjectHolder);
             }
         } else {
             switch (type) {
@@ -151,9 +152,12 @@ public class HomeAdapter extends BaseAdapter {
                 case TYPE_LIST:
                     appListViewHolder = (AppListViewHolder) convertView.getTag();
                     break;
+                case TYPE_SUBJECT:
+                    subjectHolder = (SubjectHolder) convertView.getTag();
             }
         }
         //设置资源
+        HomeBean bean;
         switch (type) {
             case TYPE_HEAD:
                 if (wheelPages.size() > 0) {
@@ -161,10 +165,11 @@ public class HomeAdapter extends BaseAdapter {
                 }
                 break;
             case TYPE_RECOMMEND:
-                recommendHolder.tv_recommend.setText(context.getResources().getString(R.string.recommend));
+                bean = homeBeens.get(position-1);
+                recommendHolder.tv_recommend.setText(bean.getHomeBeanTitle());
                 recommendHolder.gv_recommend.setAdapter(gridAdapter);
-                if (recommends.size() > 0) {
-                    gridAdapter.setList(recommends);
+                if (bean.getApps().size() > 0) {
+                    gridAdapter.setList(bean.getApps());
                 }
                 recommendHolder.tv_more.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -176,23 +181,14 @@ public class HomeAdapter extends BaseAdapter {
                 });
                 break;
             case TYPE_LIST:
-                final App app = newGames.get(position-2);
-                x.image().bind(appListViewHolder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
-                appListViewHolder.tv_app_title.setText(app.getApp_title());
-                int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
-                appListViewHolder.app_score.setNumStars(score);
-                appListViewHolder.tv_des.setText(Html.fromHtml(app.getApp_desc()));
-                String down = app.getApp_down() == null ? "0" : app.getApp_down();
-                appListViewHolder.tv_down_num.setText("下载：" + down);
-//                new DownLoadUtils(context).initDownLoad(app,appListViewHolder.tv_down);
-                appListViewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, AppDetailsActivity.class);
-                        intent.putExtra(Constance.APP_ID,app.getApp_id());
-                        context.startActivity(intent);
-                    }
-                });
+                bean = homeBeens.get(position-1);
+                appListViewHolder.tv_recommend.setText(bean.getHomeBeanTitle());
+                List<App> apps = bean.getApps();
+                appListViewHolder.lv_recommend.setAdapter(appListAdapter);
+                appListAdapter.refresh(apps);
+                break;
+            case TYPE_SUBJECT:
+
                 break;
         }
         return convertView;
@@ -201,7 +197,13 @@ public class HomeAdapter extends BaseAdapter {
     class WheelPageHolder {
         WheelViewPage myWheelPages;
     }
-
+    class SubjectHolder{
+        @ViewInject(R.id.icon)
+        ImageView icon;
+        public SubjectHolder(View view){
+            x.view().inject(this,view);
+        }
+    }
     class RecommendHolder {
         @ViewInject(R.id.tv_recommend)
         TextView tv_recommend;
@@ -216,26 +218,10 @@ public class HomeAdapter extends BaseAdapter {
         }
     }
     class AppListViewHolder {
-        @ViewInject(R.id.ll_item)
-        private LinearLayout ll_item;
-
-        @ViewInject(R.id.iv_app_icon)
-        ImageView iv_app_icon;
-
-        @ViewInject(R.id.tv_app_title)
-        TextView tv_app_title;
-
-        @ViewInject(R.id.app_score)
-        RatingBar app_score;
-
-        @ViewInject(R.id.tv_des)
-        TextView tv_des;
-
-        @ViewInject(R.id.tv_down)
-        DownloadBtn tv_down;
-
-        @ViewInject(R.id.tv_down_num)
-        TextView tv_down_num;
+        @ViewInject(R.id.tv_recommend)
+        private TextView tv_recommend;
+        @ViewInject(R.id.lv_recommend)
+        private ListView lv_recommend;
 
         public AppListViewHolder(View view){
             x.view().inject(this,view);

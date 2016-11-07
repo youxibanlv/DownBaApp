@@ -64,7 +64,7 @@ public class SubjectFragment extends BaseFragment {
                 getSubject(false);
             }
         });
-        getSubject(true);
+//        getSubject(true);
         return view;
     }
 

@@ -159,7 +159,7 @@ public class AppFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getContent(app,type_hot,true);
+//        getContent(app,type_hot,true);
     }
 
     private void getContent(int cate_id, int orederType, final boolean isRefresh){
