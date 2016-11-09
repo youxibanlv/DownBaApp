@@ -254,6 +254,7 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
             TypedArray a = context.obtainStyledAttributes(attr, R.styleable.TabView, defStyle, 0);
             iconWidth = a.getDimensionPixelSize(R.styleable.TabView_iconWidth, 0);
             iconHeight = a.getDimensionPixelSize(R.styleable.TabView_iconHeight, 0);
+            this.setBackgroundColor(getResources().getColor(R.color.white));
             a.recycle();
         }
 

@@ -26,12 +26,12 @@
             android:paddingLeft="@dimen/wdp20"
             android:visibility="gone"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp1"
-        android:layout_marginLeft="@dimen/wdp20"
-        android:layout_marginRight="@dimen/wdp20"
-        android:background="@color/light_bg_divider"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/wdp1"-->
+        <!--android:layout_marginLeft="@dimen/wdp20"-->
+        <!--android:layout_marginRight="@dimen/wdp20"-->
+        <!--android:background="@color/light_bg_divider"/>-->
     <com.strike.downba_app.view.NoScrollGridView
         android:id="@+id/gv_recommend"
         android:layout_marginTop="@dimen/wdp20"
