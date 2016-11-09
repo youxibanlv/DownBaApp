@@ -8,9 +8,8 @@ import com.strike.downba_app.utils.VerifyUtils;
  */
 public class Recommend {
 
-    public static final int TYPE_WHEEL = 1;
-    public static final int TYPE_RECOMMEND = 2;
-    public static final int TYPE_SUSPECT = 3;
+    public static final int TYPE_WHEEL = 1;//轮播图
+    public static final int TYPE_SUSPECT = 2;//猜你喜欢
 
     private int recommend_id;//推荐位id
     private int recommend_type;//推荐类型：1为轮播图，2为精品推荐，3为猜你喜欢
@@ -59,7 +58,7 @@ public class Recommend {
 
     public String getRecommend_logo() {
         if (!VerifyUtils.isUrl(recommend_logo)){
-            return UrlConfig.BASE_URL+recommend_logo;
+            return UrlConfig.BASE_IMG_URL+recommend_logo;
         }
         return recommend_logo;
     }

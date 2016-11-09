@@ -77,7 +77,7 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -188,7 +188,8 @@ public class HomeAdapter extends BaseAdapter {
                 appListAdapter.refresh(apps);
                 break;
             case TYPE_SUBJECT:
-
+                bean = homeBeens.get(position-1);
+                x.image().bind(subjectHolder.icon,bean.getHomeBeanLogo());
                 break;
         }
         return convertView;

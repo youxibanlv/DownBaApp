@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="@dimen/wdp20"
     android:gravity="center_horizontal">
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="@dimen/wdp120"
-        android:layout_height="@dimen/wdp120"
+        android:layout_width="@dimen/wdp100"
+        android:layout_height="@dimen/wdp100"
         android:src="@mipmap/app_icon"
         android:scaleType="centerCrop"
         />
@@ -16,27 +16,34 @@
         android:id="@+id/app_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="@dimen/wdp120"
         android:text="@string/app_title"
-        android:layout_marginTop="@dimen/wdp30"/>
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/wdp22"
+        android:layout_marginTop="@dimen/wdp14"/>
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/wdp170"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/wdp30"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/wdp13"
          >
         <TextView
             android:id="@+id/app_size"
             android:layout_width="@dimen/wdp90"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:textSize="@dimen/wdp18"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/wdp100"
+            android:gravity="left"
             android:text="218M"/>
         <RatingBar
-            style="@style/RatingBar.white"
+            style="@style/RatingBar.unSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/wdp10"
             android:layout_marginLeft="@dimen/wdp6"
             android:isIndicator="true"
             android:stepSize="1.0"
@@ -45,11 +52,10 @@
             />
         <RatingBar
             android:id="@+id/app_score"
-            style="@style/RatingBar.Grey"
+            style="@style/RatingBar.Select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/wdp10"
             android:layout_marginLeft="@dimen/wdp6"
             android:isIndicator="true"
             android:stepSize="1.0"
@@ -59,10 +65,10 @@
     </RelativeLayout>
     <com.strike.downba_app.view.DownloadBtn
         android:id="@+id/app_install"
-        android:layout_width="@dimen/wdp100"
+        android:layout_width="@dimen/wdp90"
         android:layout_height="@dimen/wdp40"
-        android:layout_marginTop="@dimen/wdp20"
+        android:layout_marginTop="@dimen/wdp11"
         android:text="@string/install"
-        android:textSize="@dimen/wdp19"
+        android:textSize="@dimen/wdp18"
         android:gravity="center"/>
 </LinearLayout>

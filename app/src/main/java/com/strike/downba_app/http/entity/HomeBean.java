@@ -18,6 +18,7 @@ public class HomeBean {
     private String updateTime;//更新时间
     private Integer sort;//排序，排序，数值越小越靠前
     private List<App> apps = new ArrayList<>();
+    private Subject subject;
 
 
     public HomeBean(int id, int homeBeanType, String homeBeanTitle, String homeBeanLogo, String appIds, String updateTime, int sort) {
@@ -100,4 +101,11 @@ public class HomeBean {
     }
 
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
 }

@@ -27,15 +27,15 @@
         <item name="tabView">@style/TabView</item>
     </style>
     <!-- 黄色星星评分 -->
-    <style name="RatingBar.Grey" parent="@android:style/Widget.RatingBar">
+    <style name="RatingBar.Select" parent="@android:style/Widget.RatingBar">
         <item name="android:maxHeight">@dimen/wdp18</item>
-        <item name="android:progressDrawable">@mipmap/ratingbat_gray</item>
+        <item name="android:progressDrawable">@mipmap/ratingbat_select</item>
         <item name="android:minHeight">@dimen/wdp21</item>
     </style>
     <!-- 灰色星星评分 -->
-    <style name="RatingBar.white" parent="@android:style/Widget.RatingBar">
+    <style name="RatingBar.unSelect" parent="@android:style/Widget.RatingBar">
         <item name="android:maxHeight">@dimen/wdp18</item>
-        <item name="android:progressDrawable">@mipmap/ratingbar_white</item>
+        <item name="android:progressDrawable">@mipmap/ratingbar_unselect</item>
         <item name="android:minHeight">@dimen/wdp21</item>
     </style>
     <!--popupWindow 动画样式-->

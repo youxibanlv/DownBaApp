@@ -47,7 +47,7 @@
                     android:orientation="horizontal">
 
                     <RatingBar
-                        style="@style/RatingBar.white"
+                        style="@style/RatingBar.unSelect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -60,7 +60,7 @@
 
                     <RatingBar
                         android:id="@+id/app_score"
-                        style="@style/RatingBar.Grey"
+                        style="@style/RatingBar.Select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"

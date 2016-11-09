@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/light_bg">
+    android:background="@color/white">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp70"
+        android:layout_height="@dimen/wdp72"
         android:gravity="center_vertical">
         <TextView
             android:id="@+id/tv_recommend"
@@ -22,8 +22,9 @@
             android:layout_alignParentRight="true"
             android:text="更多 >> "
             android:layout_marginRight="@dimen/wdp20"
-            android:textSize="@dimen/wdp28"
-            android:paddingLeft="@dimen/wdp20"/>
+            android:textSize="@dimen/wdp26"
+            android:paddingLeft="@dimen/wdp20"
+            android:visibility="gone"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -33,16 +34,9 @@
         android:background="@color/light_bg_divider"/>
     <com.strike.downba_app.view.MyListView
         android:id="@+id/lv_recommend"
-        android:layout_marginTop="@dimen/wdp20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:horizontalSpacing="@dimen/wdp5"
         android:verticalSpacing="@dimen/wdp5"
         android:numColumns="3"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp1"
-        android:layout_marginLeft="@dimen/wdp20"
-        android:layout_marginRight="@dimen/wdp20"
-        android:background="@color/light_bg_divider"/>
 </LinearLayout>

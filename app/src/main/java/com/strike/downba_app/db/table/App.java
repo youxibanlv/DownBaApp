@@ -190,7 +190,7 @@ public class App implements Serializable{
 
     public String getApp_logo() {
         if (!VerifyUtils.isUrl(app_logo)){
-            app_logo = UrlConfig.BASE_URL+app_logo;
+            app_logo = UrlConfig.BASE_IMG_URL+app_logo;
         }
         return app_logo;
     }
@@ -201,7 +201,7 @@ public class App implements Serializable{
         for (int i = 0;i<resource.size();i++){
             String url = resource.get(i);
             if (!VerifyUtils.isUrl(url)){
-                url = UrlConfig.BASE_URL+resource.get(i);
+                url = UrlConfig.BASE_IMG_URL+resource.get(i);
             }
             resource.set(i,url);
         }

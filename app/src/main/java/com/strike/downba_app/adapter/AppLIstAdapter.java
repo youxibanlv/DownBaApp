@@ -57,6 +57,12 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }else {
                 holder.tv_des.setText("");
             }
+            if (app.getApp_size()!= null){
+                holder.app_size.setText(app.getApp_size());
+            }
+            if (app.getApp_version()!= null){
+                holder.app_version.setText(app.getApp_version());
+            }
             String down = app.getApp_down() == null ? "0" : app.getApp_down();
             holder.tv_down_num.setText("下载：" + down);
 //            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
@@ -84,6 +90,12 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
 
         @ViewInject(R.id.app_score)
         RatingBar app_score;
+
+        @ViewInject(R.id.app_size)
+        TextView app_size;
+
+        @ViewInject(R.id.app_version)
+        TextView app_version;
 
         @ViewInject(R.id.tv_des)
         TextView tv_des;

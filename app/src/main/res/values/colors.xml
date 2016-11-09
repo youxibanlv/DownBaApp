@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="default_bg">#3496e1</color>
+    <color name="default_input_bg">#0a7ec5</color>
+    <color name="text_hit">#c4d3dc</color>
+
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>

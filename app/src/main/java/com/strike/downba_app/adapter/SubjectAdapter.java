@@ -35,7 +35,7 @@ public class SubjectAdapter extends MyBaseAdapter<Subject> {
             holder = (ViewHolder) convertView.getTag();
         }
         final Subject subject = getItem(position);
-        x.image().bind( holder.icon,subject.getArea_logo());
+        x.image().bind( holder.icon,subject.getLogo());
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

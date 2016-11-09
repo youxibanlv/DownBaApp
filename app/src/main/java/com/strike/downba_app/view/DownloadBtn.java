@@ -34,7 +34,7 @@ public class DownloadBtn extends TextView {
         this.setLayoutParams(params);
         this.setBackgroundResource(R.mipmap.bg_install);
         this.setGravity(Gravity.CENTER);
-        this.setTextColor(getResources().getColor(R.color.green));
+        this.setTextColor(getResources().getColor(R.color.white));
     }
 
     public final DownloadInfo getDownloadInfo() {

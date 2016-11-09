@@ -15,7 +15,7 @@ public class AppConfig {
     public static String getBasePath(){
         String BASE_PATH = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            BASE_PATH = Environment.getExternalStorageDirectory() + File.separator + "82down/";
+            BASE_PATH = Environment.getExternalStorageDirectory() + File.separator + "DownBaApp/";
         }else{
 //            BASE_PATH = Environment.getExternalStoragePublicDirectory()
         }

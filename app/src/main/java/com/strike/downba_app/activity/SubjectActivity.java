@@ -2,7 +2,6 @@ package com.strike.downba_app.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,8 +36,8 @@ public class SubjectActivity extends BaseActivity {
     @ViewInject(R.id.title)
     private TextView title;
 
-    @ViewInject(R.id.area_html)
-    private TextView area_html;
+//    @ViewInject(R.id.area_html)
+//    private TextView area_html;
 
     @ViewInject(R.id.pull_to_refresh)
     private PullToRefreshListView pull_to_refresh;
@@ -66,7 +65,7 @@ public class SubjectActivity extends BaseActivity {
 
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                getAppsByIdList(subject.getId_list());
+                getAppsByIdList(subject.getIdString());
             }
         });
     }
@@ -76,8 +75,8 @@ public class SubjectActivity extends BaseActivity {
         super.onResume();
         if (subject != null){
             title.setText(subject.getTitle());
-            area_html.setText(Html.fromHtml(subject.getArea_html()));
-            getAppsByIdList(subject.getId_list());
+//            area_html.setText(Html.fromHtml(subject.getDes()));
+            getAppsByIdList(subject.getIdString());
         }
     }
 

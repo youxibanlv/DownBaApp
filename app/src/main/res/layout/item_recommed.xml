@@ -22,8 +22,9 @@
             android:layout_alignParentRight="true"
             android:text="更多 >> "
             android:layout_marginRight="@dimen/wdp20"
-            android:textSize="@dimen/wdp28"
-            android:paddingLeft="@dimen/wdp20"/>
+            android:textSize="@dimen/wdp26"
+            android:paddingLeft="@dimen/wdp20"
+            android:visibility="gone"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -39,11 +40,4 @@
         android:horizontalSpacing="@dimen/wdp5"
         android:verticalSpacing="@dimen/wdp5"
         android:numColumns="3"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp1"
-        android:layout_marginLeft="@dimen/wdp20"
-        android:layout_marginRight="@dimen/wdp20"
-        android:background="@color/light_bg_divider"/>
-
 </LinearLayout>
