@@ -61,7 +61,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                 holder.app_size.setText(app.getApp_size());
             }
             if (app.getApp_version()!= null){
-                holder.app_version.setText(app.getApp_version());
+                holder.app_version.setText("版本："+app.getApp_version());
             }
             String down = app.getApp_down() == null ? "0" : app.getApp_down();
             holder.tv_down_num.setText("下载：" + down);
