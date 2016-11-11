@@ -3,63 +3,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
-        android:background="@color/light_black"
-        android:orientation="vertical">
+        android:background="@color/default_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <ImageView
-            android:id="@+id/rv_back"
-            android:layout_width="@dimen/wdp45"
-            android:layout_height="@dimen/wdp45"
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/wdp42"
+            android:layout_height="@dimen/wdp42"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/wdp20"
-            android:src="@mipmap/icon_back"/>
-        <ImageView
-            android:id="@+id/btn_search"
-            android:layout_width="@dimen/wdp45"
-            android:layout_height="@dimen/wdp45"
-            android:layout_marginRight="@dimen/wdp20"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_search"/>
+            android:src="@mipmap/icon_back" />
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/wdp55"
+            android:layout_height="@dimen/wdp50"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/wdp20"
-            android:layout_marginRight="@dimen/wdp20"
-            android:layout_toRightOf="@id/rv_back"
-            android:layout_toLeftOf="@id/btn_search">
+            android:layout_marginRight="@dimen/wdp82"
+            android:layout_toLeftOf="@id/iv_manager"
+            android:layout_toRightOf="@id/rv_user_icon">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0px"
                 android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true" />
+
             <EditText
                 android:id="@+id/edt_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@mipmap/bg_search"
-                android:paddingRight="@dimen/wdp25"
-                android:paddingLeft="@dimen/wdp20"
+                android:background="@color/default_input_bg"
                 android:hint="输入搜索关键词"
-                android:singleLine="true"
+                android:lines="1"
                 android:maxLength="20"
-                android:textColorHint="@color/text_gray"
-                android:textSize="@dimen/wdp24"
-                />
+                android:paddingLeft="@dimen/wdp25"
+                android:paddingRight="@dimen/wdp25"
+                android:textColorHint="@color/text_hit"
+                android:textSize="@dimen/wdp20" />
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="@dimen/wdp36"
+                android:layout_height="@dimen/wdp36"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/wdp20"
+                android:src="@mipmap/icon_search" />
         </RelativeLayout>
 
-    </RelativeLayout>
-    <com.strike.downba_app.view.library.PullToRefreshListView
-        android:id="@+id/pull_to_refresh"
+    </LinearLayout>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:paddingBottom="30dp"
-        android:scrollbars="none"
-        android:smoothScrollbar="true" />
+        android:layout_height="match_parent">
+
+        <com.strike.downba_app.view.library.PullToRefreshListView
+            android:id="@+id/pull_to_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:paddingBottom="30dp"
+            android:scrollbars="none"
+            android:smoothScrollbar="true"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_default_key"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/wdp20"
+            android:paddingRight="@dimen/wdp20">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wdp45"
+                android:textSize="@dimen/wdp26"
+                android:textColor="@color/text_black"
+                android:text="大家都在搜"/>
+
+        </RelativeLayout>
+    </FrameLayout>
+    
 </LinearLayout>

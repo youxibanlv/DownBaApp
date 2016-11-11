@@ -31,8 +31,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        AppListViewHolder holder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        AppListViewHolder holder ;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_app_list, parent, false);
             holder = new AppListViewHolder(convertView);
@@ -40,7 +40,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         } else {
             holder = (AppListViewHolder) convertView.getTag();
         }
-        final App app = list.get(position);
+         App app = list.get(position);
         if (app != null){
             if (app.getApp_logo()!= null){
                 x.image().bind(holder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
@@ -69,8 +69,9 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    App app1 = list.get(position);
                     Intent intent = new Intent(context, AppDetailsActivity.class);
-                    intent.putExtra(Constance.APP_ID,app.getApp_id());
+                    intent.putExtra(Constance.APP_ID,app1.getApp_id());
                     context.startActivity(intent);
                 }
             });

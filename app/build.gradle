@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -8,22 +10,58 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [CHANNEL_VALUE: "10000"]
+    }
+    signingConfigs {
+        debug {
+
+        }
+        release {
+            storeFile file("../downBaApp.jks")
+            storePassword "jiangxuejun"
+            keyAlias "china"
+            keyPassword "jiangxuejun"
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all {
+                variant ->
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                            def fileName = "downBaApp_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+            }
+            productFlavors {
+                official {//官方渠道
+                    manifestPlaceholders = [CHANNEL_VALUE: "10000"]
+                }
+                _360 {
+                    manifestPlaceholders = [CHANNEL_VALUE: "10001"]
+                }
+            }
         }
     }
-}
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    testCompile 'junit:junit:4.12'
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        })
+        compile 'com.android.support:appcompat-v7:23.4.0'
+        testCompile 'junit:junit:4.12'
+    }
 }

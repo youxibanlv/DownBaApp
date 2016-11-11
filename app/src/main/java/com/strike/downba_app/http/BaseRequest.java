@@ -48,12 +48,12 @@ public class BaseRequest {
     }
 
     public void sendRequest(Callback.CommonCallback<String> callback){
-        LogUtil.e("url:"+UrlConfig.getUrl(cmdType));
         this.postRequest(UrlConfig.getUrl(cmdType)+methodName+".do",this.getRequestData(),callback);
     }
 
     private void postRequest(String url,String requestData,final Callback.CommonCallback<String> callback){
         try {
+            LogUtil.e("url:"+url);
             StringBody sb = new StringBody(requestData, AppConfig.DEFAULT_CHARSET);
             rp = new RequestParams(url,null,null,null);
             rp.setRequestBody(sb);

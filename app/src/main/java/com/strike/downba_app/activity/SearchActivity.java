@@ -131,10 +131,10 @@ public class SearchActivity extends BaseActivity {
         searchAppByKey(true,key);
     }
 
-    @Event(value = {R.id.rv_back,R.id.btn_search})
+    @Event(value = {R.id.iv_back,R.id.btn_search})
     private void getEvent(View view){
         switch (view.getId()){
-            case R.id.rv_back:
+            case R.id.iv_back:
                 finish();
                 break;
             case R.id.btn_search:

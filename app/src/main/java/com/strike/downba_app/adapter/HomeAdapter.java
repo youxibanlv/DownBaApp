@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.strike.downba_app.activity.RecommendActivity;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.entity.HomeBean;
 import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.view.NoScrollGridView;
@@ -38,7 +37,7 @@ public class HomeAdapter extends BaseAdapter {
     private List<HomeBean> homeBeens = new ArrayList<>();//精品推荐
 
     private GridRecommendAdapter gridAdapter;
-    private  AppLIstAdapter appListAdapter;
+//    private  AppLIstAdapter appListAdapter;
 
     private Context context;
     private LayoutInflater inflater;
@@ -46,7 +45,7 @@ public class HomeAdapter extends BaseAdapter {
     public HomeAdapter(Context context) {
         this.context = context;
         gridAdapter = new GridRecommendAdapter(context);
-        appListAdapter = new AppLIstAdapter(context);
+//        appListAdapter = new AppLIstAdapter(context);
         inflater = LayoutInflater.from(context);
     }
 
@@ -183,9 +182,9 @@ public class HomeAdapter extends BaseAdapter {
             case TYPE_LIST:
                 bean = homeBeens.get(position-1);
                 appListViewHolder.tv_recommend.setText(bean.getHomeBeanTitle());
-                List<App> apps = bean.getApps();
+                AppLIstAdapter appListAdapter = new AppLIstAdapter(context);
                 appListViewHolder.lv_recommend.setAdapter(appListAdapter);
-                appListAdapter.refresh(apps);
+                appListAdapter.refresh(bean.getApps()   );
                 break;
             case TYPE_SUBJECT:
                 bean = homeBeens.get(position-1);

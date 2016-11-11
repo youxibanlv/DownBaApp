@@ -17,11 +17,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import com.strike.downba_app.activity.LoginActivity;
 import com.strike.downba_app.activity.SearchActivity;
-import com.strike.downba_app.activity.UserInfoActivity;
 import com.strike.downba_app.adapter.KeywordAdapter;
-import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
@@ -41,7 +38,7 @@ import java.util.List;
 /**
  * Created by strike on 16/6/6.
  */
-public class HomeTitleBar extends RelativeLayout {
+public class SearchTitleBar extends RelativeLayout {
 
     @ViewInject(R.id.rv_user_icon)
     private ImageView rvUserIcon;
@@ -64,7 +61,7 @@ public class HomeTitleBar extends RelativeLayout {
 
     private List<Keyword> keywords;
 
-    public HomeTitleBar(Context context, AttributeSet attrs) {
+    public SearchTitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         view = LayoutInflater.from(context).inflate(R.layout.extr_title, this, true);
@@ -175,16 +172,11 @@ public class HomeTitleBar extends RelativeLayout {
         }
         adapter.refresh(keywords);
     }
-    @Event(value = {R.id.rv_user_icon, R.id.iv_manager, R.id.btn_search})
+    @Event(value = {R.id.iv_back, R.id.iv_manager, R.id.btn_search})
     private void getEvent(View view) {
         switch (view.getId()) {
-            case R.id.rv_user_icon://用户信息界面
-                String token = UserDao.getToken();
-                if (TextUtils.isEmpty(token)) {
-                    getContext().startActivity(new Intent(getContext(), LoginActivity.class));
-                } else {
-                    getContext().startActivity(new Intent(getContext(), UserInfoActivity.class));
-                }
+            case R.id.iv_back://用户信息界面
+//                getContext().getA
                 break;
             case R.id.iv_manager://app管理界面
 

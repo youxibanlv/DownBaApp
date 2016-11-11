@@ -3,21 +3,28 @@ package com.strike.downba_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 
+import com.strike.downba_app.activity.LoginActivity;
+import com.strike.downba_app.activity.SearchActivity;
+import com.strike.downba_app.activity.UserInfoActivity;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.base.BaseFragment;
+import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.fragment.AppFragment;
 import com.strike.downba_app.fragment.ArticleFragment;
 import com.strike.downba_app.fragment.GameFragment;
 import com.strike.downba_app.fragment.HomeFragment;
 import com.strike.downba_app.utils.UiUtils;
-import com.strike.downba_app.view.HomeTitleBar;
+import com.strike.downba_app.utils.UpdateManager;
 import com.strike.downba_app.view.IconTabPageIndicator;
 import com.strike.downba_app.view.TabAdapter;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -45,9 +52,6 @@ public class MainActivity extends BaseActivity {
 
     private long mExitTime;
 
-    @ViewInject(R.id.title_bar)
-    private HomeTitleBar title_bar;
-
     private TabAdapter mAdapter;
 
 
@@ -60,6 +64,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(fragments.size());//三页都进行预加载，避免每次都多次切换进行重新创建
         mIndicator.setViewPager(mViewPager);
+        new UpdateManager(this).checkUpdate(true);
     }
 
     public void setCurrentFragment(int position) {
@@ -78,8 +83,25 @@ public class MainActivity extends BaseActivity {
                 baseFragment.freshView();
             }
         }
-        if (title_bar!= null){
-            title_bar.refresh();
+    }
+
+    @Event(value = {R.id.rv_user_icon, R.id.iv_manager, R.id.title_bar})
+    private void getEvent(View view) {
+        switch (view.getId()) {
+            case R.id.rv_user_icon://用户信息界面
+                String token = UserDao.getToken();
+                if (TextUtils.isEmpty(token)) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                }
+                break;
+            case R.id.iv_manager://app管理界面
+
+                break;
+            case R.id.title_bar://搜索界面
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                break;
         }
     }
 
