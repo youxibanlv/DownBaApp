@@ -1,5 +1,8 @@
 package com.strike.downba_app.http.entity;
 
+import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.utils.VerifyUtils;
+
 /**
  * Created by strike on 16/7/2.
  *
@@ -97,6 +100,9 @@ public class Category {
     }
 
     public String getCimg() {
+        if (!VerifyUtils.isUrl(cimg)){
+            return UrlConfig.BASE_IMG_URL + cimg;
+        }
         return cimg;
     }
 
