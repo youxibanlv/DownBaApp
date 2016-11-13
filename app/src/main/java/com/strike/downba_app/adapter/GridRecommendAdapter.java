@@ -2,6 +2,7 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,9 @@ public class GridRecommendAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
-                intent.putExtra(Constance.APP_ID,getItem(position).getApp_id());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constance.APP,getItem(position));
+                intent.putExtras(bundle);
                 context.startActivity(intent);
 
             }

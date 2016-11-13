@@ -17,7 +17,7 @@
     <string name="confirm_error_pass">两次输入密码不一致，请重新输入</string>
 
     <!--首页相关-->
-    <string name="install">安装</string>
+    <string name="install"> 安  装 </string>
     <string name="recommend">精品推荐</string>
     <string name="app_title">__</string>
 
@@ -36,8 +36,8 @@
     <string name="server_busy">服务器忙，请稍后重试</string>
     <string name="server_not_found">下载资源出错了，请联系管理员！</string>
     <string name="error_null_id">未获取到应用id，请联系管理员</string>
-    <string name="details_app">应用详情</string>
-    <string name="info">简介：</string>
+    <string name="details_app">详情</string>
+    <string name="info">应用简介：</string>
     <string name="img">截图：</string>
     <string name="guess_you_like">猜你喜欢</string>
     <string name="loading">加载中，请稍后</string>
@@ -48,6 +48,7 @@
     <string name="paihang">排行</string>
     <string name="zuixin">最新</string>
     <string name="fenlei">分类</string>
+    <string name="user_comment">用户评论</string>
 
     <!--=======-->
 

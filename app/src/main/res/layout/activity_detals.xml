@@ -7,141 +7,139 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
-        android:background="@color/light_black"
+        android:background="@color/default_bg"
+        android:paddingRight="@dimen/wdp20"
+        android:paddingLeft="@dimen/wdp20"
         android:orientation="vertical">
-
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/wdp45"
-            android:layout_height="@dimen/wdp45"
+            android:layout_width="@dimen/wdp36"
+            android:layout_height="@dimen/wdp36"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/wdp20"
             android:src="@mipmap/icon_back" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/iv_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wdp36"
             android:text="@string/details_app"
             android:textColor="@color/white"
-            android:textSize="@dimen/wdp30" />
-
+            android:textSize="@dimen/wdp26" />
+        <ImageView
+            android:id="@+id/shouCan"
+            android:layout_width="@dimen/wdp32"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_shoucan"
+            />
+        <ImageView
+            android:id="@+id/share"
+            android:layout_width="@dimen/wdp32"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/shouCan"
+            android:layout_marginRight="@dimen/wdp42"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_share"
+            />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp180"
+        android:layout_height="wrap_content"
         android:background="@color/light_bg"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/wdp20"
-        android:paddingRight="@dimen/wdp20">
+        android:paddingLeft="@dimen/wdp22"
+        android:paddingRight="@dimen/wdp22">
 
         <ImageView
             android:id="@+id/iv_app_icon"
-            android:layout_width="@dimen/wdp120"
-            android:layout_height="@dimen/wdp120"
+            android:layout_width="@dimen/wdp160"
+            android:layout_height="@dimen/wdp160"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="@dimen/wdp40"
+            android:layout_marginBottom="@dimen/wdp40"
             android:scaleType="fitCenter" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/wdp40"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/wdp10"
-            android:paddingLeft="@dimen/wdp20"
-            android:paddingRight="@dimen/wdp20"
-            android:paddingTop="@dimen/wdp10">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_app_title"
-                    android:layout_width="@dimen/wdp150"
-                    android:layout_height="wrap_content"
-                    android:maxLength="10"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textSize="@dimen/wdp20" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <RatingBar
-                        style="@style/RatingBar.unSelect"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/wdp6"
-                        android:layout_marginRight="@dimen/wdp10"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        android:rating="5"
-                        android:stepSize="1.0" />
-
-                    <RatingBar
-                        android:id="@+id/app_score"
-                        style="@style/RatingBar.Select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/wdp6"
-                        android:layout_marginRight="@dimen/wdp10"
-                        android:isIndicator="true"
-                        android:numStars="1"
-                        android:rating="5"
-                        android:stepSize="1.0" />
-                </RelativeLayout>
-            </LinearLayout>
-
+            android:paddingLeft="@dimen/wdp47"
+            >
             <TextView
-                android:id="@+id/tv_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/wdp5"
-                android:maxLength="60"
-                android:text="大小："
-                android:textSize="@dimen/wdp16" />
-
-            <TextView
-                android:id="@+id/tv_version"
+                android:id="@+id/tv_app_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="版本："
-                android:textSize="@dimen/wdp16" />
-        </LinearLayout>
+                android:textSize="@dimen/wdp36"
+                android:textColor="@color/text_black"
+                android:text="剑侠情缘"
+                />
+            <TextView
+                android:id="@+id/app_cate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
+                android:layout_marginTop="@dimen/wdp33"
+                android:textSize="@dimen/wdp26"
+                android:text="角色扮演"
+                />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/wdp20"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="@dimen/wdp100"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/wdp10"
-            android:paddingTop="@dimen/wdp10">
+                <RatingBar
+                    android:id="@+id/rb"
+                    style="@style/RatingBar.unSelect.big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/wdp6"
+                    android:layout_marginRight="@dimen/wdp10"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="5"
+                    android:stepSize="1.0" />
 
+                <RatingBar
+                    android:id="@+id/app_score"
+                    style="@style/RatingBar.Select.big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/wdp6"
+                    android:layout_marginRight="@dimen/wdp10"
+                    android:isIndicator="true"
+                    android:numStars="1"
+                    android:rating="5"
+                    android:stepSize="1.0" />
+                <TextView
+                    android:id="@+id/tv_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rb"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/wdp10"
+                    android:textSize="@dimen/wdp18"
+                    android:text="302M"/>
+            </RelativeLayout>
             <com.strike.downba_app.view.DownloadBtn
                 android:id="@+id/tv_down"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/wdp40"
-                android:text="@string/free_down"
-                android:textSize="@dimen/wdp19" />
-
-            <TextView
-                android:id="@+id/tv_down_num"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/wdp57"
                 android:layout_marginTop="@dimen/wdp20"
-                android:singleLine="true"
-                android:text="下载："
-                android:textColor="@color/text_gray"
-                android:textSize="@dimen/wdp16" />
+                android:text="@string/install"
+                android:textSize="@dimen/wdp24"
+                android:layout_marginBottom="@dimen/wdp22"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -149,21 +147,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/wdp20">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/wdp20"
-                android:layout_marginRight="@dimen/wdp20"
-                android:layout_marginTop="@dimen/wdp20"
-                android:text="@string/img"
-                android:textSize="@dimen/wdp28" />
-
             <com.strike.downba_app.view.MyHorizontalScrollView
                 android:id="@+id/imgList"
                 android:layout_width="match_parent"
@@ -171,28 +158,44 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/wdp20"
                 android:layout_marginLeft="@dimen/wdp20"
-                android:background="@color/light_black"
-                android:padding="@dimen/wdp4"
                 android:scrollbars="none">
-
                 <LinearLayout
                     android:id="@+id/id_gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/wdp22"
                     android:background="@color/white"
                     android:orientation="horizontal" />
             </com.strike.downba_app.view.MyHorizontalScrollView>
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wdp16"
                 android:layout_marginLeft="@dimen/wdp20"
                 android:layout_marginRight="@dimen/wdp20"
-                android:layout_marginTop="@dimen/wdp20"
-                android:text="@string/info"
-                android:textSize="@dimen/wdp28" />
-
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info"
+                    android:textColor="@color/text_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/wdp26"
+                    />
+                <ImageView
+                    android:id="@+id/des_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/wdp15"
+                    android:paddingRight="@dimen/wdp15"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/wdp10"
+                    android:paddingTop="@dimen/wdp10"
+                    android:src="@mipmap/down"
+                    />
+            </RelativeLayout>
             <TextView
                 android:id="@+id/tv_des"
                 android:layout_width="match_parent"
@@ -201,6 +204,60 @@
                 android:layout_marginRight="@dimen/wdp20"
                 android:layout_marginTop="@dimen/wdp20"
                 android:textSize="@dimen/wdp20" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wdp16"
+                android:layout_marginLeft="@dimen/wdp20"
+                android:layout_marginRight="@dimen/wdp20"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_comment"
+                    android:textColor="@color/text_black"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/wdp22"
+                    />
+                <ImageView
+                    android:id="@+id/comment_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/wdp15"
+                    android:paddingRight="@dimen/wdp15"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/wdp10"
+                    android:paddingTop="@dimen/wdp10"
+                    android:src="@mipmap/down"
+                    />
+            </RelativeLayout>
+            <com.strike.downba_app.view.MyListView
+                android:id="@+id/lv_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.strike.downba_app.view.MyListView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/guess_you_like"
+                android:textColor="@color/text_black"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/wdp20"
+                android:layout_marginRight="@dimen/wdp20"
+                android:layout_marginTop="@dimen/wdp13"
+                android:textSize="@dimen/wdp20"
+                />
+            <com.strike.downba_app.view.NoScrollGridView
+                android:id="@+id/gv_recommend"
+                android:layout_marginTop="@dimen/wdp13"
+                android:layout_marginLeft="@dimen/wdp20"
+                android:layout_marginRight="@dimen/wdp20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="@dimen/wdp5"
+                android:verticalSpacing="@dimen/wdp5"
+                android:numColumns="3"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

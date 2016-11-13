@@ -86,6 +86,7 @@ public class HomeFragment extends BaseFragment {
 
     private void getHomeList(int pageNo, int pageSize, final boolean isRefresh){
         HomeBeanReq req = new HomeBeanReq(pageNo,pageSize);
+        showProgressDialogCloseDelay(getString(R.string.loading),HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -127,6 +128,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFinished() {
                 pull_to_refresh.onRefreshComplete();
+                dismissProgressDialog();
             }
         });
     }

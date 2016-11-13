@@ -62,11 +62,7 @@ public class ImageAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
-                String url = pages.get(position).getRecommend_logo();
-                 String id = "";
-                if (url.contains("id=")){
-                    id = url.substring(url.indexOf("id=")+3,url.length());
-                }
+                 String id = pages.get(position).getAppId();
                 if(!"".equals(id)){
                     intent.putExtra(Constance.APP_ID,id);
                 }else{

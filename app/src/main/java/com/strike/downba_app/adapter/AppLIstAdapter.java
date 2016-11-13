@@ -2,6 +2,7 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,6 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             if (app.getApp_version()!= null){
                 holder.app_version.setText("版本："+app.getApp_version());
             }
-//            String down = app.getApp_down() == null ? "0" : app.getApp_down();
             int num = NumberUtil.parseToInt(app.getApp_down());
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
 //            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
@@ -73,7 +73,9 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                 public void onClick(View v) {
                     App app1 = list.get(position);
                     Intent intent = new Intent(context, AppDetailsActivity.class);
-                    intent.putExtra(Constance.APP_ID,app1.getApp_id());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constance.APP,app1);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });

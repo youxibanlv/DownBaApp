@@ -1,5 +1,6 @@
 package com.strike.downba_app.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.PageBean;
 import com.strike.downba_app.http.request.GetAppByCateIdReq;
@@ -40,10 +42,14 @@ public class ListFragment extends BaseFragment {
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 6,total = 0;
 
+
+    private Context context;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new AppLIstAdapter(getContext());
+        context = getContext();
+        adapter = new AppLIstAdapter(context);
     }
 
     @Override
@@ -77,11 +83,17 @@ public class ListFragment extends BaseFragment {
     public void refresh(int orderType,int cateId){
         this.cateId = cateId;
         this.orderType = orderType;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getAppList(true,orderType,cateId,pageNo,pageSize);
     }
 
     private void getAppList(final boolean isRefresh, Integer orderType, Integer cateId, final int pageNo, int pageSize){
         GetAppByCateIdReq req = new GetAppByCateIdReq(cateId,orderType,pageNo,pageSize);
+        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -101,6 +113,7 @@ public class ListFragment extends BaseFragment {
 
             @Override
             public void onFinished() {
+                dismissProgressDialog();
                 pull_to_refresh.onRefreshComplete();
             }
         });

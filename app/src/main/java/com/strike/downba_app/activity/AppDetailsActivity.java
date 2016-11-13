@@ -23,6 +23,8 @@ import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.MyHorizontalScrollView;
+import com.strike.downba_app.view.MyListView;
+import com.strike.downba_app.view.NoScrollGridView;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -45,26 +47,36 @@ public class AppDetailsActivity extends BaseActivity {
     @ViewInject(R.id.tv_app_title)
     private TextView tv_app_title;
 
+    @ViewInject(R.id.app_cate)
+    private TextView app_cate;//分类
+
     @ViewInject(R.id.app_score)
     private RatingBar app_score;
 
     @ViewInject(R.id.tv_size)
     private TextView tv_size;
 
-    @ViewInject(R.id.tv_version)
-    private TextView tv_version;
-
     @ViewInject(R.id.tv_down)
     private DownloadBtn tv_down;
-
-    @ViewInject(R.id.tv_down_num)
-    private TextView tv_down_num;
 
     @ViewInject(R.id.imgList)
     private MyHorizontalScrollView imgList;
 
     @ViewInject(R.id.tv_des)
     private TextView tv_des;
+
+    @ViewInject(R.id.des_open)
+    private ImageView des_open;
+
+    @ViewInject(R.id.comment_open)
+    private ImageView comment_open;
+
+    @ViewInject(R.id.lv_comment)
+    private MyListView lv_comment;
+
+    @ViewInject(R.id.gv_recommend)
+    private NoScrollGridView gv_recommend;
+
 
     private DownLoadUtils downloadUtils;
 
@@ -79,6 +91,7 @@ public class AppDetailsActivity extends BaseActivity {
         String appId = getIntent().getStringExtra(Constance.APP_ID);
         try {
             app = (App) getIntent().getExtras().getSerializable(Constance.APP);
+            appId = app.getApp_id();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +142,6 @@ public class AppDetailsActivity extends BaseActivity {
                 }
 
             }
-
             @Override
             public void onFinished() {
                 dismissProgressDialog();
@@ -148,13 +160,7 @@ public class AppDetailsActivity extends BaseActivity {
         int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
         app_score.setNumStars(score);
         if (app.getApp_size() != null) {
-            tv_size.setText("大小：" + app.getApp_size());
-        }
-        if (app.getApp_version() != null) {
-            tv_version.setText("版本：" + app.getApp_version());
-        }
-        if (app.getApp_down() != null) {
-            tv_down_num.setText("下载：" + app.getApp_down());
+            tv_size.setText(app.getApp_size());
         }
         if (app.getResource() != null && app.getResource().size() > 0) {
             adapter = new HorizontalScrollViewAdapter(this, app.getResource());

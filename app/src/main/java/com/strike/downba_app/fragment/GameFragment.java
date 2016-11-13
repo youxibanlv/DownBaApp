@@ -22,9 +22,6 @@ import java.util.List;
 @ContentView(R.layout.frament_game)
 public class GameFragment extends BaseFragment {
 
-    private final int type_hot = 1;
-    private final int type_new = 0;
-
     @ViewInject(R.id.rg_nav)
     private RadioGroup rg_nav;
 
