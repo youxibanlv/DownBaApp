@@ -45,16 +45,9 @@
             android:layout_weight="1"/>
     </RadioGroup>
 
-    <com.strike.downba_app.view.library.PullToRefreshListView
-        android:id="@+id/pull_to_refresh"
+    <FrameLayout
+        android:id="@+id/fl_game"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:layout_marginTop="@dimen/wdp10"
-        android:paddingBottom="@dimen/wdp10"
-        android:scrollbars="none"
-        android:smoothScrollbar="true" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

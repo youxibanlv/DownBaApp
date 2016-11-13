@@ -9,18 +9,18 @@ import com.strike.downba_app.http.BaseRequest;
 public class GetAppByCateIdReq extends BaseRequest {
 
     RequestParam requestParams;
-    public GetAppByCateIdReq(int cate_id,int orderType,String pageNo,String pageSize){
+    public GetAppByCateIdReq(int cate_id,int orderType,int pageNo,int pageSize){
         cmdType = "appService";
-        methodName = "getListByCateId";
+        methodName = "getAppListByCate";
         requestParams = new RequestParam(cate_id,orderType,pageNo,pageSize);
     }
     class RequestParam{
         int cate_id;
         int orderType;
-        String pageNo;
-        String pageSize;
+        int pageNo;
+        int pageSize;
 
-        public RequestParam(int cate_id,int orderType,String pageNo,String pageSize){
+        public RequestParam(int cate_id,int orderType,int pageNo,int pageSize){
             this.cate_id = cate_id;
             this.orderType = orderType;
             this.pageNo = pageNo;

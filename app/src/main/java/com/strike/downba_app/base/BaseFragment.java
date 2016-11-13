@@ -3,6 +3,7 @@ package com.strike.downba_app.base;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -56,6 +57,13 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fm = getActivity().getSupportFragmentManager();
+        fragments = new ArrayList<>();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         injected = true;
         return x.view().inject(this, inflater, container);
@@ -67,8 +75,6 @@ public class BaseFragment extends Fragment {
         if (!injected) {
             x.view().inject(this, this.getView());
         }
-        fm = getActivity().getSupportFragmentManager();
-        fragments = new ArrayList<>();
     }
 
     protected void addFragment(int viewId,BaseFragment fragment){

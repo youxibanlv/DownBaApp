@@ -15,6 +15,7 @@ import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downbaapp.R;
 
@@ -63,8 +64,9 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             if (app.getApp_version()!= null){
                 holder.app_version.setText("版本："+app.getApp_version());
             }
-            String down = app.getApp_down() == null ? "0" : app.getApp_down();
-            holder.tv_down_num.setText("下载：" + down);
+//            String down = app.getApp_down() == null ? "0" : app.getApp_down();
+            int num = NumberUtil.parseToInt(app.getApp_down());
+            holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
 //            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override

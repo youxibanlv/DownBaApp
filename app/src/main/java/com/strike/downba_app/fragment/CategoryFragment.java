@@ -24,14 +24,14 @@ import org.xutils.x;
 
 import java.util.List;
 
+import static com.strike.downba_app.utils.Constance.PARENT_APP;
+import static com.strike.downba_app.utils.Constance.PARENT_GAME;
+
 /**
  * Created by strike on 2016/11/11.
  */
 @ContentView(R.layout.fragment_category)
 public class CategoryFragment extends BaseFragment {
-
-    public static int TYPE_GAME = 2;//游戏分类
-    public static int TYPE_APP = 1;//应用分类
 
     @ViewInject(R.id.gridView)
     private GridView gridView;
@@ -42,17 +42,22 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = super.onCreateView(inflater,container,savedInstanceState);
-        int type = getArguments().getInt("type");
         adapter = new GridAdapter(getContext());
+        gridView.setAdapter(adapter);
         return view;
     }
 
-    private void getCategory(int type){
+    public void refresh(int cateId){
+        getCategory(cateId);
+    }
+
+
+    private void getCategory(int cateId){
         GetCategoryReq req;
-        if (type == TYPE_GAME){
-            req = new GetCategoryReq(TYPE_GAME);
+        if (cateId == PARENT_GAME){
+            req = new GetCategoryReq(PARENT_GAME);
         }else {
-            req = new GetCategoryReq(TYPE_APP);
+            req = new GetCategoryReq(PARENT_APP);
         }
         req.sendRequest(new NormalCallBack() {
             @Override

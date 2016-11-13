@@ -1,19 +1,19 @@
 package com.strike.downba_app.fragment;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
-import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.base.BaseFragment;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by strike on 16/6/5.
@@ -21,219 +21,76 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.frament_app)
 public class AppFragment extends BaseFragment {
 
-    private final int type_hot = 1;
-    private final int type_new = 0;
-
-    private final int app = 1;
-
     @ViewInject(R.id.rg_nav)
     private RadioGroup rg_nav;
 
-    @ViewInject(R.id.fl_content)
-    private FrameLayout fl_content;
+    private CategoryFragment categoryFragment;
+    private ListFragment hot;
+    private ListFragment newF;
+    private List<BaseFragment> fragmentList = new ArrayList<>();
 
-    private AppLIstAdapter adapter;
-    private int pageNo = 0,pageSize = 6,total = 0;
-    private int currrentCateId= -1;//当前分类id
-
-    private View view;
-    private Context context;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = super.onCreateView(inflater,container,savedInstanceState);
-
-        return view;
+    @Event(value = {R.id.app_hot, R.id.app_new, R.id.app_cate})
+    private void getEvent(View view) {
+        switch (view.getId()) {
+            case R.id.app_hot:
+                if (hot == null) {
+                    hot = new ListFragment();
+                    addFragment(R.id.fl_app, hot);
+                    hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+                }
+                showFragment(hot);
+                break;
+            case R.id.app_new:
+                if (newF == null) {
+                    newF = new ListFragment();
+                    addFragment(R.id.fl_app, newF);
+                    newF.refresh(Constance.ORDER_NEW, Constance.PARENT_APP);
+                }
+                showFragment(newF);
+                break;
+            case R.id.app_cate:
+                if (categoryFragment == null) {
+                    categoryFragment = new CategoryFragment();
+                    addFragment(R.id.fl_app, categoryFragment);
+                    categoryFragment.refresh(Constance.PARENT_APP);
+                }
+                showFragment(categoryFragment);
+                break;
+        }
     }
 
-    //    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        view = super.onCreateView(inflater, container, savedInstanceState);
-//        context = getActivity();
-//        rg_nav.check(R.id.app_hot);
-//        pull_to_refresh.setMode(PullToRefreshBase.Mode.BOTH);
-//        PullToRefreshUtils.initRefresh(pull_to_refresh);
-//        adapter = new AppLIstAdapter(getContext());
-//        pull_to_refresh.setAdapter(adapter);
-//        rg_nav.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId){
-//                    case R.id.app_class:
-//                        if (categoryList!= null && categoryList.size()>0 && popupWindow != null){
-//                            popupWindow.showAsDropDown(app_class);
-//                        } else {
-//                            getCategory();
-//                        }
-//                        break;
-//                    case R.id.app_hot:
-//                        getContent(app,type_hot,true);//按下载最多排序查询游戏列表
-//                        break;
-//                    case R.id.app_new:
-//                        getContent(app,type_new,true);//按最新更新排序获取游戏列表
-//                        break;
-//                }
-//            }
-//        });
-//        pull_to_refresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-//            @Override
-//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                pageNo = 0;
-//                switch (rg_nav.getCheckedRadioButtonId()){
-//                    case R.id.app_class:
-//                        if (currrentCateId == -1){
-//                            return;
-//                        }
-//                        getContent(currrentCateId,type_hot,true);
-//                        break;
-//                    case R.id.app_hot:
-//                        getContent(app,type_hot,true);//按下载最多排序查询游戏列表
-//                        break;
-//                    case R.id.app_new:
-//                        getContent(app,type_new,true);//按最新更新排序获取游戏列表
-//                        break;
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                if (pageNo < total){
-//                    pageNo ++;
-//                }else{
-//                    UiUtils.showTipToast(false,getString(R.string.this_is_last));
-//                    UiUtils.stopRefresh(pull_to_refresh);
-//                    return;
-//                }
-//                switch (rg_nav.getCheckedRadioButtonId()){
-//                    case R.id.app_class:
-//                        if (currrentCateId == -1){
-//                            return;
-//                        }
-//                        getContent(currrentCateId,type_hot,false);
-//                        break;
-//                    case R.id.app_hot:
-//                        getContent(app,type_hot,false);//按下载最多排序查询游戏列表
-//                        break;
-//                    case R.id.app_new:
-//                        getContent(app,type_new,false);//按最新更新排序获取游戏列表
-//                        break;
-//                }
-//            }
-//        });
-//        app_class.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (categoryList!= null && categoryList.size()>0 && popupWindow != null){
-//                    popupWindow.showAsDropDown(app_class);
-//                }else{
-//                    getCategory();
-//                }
-//            }
-//        });
-//        return view;
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-////        getContent(app,type_hot,true);
-//    }
-//
-//    private void getContent(int cate_id, int orederType, final boolean isRefresh){
-//        GetAppByCateIdReq req = new GetAppByCateIdReq(cate_id,orederType,pageNo+"",pageSize+"");
-//        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
-//        req.sendRequest(new NormalCallBack() {
-//            @Override
-//            public void onSuccess(String result) {
-//                if (!TextUtils.isEmpty(result)){
-//                    GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
-//                    if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS){
-//                        List<App> list = rsp.getAppList();
-//                        if (pageNo == 0){
-//                            total = rsp.getTotalPage();
-//                        }
-//                        if (isRefresh){
-//                            adapter.refresh(list);
-//                        }else {
-//                            adapter.addData(list);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFinished() {
-////                pull_to_refresh.onRefreshComplete();
-////                dismissProgressDialog();
-//            }
-//        });
-//    }
-//
-//    private void getCategory(){
-//        GetCategoryReq req = new GetCategoryReq(app);
-//        showProgressDialogCloseDelay(getString(R.string.loading),HttpConstance.DEFAULT_TIMEOUT);
-//        req.sendRequest(new NormalCallBack() {
-//            @Override
-//            public void onSuccess(String result) {
-//                if (!TextUtils.isEmpty(result)){
-//                    GetCategoryRsp rsp = (GetCategoryRsp) BaseResponse.getRsp(result,GetCategoryRsp.class);
-//                    if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS){
-//                        categoryList= rsp.getResultList();
-//                        if (categoryList.size()>0){
-//                            showPopuWindow(categoryList);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFinished() {
-//                dismissProgressDialog();
-//            }
-//        });
-//    }
-//
-//    //显示关键词列表
-//    private void showPopuWindow(final List<Category> categoryList) {
-//        if (popupWindow == null) {
-//            int width = app_class.getWidth();
-//            View viewContent = LayoutInflater.from(getContext()).inflate(R.layout.pop_keyword, null);
-//            popupWindow = new PopupWindow(viewContent, width, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            popupWindow.setContentView(viewContent);
-//            popupWindow.setOutsideTouchable(true);
-//            popupWindow.setBackgroundDrawable(new BitmapDrawable());
-//            ListView listView = (ListView) viewContent.findViewById(R.id.lv_key);
-//            categoryAdapter = new CategoryAdapter(getContext(), categoryList);
-//            listView.setAdapter(categoryAdapter);
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    for (int i=0;i<categoryList.size();i++){
-//                        if (i == position){
-//                            categoryList.get(i).setChecked(true);
-//                            currrentCateId = categoryList.get(i).getCate_id();//设置当前选中的分类
-//                        }else {
-//                            categoryList.get(i).setChecked(false);
-//                        }
-//                    }
-//                    categoryAdapter.notifyDataSetChanged();
-//                    if (popupWindow != null && popupWindow.isShowing()) {
-//                        popupWindow.dismiss();
-//                    }
-//                    getContent(currrentCateId,type_hot,true);
-//                }
-//            });
-//        }
-//        popupWindow.showAsDropDown(app_class);
-//
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        if (rg_nav.getCheckedRadioButtonId() == -1){
-//            rg_nav.check(R.id.app_hot);
-//        }
-//    }
+    @Override
+    protected void addFragment(int viewId, BaseFragment fragment) {
+        FragmentTransaction transaction = fm.beginTransaction();
+        fragmentList.add(fragment);
+        transaction.add(viewId, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    protected void showFragment(BaseFragment fragment) {
+        FragmentTransaction transaction = fm.beginTransaction();
+        if (fragmentList.size() > 0) {
+            for (BaseFragment f : fragmentList) {
+                if (f != null) {
+                    transaction.hide(f);
+                }
+            }
+        }
+        transaction.show(fragment);
+        transaction.commit();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (rg_nav.getCheckedRadioButtonId() == -1){
+            rg_nav.check(R.id.app_hot);
+            if (hot == null) {
+                hot = new ListFragment();
+                addFragment(R.id.fl_app, hot);
+                hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+            }
+            showFragment(hot);
+        }
+    }
 }

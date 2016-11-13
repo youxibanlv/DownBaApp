@@ -10,10 +10,10 @@ public class GetCategoryReq extends BaseRequest {
 
     RequestParam requestParams;
 
-    public GetCategoryReq(int parentId){
+    public GetCategoryReq(int cateId){
         cmdType = "appService";
         methodName = "getCateByParentId";
-        requestParams = new RequestParam(parentId);
+        requestParams = new RequestParam(cateId);
     }
 
     class RequestParam{

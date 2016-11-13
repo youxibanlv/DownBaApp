@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by strike on 16/6/5.
  */
-@ContentView(R.layout.fragment_recommend)
+@ContentView(R.layout.fragment_list)
 public class HomeFragment extends BaseFragment {
 
     @ViewInject(R.id.pull_to_refresh)

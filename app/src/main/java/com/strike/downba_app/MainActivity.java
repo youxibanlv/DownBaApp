@@ -17,6 +17,7 @@ import com.strike.downba_app.fragment.AppFragment;
 import com.strike.downba_app.fragment.ArticleFragment;
 import com.strike.downba_app.fragment.GameFragment;
 import com.strike.downba_app.fragment.HomeFragment;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.utils.UpdateManager;
 import com.strike.downba_app.view.IconTabPageIndicator;
@@ -115,11 +116,19 @@ public class MainActivity extends BaseActivity {
         BaseFragment game = new GameFragment();
         game.setTitle("游戏");
         game.setIconId(R.drawable.game_icon_selector);
+        Bundle gameBundle = new Bundle();
+        gameBundle.putInt("cateId", Constance.PARENT_GAME);
+        game.setArguments(gameBundle);
         fragments.add(game);
 
         BaseFragment app = new AppFragment();
         app.setTitle("应用");
         app.setIconId(R.drawable.app_icon_selector);
+        Bundle appBundle = new Bundle();
+        appBundle.putInt("cateId", Constance.PARENT_APP);
+        app.setArguments(appBundle);
+
+
         fragments.add(app);
 
         BaseFragment article = new ArticleFragment();

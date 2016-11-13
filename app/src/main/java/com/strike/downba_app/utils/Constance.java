@@ -25,6 +25,10 @@ public interface Constance {
 
     String INFO_TYPE = "infoType";
 
+    int PARENT_GAME = 2;//游戏分类
+    int PARENT_APP = 1;//应用分类
+    int ORDER_HOT= 1;//排行
+    int ORDER_NEW = 2;//最新
 
     int RECOMMEND = 0;//推荐
     int SEARCH = 1;//搜索

@@ -177,7 +177,7 @@ public class SearchActivity extends BaseActivity {
                     GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
                     if (rsp!= null && rsp.result == HttpConstance.HTTP_SUCCESS){
                         if (pageNo == 0){
-                            total = rsp.getTotalPage();
+//                            total = rsp.getTotalPage();
                         }
                         List<App> list = rsp.getAppList();
                         if (isRefresh){
