@@ -10,7 +10,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
-    <color name="bg_divider">#999999</color>
+    <color name="bg_divider">#eeeeee</color>
     <color name="light_bg_divider">#d4d4d4</color>
     <color name="tab_text_normal">#696969</color>
     <color name="tab_text_selected">#147895</color>

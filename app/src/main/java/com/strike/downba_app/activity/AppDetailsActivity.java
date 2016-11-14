@@ -6,21 +6,28 @@ import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.strike.downba_app.adapter.CommentAdapter;
 import com.strike.downba_app.adapter.HorizontalScrollViewAdapter;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
+import com.strike.downba_app.http.entity.Category;
 import com.strike.downba_app.http.request.AppDetailsReq;
+import com.strike.downba_app.http.request.GetCategoryReq;
 import com.strike.downba_app.http.response.AppDetailsRsp;
+import com.strike.downba_app.http.response.GetCategoryRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
+import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downba_app.view.MyListView;
@@ -33,6 +40,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by strike on 16/6/21.
@@ -71,16 +79,29 @@ public class AppDetailsActivity extends BaseActivity {
     @ViewInject(R.id.comment_open)
     private ImageView comment_open;
 
+    @ViewInject(R.id.fl_comment)
+    private FrameLayout fl_comment;
+
     @ViewInject(R.id.lv_comment)
     private MyListView lv_comment;
 
     @ViewInject(R.id.gv_recommend)
     private NoScrollGridView gv_recommend;
 
+    @ViewInject(R.id.no_comment)
+    private TextView no_comment;
+
+    @ViewInject(R.id.comment_content)
+    private EditText comment_content;
+
+    @ViewInject(R.id.btn_send)
+    private ImageView btn_send;
 
     private DownLoadUtils downloadUtils;
 
     private HorizontalScrollViewAdapter adapter;
+
+    private CommentAdapter commentAdapter;
 
     private App app;
 
@@ -88,20 +109,12 @@ public class AppDetailsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         downloadUtils = new DownLoadUtils(this);
-        String appId = getIntent().getStringExtra(Constance.APP_ID);
+        commentAdapter = new CommentAdapter(this);
         try {
             app = (App) getIntent().getExtras().getSerializable(Constance.APP);
-            appId = app.getApp_id();
+            initView();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (app != null) {
-            initView();
-        } else {
-            if (appId != null) {
-                getAppDetails(appId);
-                showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
-            }
         }
         imgList.setOnItemClickListener(new MyHorizontalScrollView.OnItemClickListener() {
             @Override
@@ -113,6 +126,40 @@ public class AppDetailsActivity extends BaseActivity {
                 AppDetailsActivity.this.startActivity(intent);
             }
         });
+        des_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tv_des.getVisibility() == View.VISIBLE){
+                    tv_des.setVisibility(View.GONE);
+                    des_open.setImageResource(R.mipmap.up);
+                }else {
+                    tv_des.setVisibility(View.VISIBLE);
+                    des_open.setImageResource(R.mipmap.down);
+                }
+            }
+        });
+        comment_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fl_comment.getVisibility() ==View.VISIBLE){
+                    fl_comment.setVisibility(View.GONE);
+                    comment_open.setImageResource(R.mipmap.up);
+                }else{
+                    fl_comment.setVisibility(View.VISIBLE);
+                    comment_open.setImageResource(R.mipmap.down);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (app != null){
+            getAppDetails(app.getApp_id());
+            getCate(NumberUtil.parseToInt(app.getLast_cate_id()));
+        }
+        lv_comment.setAdapter(commentAdapter);
     }
 
     @Event(value = {R.id.iv_back})
@@ -124,8 +171,31 @@ public class AppDetailsActivity extends BaseActivity {
         }
     }
 
-    private void getAppDetails(String app_id) {
+    private void getCate(int cateId){
+        GetCategoryReq req = new GetCategoryReq(cateId);
+        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
+        req.sendRequest(new NormalCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                GetCategoryRsp rsp = (GetCategoryRsp) BaseResponse.getRsp(result,GetCategoryRsp.class);
+                List<Category> list = rsp.getResultList();
+                if (list!= null && list.size()>0){
+                    Category category = list.get(0);
+                    if (category!= null){
+                        app_cate.setText(category.getCname());
+                    }
+                }
+            }
 
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void getAppDetails(String app_id) {
+        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         AppDetailsReq req = new AppDetailsReq(app_id);
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -134,9 +204,15 @@ public class AppDetailsActivity extends BaseActivity {
                     AppDetailsRsp rsp = (AppDetailsRsp) BaseResponse.getRsp(result, AppDetailsRsp.class);
                     if (rsp != null) {
                         if (rsp.result == HttpConstance.HTTP_SUCCESS) {
-                            app = rsp.getApp();
-                            if (app != null)
-                                initView();
+                            App app1 = rsp.getApp();
+                            if (app1 != null)
+                                if (app1.getResource()!= null){
+                                    app.setResource(app1.getResource());
+                                }
+                                if (app1.getCommentList()!= null){
+                                    app.setCommentList(app1.getCommentList());
+                                }
+                                loadResource();
                         }
                     }
                 }
@@ -147,6 +223,23 @@ public class AppDetailsActivity extends BaseActivity {
                 dismissProgressDialog();
             }
         });
+    }
+
+    private void loadResource(){
+        //游戏截图
+        if (app.getResource() != null && app.getResource().size() > 0) {
+            adapter = new HorizontalScrollViewAdapter(this, app.getResource());
+            imgList.initDatas(adapter);
+        }
+        //评论列表
+        if (app.getCommentList()!= null && app.getCommentList().size()>0){
+            commentAdapter.refresh(app.getCommentList());
+            lv_comment.setVisibility(View.VISIBLE);
+            no_comment.setVisibility(View.GONE);
+        }else{
+            lv_comment.setVisibility(View.GONE);
+            no_comment.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initView() {
@@ -161,10 +254,6 @@ public class AppDetailsActivity extends BaseActivity {
         app_score.setNumStars(score);
         if (app.getApp_size() != null) {
             tv_size.setText(app.getApp_size());
-        }
-        if (app.getResource() != null && app.getResource().size() > 0) {
-            adapter = new HorizontalScrollViewAdapter(this, app.getResource());
-            imgList.initDatas(adapter);
         }
         if (app.getApp_desc() != null) {
             tv_des.setText(Html.fromHtml(app.getApp_desc()));

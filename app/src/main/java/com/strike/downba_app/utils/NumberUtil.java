@@ -6,7 +6,8 @@ public class NumberUtil {
 		Integer i = null;
 		if (str != null && !"".equals(str)) {
 			try {
-				i = Integer.parseInt(str);
+				float f = Float.parseFloat(str);
+				i = Math.round(f);
 			} catch (Exception e) {
 				return i;
 			}

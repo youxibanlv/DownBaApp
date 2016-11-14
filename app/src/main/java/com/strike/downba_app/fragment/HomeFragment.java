@@ -107,6 +107,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFinished() {
                 pull_to_refresh.onRefreshComplete();
+                dismissProgressDialog();
             }
         });
     }
@@ -128,7 +129,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFinished() {
                 pull_to_refresh.onRefreshComplete();
-                dismissProgressDialog();
             }
         });
     }

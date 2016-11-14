@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Category;
 import com.strike.downba_app.http.request.GetCategoryReq;
@@ -38,17 +39,25 @@ public class CategoryFragment extends BaseFragment {
 
     private View view;
     private GridAdapter adapter;
+    private Integer cateId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = super.onCreateView(inflater,container,savedInstanceState);
         adapter = new GridAdapter(getContext());
         gridView.setAdapter(adapter);
+        getCategory(cateId);
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     public void refresh(int cateId){
-        getCategory(cateId);
+        this.cateId = cateId;
     }
 
 
@@ -59,6 +68,7 @@ public class CategoryFragment extends BaseFragment {
         }else {
             req = new GetCategoryReq(PARENT_APP);
         }
+        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -71,7 +81,7 @@ public class CategoryFragment extends BaseFragment {
 
             @Override
             public void onFinished() {
-
+                dismissProgressDialog();
             }
         });
     }

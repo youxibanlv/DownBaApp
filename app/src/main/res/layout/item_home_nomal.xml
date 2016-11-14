@@ -38,5 +38,5 @@
         android:layout_height="wrap_content"
         android:horizontalSpacing="@dimen/wdp5"
         android:verticalSpacing="@dimen/wdp5"
-        android:numColumns="3"/>
+        />
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.strike.downba_app.db.table;
 
 
 import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.http.entity.Comment;
 import com.strike.downba_app.utils.VerifyUtils;
 
 import org.xutils.db.annotation.Column;
@@ -107,6 +108,7 @@ public class App implements Serializable{
     private String seo_desc;
 
     private List<String> resource;
+    private List<Comment> commentList;
 
     public int getId() {
         return id;
@@ -366,5 +368,13 @@ public class App implements Serializable{
 
     public void setResource(List<String> resource) {
         this.resource = resource;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

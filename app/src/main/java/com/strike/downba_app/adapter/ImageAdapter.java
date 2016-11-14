@@ -2,16 +2,16 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
+import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.UiUtils;
-import com.strike.downbaapp.R;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -62,13 +62,10 @@ public class ImageAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
-                 String id = pages.get(position).getAppId();
-                if(!"".equals(id)){
-                    intent.putExtra(Constance.APP_ID,id);
-                }else{
-                    UiUtils.showTipToast(false,context.getString(R.string.error_null_id));
-                    return;
-                }
+                App app = pages.get(position).getApp();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constance.APP,app);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });

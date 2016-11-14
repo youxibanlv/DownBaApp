@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -56,11 +57,12 @@ public class ExtrAppVertical extends LinearLayout {
             app_title.setText(title);
         }
         String score = app.getApp_recomment();
-        if (score == null || "".equals(score)){
-            score = "0";
-        }
         if (app_score != null ) {
-            app_score.setNumStars(Integer.parseInt(score)/2);
+            int num = NumberUtil.parseToInt(score)/2;
+            if (num>5){
+                num = 5;
+            }
+            app_score.setNumStars(num);
         }
         String size = app.getApp_size();
         if (size == null){
