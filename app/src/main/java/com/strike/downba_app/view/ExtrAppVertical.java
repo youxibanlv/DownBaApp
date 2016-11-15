@@ -44,6 +44,20 @@ public class ExtrAppVertical extends LinearLayout {
         x.view().inject(view);
     }
 
+    public void hideDownBtn(boolean hide){
+        if (app_install != null ){
+            if (hide){
+                if (app_install.getVisibility() == VISIBLE){
+                    app_install.setVisibility(GONE);
+                }
+            }else {
+                if (app_install.getVisibility() == GONE){
+                    app_install.setVisibility(VISIBLE);
+                }
+            }
+        }
+    }
+
     public void setApp(App app){
         String appLogo = app.getApp_logo();
        if (app_icon != null && appLogo != null && !"".equals(appLogo)){

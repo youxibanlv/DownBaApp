@@ -13,8 +13,8 @@ public class UrlConfig {
     /***
      * 服务器地址
      * **/
-    public static String BASE_URL = "http://192.168.121.102:8080/DownBa_web";//tp_link_youxi
-//    public static String BASE_URL = "http://192.168.206.17:8080/DownBa_web";//公司
+//    public static String BASE_URL = "http://192.168.121.102:8080/DownBa_web";//tp_link_youxi
+    public static String BASE_URL = "http://192.168.206.17:8080/DownBa_web";//公司
 //    public static String BASE_URL = "http://123.57.86.113:8081/DownBa_web";//外网
     public static String BASE_IMG_URL = "http://123.57.86.113";
 

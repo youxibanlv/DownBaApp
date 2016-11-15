@@ -247,7 +247,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/user_comment"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/wdp22" />
+                    android:textSize="@dimen/wdp24" />
 
                 <ImageView
                     android:id="@+id/comment_open"
@@ -270,7 +270,7 @@
                 <com.strike.downba_app.view.MyListView
                     android:id="@+id/lv_comment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:horizontalSpacing="@dimen/wdp5"
                     android:verticalSpacing="@dimen/wdp5" />
 
@@ -298,7 +298,7 @@
                 android:layout_marginTop="@dimen/wdp13"
                 android:text="@string/guess_you_like"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/wdp20" />
+                android:textSize="@dimen/wdp24" />
 
             <com.strike.downba_app.view.NoScrollGridView
                 android:id="@+id/gv_recommend"
@@ -316,12 +316,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
-        android:layout_alignParentBottom="true"
         android:background="@color/default_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/wdp20"
-        android:paddingRight="@dimen/wdp20">
+        android:paddingRight="@dimen/wdp20"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="0px"
@@ -340,7 +342,8 @@
             android:maxLength="20"
             android:paddingLeft="@dimen/wdp25"
             android:paddingRight="@dimen/wdp25"
-            android:text="吐槽一下吧！"
+            android:hint="吐槽一下吧！"
+            android:textColorHint="@color/white"
             android:textColor="@color/text_hit"
             android:textSize="@dimen/wdp20" />
 

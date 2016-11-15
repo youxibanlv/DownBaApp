@@ -33,6 +33,7 @@ public class GridRecommendAdapter extends BaseAdapter {
 
     public void setList(List<App> appList) {
         list = appList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,7 +53,7 @@ public class GridRecommendAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder ;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_recommed_grid, parent, false);
             holder = new ViewHolder();
@@ -60,6 +61,9 @@ public class GridRecommendAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+        }
+        if (list.size()>3){
+            holder.grid_recommend.hideDownBtn(true);
         }
         //配置app界面
         holder.grid_recommend.setApp(list.get(position));

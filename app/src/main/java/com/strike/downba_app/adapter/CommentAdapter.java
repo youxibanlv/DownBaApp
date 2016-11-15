@@ -1,6 +1,7 @@
 package com.strike.downba_app.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -33,10 +34,12 @@ public class CommentAdapter extends MyBaseAdapter<Comment> {
             holder = (ViewHolder) convertView.getTag();
         }
         Comment comment = getItem(position);
-        holder.userName.setText(comment.getUname());
+        if (!TextUtils.isEmpty(comment.getUname())){
+            holder.userName.setText(comment.getUname());
+        }
         holder.time.setText(TimeUtil.longToDateStr(comment.getDate_add(),"yyyy-MM-dd"));
         holder.content.setText(comment.getContent());
-        return null;
+        return convertView;
     }
 
     class ViewHolder{

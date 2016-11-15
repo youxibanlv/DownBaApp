@@ -1,20 +1,20 @@
 package com.strike.downba_app.http.entity;
 
 public class Comment {
-    private int comment_id;
-    private int id;
-    private int type;
-    private String content;
-    private long date_add;
-    private int uid;
-    private String uname;
-    private String ip;
-    private String ip_addr;
-    private int parent_id;
-    private int is_check;
-    private int son;
-    private int good;
-    private int bad;
+    private int comment_id =0;
+    private int id=0;
+    private int type=0;
+    private String content="";
+    private long date_add=0;
+    private int uid=0;
+    private String uname="";
+    private String ip="";
+    private String ip_addr="";
+    private int parent_id=0;
+    private int is_check=0;
+    private int son=0;
+    private int good=0;
+    private int bad=0;
 
     public Comment(int comment_id, int id, int type, String content, long date_add, int uid, String uname, String ip, String ip_addr,
                    int parent_id, int is_check, int son, int good, int bad) {
