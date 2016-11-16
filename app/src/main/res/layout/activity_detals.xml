@@ -271,6 +271,10 @@
                     android:id="@+id/lv_comment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/wdp20"
+                    android:layout_marginLeft="@dimen/wdp20"
+                    android:dividerHeight="0px"
+                    android:divider="@color/white"
                     android:horizontalSpacing="@dimen/wdp5"
                     android:verticalSpacing="@dimen/wdp5" />
 
@@ -339,7 +343,7 @@
             android:background="@color/default_input_bg"
             android:gravity="center_vertical"
             android:lines="1"
-            android:maxLength="20"
+            android:maxLength="120"
             android:paddingLeft="@dimen/wdp25"
             android:paddingRight="@dimen/wdp25"
             android:hint="吐槽一下吧！"

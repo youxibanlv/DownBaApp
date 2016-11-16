@@ -52,7 +52,7 @@ public class Info implements Serializable{
 
     public String getInfo_img() {
         if (!VerifyUtils.isUrl(info_img)){
-            info_img = UrlConfig.BASE_URL + info_img;
+            info_img = UrlConfig.BASE_IMG_URL + info_img;
         }
         return info_img;
     }

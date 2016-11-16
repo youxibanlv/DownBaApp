@@ -14,7 +14,6 @@ import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Info;
 import com.strike.downba_app.http.request.InfoReq;
 import com.strike.downba_app.http.response.InfoRsp;
-import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -38,20 +37,20 @@ public class InfoFragment extends BaseFragment {
 
     private InfoListAdapter adapter;
 
-    private int pageNo = 0,pageSize = 4,totalPage = 0;
+    private int pageNo = 1,pageSize = 5,totalPage = 0;
 
-    private int infoType;
+    private Integer infoType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
-        infoType = getArguments().getInt(Constance.INFO_TYPE);
         adapter = new InfoListAdapter(getActivity());
         pull_to_refresh.setMode(PullToRefreshBase.Mode.BOTH);
         PullToRefreshUtils.initRefresh(pull_to_refresh);
         pull_to_refresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                pageNo = 1;
                 getInfo(true);
             }
 
@@ -67,8 +66,19 @@ public class InfoFragment extends BaseFragment {
                 getInfo(false);
             }
         });
-//        getInfo(true);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (infoType != null){
+            getInfo(true);
+        }
+    }
+
+    public void refresh(int infoType){
+        this.infoType = infoType;
     }
 
     private void getInfo(final boolean isRefresh) {
@@ -78,8 +88,10 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 InfoRsp rsp = (InfoRsp) BaseResponse.getRsp(result,InfoRsp.class);
-                List<Info> infoList = rsp.getInfoLists();
-                totalPage = rsp.getTotalPage();
+                List<Info> infoList = rsp.resultData.infoList;
+                if (pageNo == 1){
+                    totalPage = rsp.resultData.pageBean.getTotalPage();
+                }
                 if (infoList != null){
                     pull_to_refresh.setAdapter(adapter);
                     if (isRefresh){
@@ -90,7 +102,6 @@ public class InfoFragment extends BaseFragment {
 
                 }
             }
-
             @Override
             public void onFinished() {
                 dismissProgressDialog();

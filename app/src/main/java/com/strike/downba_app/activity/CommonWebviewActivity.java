@@ -42,7 +42,7 @@ public class CommonWebviewActivity extends BaseActivity {
     private WebView webview;
 
     private String webTitle = "";
-    private int id = 0;//String url = UrlConfig.BASE_URL + "/index.php?tpl=content_info&id = "+info.getInfo_id();
+    private int id = 0;
     private String webUrl;
 
 
@@ -52,7 +52,8 @@ public class CommonWebviewActivity extends BaseActivity {
         Intent intent = getIntent();
         webTitle = intent.getStringExtra(WEB_TITLE);
         id = intent.getIntExtra(INFO_ID,-1);
-        webUrl = UrlConfig.BASE_URL+"/app/index.php?tpl=app_content_info&id="+id;
+        //http://www.82down.com/index.php?tpl=content_info&id=909
+        webUrl = UrlConfig.WEB_URL+"/index.php?tpl=content_info&id="+id;
         if (webview != null) {
             webview.setInitialScale(5);
             WebSettings webSettings = webview.getSettings();
@@ -78,8 +79,6 @@ public class CommonWebviewActivity extends BaseActivity {
                     tr.printStackTrace();
                 }
             }
-
-
             webview.loadUrl(webUrl);
             webview.setDownloadListener(new MyWebViewDownLoadListener());
             webview.setWebViewClient(new WebViewClient() {

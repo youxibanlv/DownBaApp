@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="@dimen/wdp60"
-    android:paddingLeft="@dimen/wdp60"
+    android:paddingRight="@dimen/wdp20"
+    android:paddingLeft="@dimen/wdp20"
     android:orientation="vertical">
     <TextView
         android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="游客 :"
+        android:layout_marginLeft="@dimen/wdp20"
         android:textSize="@dimen/wdp20"
         android:textColor="@color/text_black"
         android:layout_marginTop="@dimen/wdp10"

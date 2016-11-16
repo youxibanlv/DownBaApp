@@ -68,24 +68,6 @@ public class MainActivity extends BaseActivity {
         new UpdateManager(this).checkUpdate(true);
     }
 
-//    public void setCurrentFragment(int position) {
-//        mViewPager.setCurrentItem(position);
-//        BaseFragment baseFragment = (BaseFragment) mAdapter.instantiateItem(mViewPager, position);
-//        baseFragment.freshView();
-//    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (mViewPager != null) {
-//            int curItem = mViewPager.getCurrentItem();
-//            if (mAdapter != null && mAdapter.getCount() > curItem) {
-//                BaseFragment baseFragment = (BaseFragment) mAdapter.instantiateItem(mViewPager, curItem);
-//                baseFragment.freshView();
-//            }
-//        }
-    }
-
     @Event(value = {R.id.rv_user_icon, R.id.iv_manager, R.id.title_bar})
     private void getEvent(View view) {
         switch (view.getId()) {

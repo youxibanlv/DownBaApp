@@ -49,6 +49,10 @@
     <string name="zuixin">最新</string>
     <string name="fenlei">分类</string>
     <string name="user_comment">用户评论</string>
+    <string name="subject">专题</string>
+    <string name="original">原创</string>
+    <string name="test">评测</string>
+    <string name="news">新闻</string>
 
     <!--=======-->
 

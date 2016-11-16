@@ -92,7 +92,7 @@ public class UpdateManager {
                         version = serverVersion;
 						//提示更新
 						if (notify){
-							new YesNoDialog(mContext, "检测到新版本，是否立即更新", version.getVersion_info(), "取消", "更新", false,null, new CustomDialogClickListener() {
+							new YesNoDialog(mContext, "检测到新版本", version.getVersion_info(), "取消", "更新", false,null, new CustomDialogClickListener() {
 								@Override
 								public void click(Dialog dialog) {
                                     dialog.dismiss();
