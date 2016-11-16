@@ -36,7 +36,11 @@ public class ArticleFragment extends BaseFragment {
     private void getEvent(View view){
         switch (view.getId()){
             case R.id.app_subject:
-
+                if (subjectFragment == null){
+                    subjectFragment = new SubjectFragment();
+                    addFragment(subjectFragment);
+                }
+                showFragment(subjectFragment);
                 break;
             case R.id.app_original:
                 if (originalFrament == null){
@@ -87,63 +91,17 @@ public class ArticleFragment extends BaseFragment {
         transaction.commit();
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        view = super.onCreateView(inflater, container, savedInstanceState);
-//        rg_nav.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.subject://专题
-//                        if (subjectFragment == null){
-//                            subjectFragment = new SubjectFragment();
-//                            addFragment(R.id.content,subjectFragment);
-//                        }
-//                        showFragment(subjectFragment);
-//                        break;
-//                    case R.id.original://原创
-//                        if (originalFrament == null){
-//                            originalFrament = new InfoFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt(Constance.INFO_TYPE,Constance.cate_original);
-//                            originalFrament.setArguments(bundle);
-//                            addFragment(R.id.content,originalFrament);
-//                        }
-//                        showFragment(originalFrament);
-//                        break;
-//                    case R.id.review://评测
-//                        if (reviewFragment == null){
-//                            reviewFragment = new InfoFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt(Constance.INFO_TYPE,Constance.cate_review);
-//                            reviewFragment.setArguments(bundle);
-//                            addFragment(R.id.content,reviewFragment);
-//                        }
-//                        showFragment(reviewFragment);
-//                        break;
-//                    case R.id.news://行业新闻
-//                        if (newsFragment == null){
-//                            newsFragment = new InfoFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt(Constance.INFO_TYPE,Constance.cate_news);
-//                            newsFragment.setArguments(bundle);
-//                            addFragment(R.id.content,newsFragment);
-//                        }
-//                        showFragment(newsFragment);
-//                        break;
-//                }
-//            }
-//        });
-//        return view;
-//    }
-
-
     @Override
     public void onStart() {
         super.onStart();
         int checkId = rg_nav.getCheckedRadioButtonId();
         if (checkId == -1) {
             rg_nav.check(R.id.app_subject);
+            if (subjectFragment == null){
+                subjectFragment = new SubjectFragment();
+                addFragment(subjectFragment);
+            }
+            showFragment(subjectFragment);
         }
     }
 }

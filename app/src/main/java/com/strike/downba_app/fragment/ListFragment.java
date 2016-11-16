@@ -40,7 +40,7 @@ public class ListFragment extends BaseFragment {
     private Integer orderType;
     private View view;
     private AppLIstAdapter adapter;
-    private int pageNo = 1,pageSize = 6,total = 0;
+    private int pageNo = 1,pageSize = 7,total = 0;
 
 
     private Context context;

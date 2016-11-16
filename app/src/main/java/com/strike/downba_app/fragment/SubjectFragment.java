@@ -49,6 +49,7 @@ public class SubjectFragment extends BaseFragment {
         pull_to_refresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                pageNo = 0;
                 getSubject(true);
             }
 
@@ -64,8 +65,15 @@ public class SubjectFragment extends BaseFragment {
                 getSubject(false);
             }
         });
-//        getSubject(true);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (subjectAdapter.getList()==null ||subjectAdapter.getList().size()==0){
+            getSubject(true);
+        }
     }
 
     private void getSubject(final boolean isRefresh) {
@@ -75,8 +83,10 @@ public class SubjectFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 SubjectRsp rsp = (SubjectRsp) BaseResponse.getRsp(result, SubjectRsp.class);
-                totalPage = rsp.getTotalPage();
-                List<Subject> list = rsp.getSubjects();
+                if (pageNo == 0 || pageNo == 1){
+                    totalPage = rsp.resultData.pageBean.getTotalPage();
+                }
+                List<Subject> list = rsp.resultData.subjects;
                 pull_to_refresh.setAdapter(subjectAdapter);
                 if (isRefresh) {
                     subjectAdapter.refresh(list);

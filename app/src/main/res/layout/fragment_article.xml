@@ -10,6 +10,8 @@
         android:layout_height="@dimen/wdp72"
         android:background="@color/white"
         android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/wdp20"
+        android:layout_marginRight="@dimen/wdp20"
         android:orientation="horizontal">
         <RadioButton
             android:id="@+id/app_subject"

@@ -72,7 +72,7 @@ public class InfoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (infoType != null){
+        if (infoType != null && adapter.getList()==null || adapter.getList().size()==0){
             getInfo(true);
         }
     }

@@ -2,6 +2,7 @@ package com.strike.downba_app.http.response;
 
 
 import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.entity.PageBean;
 import com.strike.downba_app.http.entity.Subject;
 
 import java.util.List;
@@ -12,14 +13,8 @@ import java.util.List;
 public class SubjectRsp extends BaseResponse {
     public ResultData resultData = null;
 
-    public List<Subject> getSubjects(){
-        return resultData.subjects;
-    }
-    public int getTotalPage(){
-        return resultData.totalPage;
-    }
-    class ResultData {
-        List<Subject> subjects = null;
-        int totalPage;
+    public class ResultData {
+        public List<Subject> subjects = null;
+        public PageBean pageBean;
     }
 }
