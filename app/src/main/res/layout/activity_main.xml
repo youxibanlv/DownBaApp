@@ -64,7 +64,8 @@
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:paddingTop="@dimen/wdp2"
+        android:background="@color/light_bg_divider"
         android:layout_alignParentBottom="true" />
 
     <android.support.v4.view.ViewPager

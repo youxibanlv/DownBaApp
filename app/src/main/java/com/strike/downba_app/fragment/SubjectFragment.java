@@ -71,7 +71,7 @@ public class SubjectFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (subjectAdapter.getList()==null ||subjectAdapter.getList().size()==0){
+        if (subjectAdapter !=null && subjectAdapter.getList().size()==0){
             getSubject(true);
         }
     }

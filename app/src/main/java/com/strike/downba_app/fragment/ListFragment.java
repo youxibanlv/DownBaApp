@@ -88,7 +88,9 @@ public class ListFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getAppList(true,orderType,cateId,pageNo,pageSize);
+        if (adapter!= null && adapter.getList().size() == 0 && orderType!=null&& cateId != null){
+            getAppList(true,orderType,cateId,pageNo,pageSize);
+        }
     }
 
     private void getAppList(final boolean isRefresh, Integer orderType, Integer cateId, final int pageNo, int pageSize){

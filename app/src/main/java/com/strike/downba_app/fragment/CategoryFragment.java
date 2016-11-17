@@ -50,12 +50,6 @@ public class CategoryFragment extends BaseFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
     public void refresh(int cateId){
         this.cateId = cateId;
     }

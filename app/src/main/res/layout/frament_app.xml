@@ -7,7 +7,7 @@
     <RadioGroup
         android:id="@+id/rg_nav"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/wdp72"
+        android:layout_height="@dimen/wdp90"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
