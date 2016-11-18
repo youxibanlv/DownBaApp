@@ -24,6 +24,7 @@ import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -85,7 +86,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getHomeList(int pageNo, int pageSize, final boolean isRefresh){
-        HomeBeanReq req = new HomeBeanReq(pageNo,pageSize);
+        final HomeBeanReq req = new HomeBeanReq(pageNo,pageSize);
         showProgressDialogCloseDelay(getString(R.string.loading),HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -108,12 +109,15 @@ public class HomeFragment extends BaseFragment {
             public void onFinished() {
                 pull_to_refresh.onRefreshComplete();
                 dismissProgressDialog();
+                pull_to_refresh.onRefreshComplete();
+                long temp = System.currentTimeMillis() - this.getRequestTime();
+                LogUtil.e(req.methodName+":请求时间 = "+ temp);
             }
         });
     }
     //加载轮播图
     private void getRecommend(final String type){
-        RecommendReq req = new RecommendReq(type);
+        final RecommendReq req = new RecommendReq(type);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -129,6 +133,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFinished() {
                 pull_to_refresh.onRefreshComplete();
+                long temp = System.currentTimeMillis() - this.getRequestTime();
+                LogUtil.e(req.methodName+":请求时间 = "+ temp);
             }
         });
     }

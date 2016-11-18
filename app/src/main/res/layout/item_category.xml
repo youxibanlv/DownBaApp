@@ -7,8 +7,8 @@
     android:orientation="vertical">
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/wdp80"
-        android:layout_height="@dimen/wdp80"
+        android:layout_width="@dimen/wdp60"
+        android:layout_height="@dimen/wdp60"
         />
     <TextView
         android:id="@+id/name"
@@ -17,5 +17,5 @@
         android:text="角色扮演"
         android:layout_marginTop="@dimen/wdp15"
         android:textColor="@color/text_gray"
-        android:textSize="@dimen/wdp28"/>
+        android:textSize="@dimen/wdp26"/>
 </LinearLayout>

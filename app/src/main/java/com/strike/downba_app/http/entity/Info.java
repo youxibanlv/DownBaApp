@@ -17,6 +17,7 @@ public class Info implements Serializable{
     private String info_img;
     private String info_body;
     private int info_visitors;
+    private String info_desc;
 
     public int getInfo_id() {
         return info_id;
@@ -75,5 +76,13 @@ public class Info implements Serializable{
 
     public void setInfo_visitors(int info_visitors) {
         this.info_visitors = info_visitors;
+    }
+
+    public String getInfo_desc() {
+        return info_desc;
+    }
+
+    public void setInfo_desc(String info_desc) {
+        this.info_desc = info_desc;
     }
 }

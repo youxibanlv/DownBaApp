@@ -22,6 +22,7 @@ import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -94,7 +95,7 @@ public class ListFragment extends BaseFragment {
     }
 
     private void getAppList(final boolean isRefresh, Integer orderType, Integer cateId, final int pageNo, int pageSize){
-        GetAppByCateIdReq req = new GetAppByCateIdReq(cateId,orderType,pageNo,pageSize);
+        final GetAppByCateIdReq req = new GetAppByCateIdReq(cateId,orderType,pageNo,pageSize);
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -117,6 +118,8 @@ public class ListFragment extends BaseFragment {
             public void onFinished() {
                 dismissProgressDialog();
                 pull_to_refresh.onRefreshComplete();
+                long temp = System.currentTimeMillis() - this.getRequestTime();
+                LogUtil.e(req.methodName+":请求时间 = "+ temp);
             }
         });
     }

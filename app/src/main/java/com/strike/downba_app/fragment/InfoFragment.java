@@ -20,6 +20,7 @@ import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -82,7 +83,7 @@ public class InfoFragment extends BaseFragment {
     }
 
     private void getInfo(final boolean isRefresh) {
-        InfoReq req = new InfoReq(pageNo,pageSize,infoType);
+        final InfoReq req = new InfoReq(pageNo,pageSize,infoType);
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -106,6 +107,8 @@ public class InfoFragment extends BaseFragment {
             public void onFinished() {
                 dismissProgressDialog();
                 pull_to_refresh.onRefreshComplete();
+                long temp = System.currentTimeMillis() - this.getRequestTime();
+                LogUtil.e(req.methodName+":请求时间 = "+ temp);
             }
         });
     }

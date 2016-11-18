@@ -83,16 +83,18 @@ public class GameFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (rg_nav.getCheckedRadioButtonId() == -1){
-            rg_nav.check(R.id.app_hot);
-            if (hot == null){
-                hot = new ListFragment();
-                addFragment(R.id.fl_game,hot);
-                hot.refresh(Constance.ORDER_HOT,Constance.PARENT_GAME);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (rg_nav.getCheckedRadioButtonId() == -1){
+                rg_nav.check(R.id.app_hot);
+                if (hot == null){
+                    hot = new ListFragment();
+                    addFragment(R.id.fl_game,hot);
+                    hot.refresh(Constance.ORDER_HOT,Constance.PARENT_GAME);
+                }
+                showFragment(hot);
             }
-            showFragment(hot);
         }
     }
 }

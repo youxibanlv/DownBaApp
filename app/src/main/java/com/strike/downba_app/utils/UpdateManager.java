@@ -16,8 +16,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.strike.downba_app.base.AppConfig;
-import com.strike.downba_app.dialog.CustomDialogClickListener;
-import com.strike.downba_app.dialog.YesNoDialog;
+import com.strike.downba_app.view.dialog.CustomDialogClickListener;
+import com.strike.downba_app.view.dialog.YesNoDialog;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Version;

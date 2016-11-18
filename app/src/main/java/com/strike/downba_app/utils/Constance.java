@@ -25,6 +25,8 @@ public interface Constance {
 
     String INFO_TYPE = "infoType";
 
+    String CLIENT_SECRET ="down8app@strike%*xo" ;//app鉴权秘钥
+
     int PARENT_GAME = 2;//游戏分类
     int PARENT_APP = 1;//应用分类
     int ORDER_HOT= 1;//排行
@@ -35,4 +37,6 @@ public interface Constance {
     int cate_original = 23;//原创的数据库id
     int cate_review = 19;//评测的数据库id
     int cate_news = 22;//行业新闻的数据库id
+
+    String DEFAULT_CHARSET = "UTF-8";
 }

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_gravity="bottom|right"
-        android:background="@mipmap/bg_index"
         android:paddingRight="@dimen/wdp20"
         android:gravity="right"
         android:orientation="horizontal" />

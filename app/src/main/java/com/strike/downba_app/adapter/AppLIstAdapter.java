@@ -54,8 +54,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
             holder.app_score.setNumStars(score);
-            if (app.getApp_desc()!= null){
-                holder.tv_des.setText(Html.fromHtml(app.getApp_desc()));
+            if (app.getSeo_keywords()!= null){
+                holder.tv_des.setText(app.getSeo_keywords());
             }else {
                 holder.tv_des.setText("");
             }

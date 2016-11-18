@@ -14,6 +14,8 @@ import java.util.concurrent.TimeoutException;
  */
 public abstract class NormalCallBack implements Callback.CommonCallback<String> {
 
+    private long requestTime;
+
     @Override
     public abstract void onSuccess(String result);
 
@@ -32,4 +34,12 @@ public abstract class NormalCallBack implements Callback.CommonCallback<String> 
 
     @Override
     public abstract void onFinished();
+
+    public long getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(long requestTime) {
+        this.requestTime = requestTime;
+    }
 }

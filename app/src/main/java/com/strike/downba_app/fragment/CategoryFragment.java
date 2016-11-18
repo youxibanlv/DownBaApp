@@ -19,6 +19,7 @@ import com.strike.downba_app.http.request.GetCategoryReq;
 import com.strike.downba_app.http.response.GetCategoryRsp;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -56,7 +57,7 @@ public class CategoryFragment extends BaseFragment {
 
 
     private void getCategory(int cateId){
-        GetCategoryReq req;
+        final GetCategoryReq req;
         if (cateId == PARENT_GAME){
             req = new GetCategoryReq(PARENT_GAME);
         }else {
@@ -76,6 +77,8 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onFinished() {
                 dismissProgressDialog();
+                long temp = System.currentTimeMillis() - this.getRequestTime();
+                LogUtil.e(req.methodName+":请求时间 = "+ temp);
             }
         });
     }

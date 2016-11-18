@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.strike.downba_app.MainActivity;
 import com.strike.downba_app.base.BaseActivity;
@@ -44,12 +43,6 @@ public class LoginActivity extends BaseActivity {
 
     @ViewInject(R.id.edt_password)
     private EditText edtPassword;
-
-    @ViewInject(R.id.ivpwd_showhide)
-    private ImageView ivpwdShowhide;
-
-    private boolean isShowPass = false;//是明文显示密码
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

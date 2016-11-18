@@ -21,7 +21,7 @@ public class UrlConfig {
     public static  String WEB_URL = "http://www.82down.com";
 
     //用户相关
-    public static String USER_SERVICE = BASE_URL+"/app/userService.php";
+    public static String USER_SERVICE = BASE_URL+"/userService/";
     //应用香港
     public static String APP_SERVICE = BASE_URL+"/appService/";//app相关
     //上传文件

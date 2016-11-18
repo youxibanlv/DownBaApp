@@ -80,17 +80,20 @@ public class AppFragment extends BaseFragment {
         transaction.show(fragment);
         transaction.commit();
     }
+
     @Override
-    public void onStart() {
-        super.onStart();
-        if (rg_nav.getCheckedRadioButtonId() == -1){
-            rg_nav.check(R.id.app_hot);
-            if (hot == null) {
-                hot = new ListFragment();
-                addFragment(R.id.fl_app, hot);
-                hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (rg_nav.getCheckedRadioButtonId() == -1){
+                rg_nav.check(R.id.app_hot);
+                if (hot == null) {
+                    hot = new ListFragment();
+                    addFragment(R.id.fl_app, hot);
+                    hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+                }
+                showFragment(hot);
             }
-            showFragment(hot);
         }
     }
 }

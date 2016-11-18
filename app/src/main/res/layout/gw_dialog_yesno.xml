@@ -25,7 +25,7 @@
         android:paddingLeft="@dimen/wdp30"
         android:paddingRight="@dimen/wdp30"
         android:textColor="@color/default_bg"
-        android:textSize="@dimen/wdp30" />
+        android:textSize="@dimen/wdp24" />
 
     <View
         android:id="@+id/line"

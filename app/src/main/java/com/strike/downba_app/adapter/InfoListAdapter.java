@@ -39,7 +39,7 @@ public class InfoListAdapter extends MyBaseAdapter<Info> {
         final Info info = getItem(position);
         x.image().bind(viewHolder.icon,info.getInfo_img(), ImgConfig.getImgOption());
         viewHolder.title.setText(info.getInfo_title());
-        viewHolder.body.setText(info.getInfo_body());
+        viewHolder.body.setText(info.getInfo_desc());
         viewHolder.visitors.setText(info.getInfo_visitors()+"");
 //        viewHolder.ll_info.setOnClickListener(new View.OnClickListener() {
 //            @Override

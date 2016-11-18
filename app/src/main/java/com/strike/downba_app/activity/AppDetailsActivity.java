@@ -16,7 +16,9 @@ import com.strike.downba_app.adapter.CommentAdapter;
 import com.strike.downba_app.adapter.GridRecommendAdapter;
 import com.strike.downba_app.adapter.HorizontalScrollViewAdapter;
 import com.strike.downba_app.base.BaseActivity;
+import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.db.table.User;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
@@ -191,6 +193,11 @@ public class AppDetailsActivity extends BaseActivity {
         comment.setContent(content);
         comment.setDate_add(System.currentTimeMillis());
         // TODO: 2016/11/14 设置用户名
+        User user = UserDao.getUser();
+        if (user!= null){
+            comment.setUid(NumberUtil.parseToInt(user.getUid()));
+            comment.setUname(user.getNickname()==null?user.getUsername():user.getNickname());
+        }
         AddCommentReq req = new AddCommentReq(comment);
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
@@ -285,6 +292,9 @@ public class AppDetailsActivity extends BaseActivity {
                                 if (app1.getCommentList() != null) {
                                     app.setCommentList(app1.getCommentList());
                                 }
+                                if (app1.getApp_desc()!= null){
+                                    app.setApp_desc(app1.getApp_desc());
+                                }
                                 loadResource();
                             }
                         }
@@ -314,6 +324,9 @@ public class AppDetailsActivity extends BaseActivity {
             lv_comment.setVisibility(View.GONE);
             no_comment.setVisibility(View.VISIBLE);
         }
+        if (app.getApp_desc() != null) {
+            tv_des.setText(Html.fromHtml(app.getApp_desc()));
+        }
 
     }
 
@@ -329,9 +342,6 @@ public class AppDetailsActivity extends BaseActivity {
         app_score.setNumStars(score);
         if (app.getApp_size() != null) {
             tv_size.setText(app.getApp_size());
-        }
-        if (app.getApp_desc() != null) {
-            tv_des.setText(Html.fromHtml(app.getApp_desc()));
         }
     }
 

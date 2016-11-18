@@ -92,16 +92,18 @@ public class ArticleFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        int checkId = rg_nav.getCheckedRadioButtonId();
-        if (checkId == -1) {
-            rg_nav.check(R.id.app_subject);
-            if (subjectFragment == null){
-                subjectFragment = new SubjectFragment();
-                addFragment(subjectFragment);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            int checkId = rg_nav.getCheckedRadioButtonId();
+            if (checkId == -1) {
+                rg_nav.check(R.id.app_subject);
+                if (subjectFragment == null){
+                    subjectFragment = new SubjectFragment();
+                    addFragment(subjectFragment);
+                }
+                showFragment(subjectFragment);
             }
-            showFragment(subjectFragment);
         }
     }
 }

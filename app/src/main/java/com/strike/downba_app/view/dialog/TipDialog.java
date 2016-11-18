@@ -1,4 +1,4 @@
-package com.strike.downba_app.dialog;
+package com.strike.downba_app.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -6,11 +6,15 @@ android {
         applicationId "com.strike.downbaapp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.1.6"
+        versionCode 7
+        versionName "1.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [CHANNEL_VALUE: "10000"]
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
     signingConfigs {
         debug {

@@ -15,11 +15,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/tab_text_selector</item>
         <item name="android:textSize">12sp</item>
-        <item name="iconWidth">28dp</item>
-        <item name="iconHeight">28dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:drawablePadding">2dp</item>
+        <item name="iconWidth">@dimen/wdp50</item>
+        <item name="iconHeight">@dimen/wdp50</item>
+        <item name="android:paddingTop">@dimen/wdp8</item>
+        <item name="android:paddingBottom">@dimen/wdp8</item>
+        <item name="android:drawablePadding">@dimen/wdp4</item>
     </style>
     <!-- 自定义进度条 -->
     <style name="ProgressBar_Mini" parent="@android:style/Widget.ProgressBar.Horizontal">

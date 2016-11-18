@@ -35,9 +35,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textSize="@dimen/wdp18"
+            android:textSize="@dimen/wdp21"
             android:ellipsize="end"
-            android:lineSpacingExtra="@dimen/wdp6"
+            android:lineSpacingExtra="@dimen/wdp10"
             android:text="说到模拟经营类游戏，最为大众所知的大概就是在发布短短数天后就登顶安卓游戏下载榜的《卡通农场》了吧，堪称史上最强的农场游戏！"
             android:layout_marginTop="@dimen/wdp20"/>
         <TextView

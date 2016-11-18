@@ -58,6 +58,9 @@ public class BaseRequest {
             rp = new RequestParams(url,null,null,null);
             rp.setRequestBody(sb);
             LogUtil.e(requestData);
+            if (callback instanceof NormalCallBack){
+                ((NormalCallBack) callback).setRequestTime(System.currentTimeMillis());
+            }
             x.http().request(HttpMethod.POST,rp,callback);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
