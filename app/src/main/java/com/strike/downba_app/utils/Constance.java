@@ -37,6 +37,8 @@ public interface Constance {
     int cate_original = 23;//原创的数据库id
     int cate_review = 19;//评测的数据库id
     int cate_news = 22;//行业新闻的数据库id
+    int cate_app = 1;//应用
+    int cate_game= 2;//游戏
 
     String DEFAULT_CHARSET = "UTF-8";
 }

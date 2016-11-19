@@ -17,6 +17,7 @@ import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.PageBean;
 import com.strike.downba_app.http.request.GetAppByCateIdReq;
 import com.strike.downba_app.http.response.GetAppListRsp;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
@@ -68,6 +69,11 @@ public class ListFragment extends BaseFragment {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                if (orderType == Constance.ORDER_HOT){
+                    UiUtils.showTipToast(false,getString(R.string.this_is_last));
+                    UiUtils.stopRefresh(pull_to_refresh);
+                    return;
+                }
                 if (pageNo < total){
                     pageNo ++;
                 }else{
