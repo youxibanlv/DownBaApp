@@ -351,13 +351,17 @@
             android:textColor="@color/text_hit"
             android:textSize="@dimen/wdp20" />
 
-        <ImageView
+        <TextView
             android:id="@+id/btn_send"
-            android:layout_width="@dimen/wdp30"
+            android:layout_width="@dimen/wdp80"
             android:layout_height="@dimen/wdp30"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/wdp20"
-            android:src="@mipmap/icon_search" />
+            android:gravity="center"
+            android:textSize="@dimen/wdp24"
+            android:text="发 送"
+            android:textColor="@color/white"
+             />
     </LinearLayout>
 </RelativeLayout>

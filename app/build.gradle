@@ -6,8 +6,8 @@ android {
         applicationId "com.strike.downbaapp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.1.7"
+        versionCode 8
+        versionName "1.1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [CHANNEL_VALUE: "10000"]
