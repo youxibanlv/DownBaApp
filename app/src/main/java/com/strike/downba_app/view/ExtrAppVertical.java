@@ -34,7 +34,7 @@ public class ExtrAppVertical extends LinearLayout {
     private TextView app_size;
 
     @ViewInject(R.id.app_install)
-    private DownloadBtn app_install;
+    private TextView app_install;
 
     private View view;
 

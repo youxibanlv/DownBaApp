@@ -1,6 +1,6 @@
 package com.strike.downba_app.download;
 
-import android.view.View;
+import android.widget.TextView;
 
 import org.xutils.common.Callback;
 import org.xutils.x;
@@ -13,12 +13,17 @@ import java.io.File;
 public abstract class DownloadViewHolder {
 
     protected DownloadInfo downloadInfo;
+    private TextView textView;
 
-    public DownloadViewHolder(View view, DownloadInfo downloadInfo) {
+    public DownloadViewHolder(TextView view, DownloadInfo downloadInfo) {
         this.downloadInfo = downloadInfo;
+        this.textView = view;
         x.view().inject(this, view);
     }
 
+    public void refresh(String info){
+        textView.setText(info);
+    }
     public final DownloadInfo getDownloadInfo() {
         return downloadInfo;
     }

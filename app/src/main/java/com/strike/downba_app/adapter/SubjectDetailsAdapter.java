@@ -16,7 +16,6 @@ import com.strike.downba_app.activity.ImgDetailsActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downbaapp.R;
 
@@ -112,7 +111,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter<App> {
         TextView version_uptime;
 
         @ViewInject(R.id.tv_down)
-        DownloadBtn tv_down;
+        TextView tv_down;
 
         @ViewInject(R.id.tv_des)
         TextView tv_des;

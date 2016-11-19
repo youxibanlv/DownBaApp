@@ -38,7 +38,6 @@ import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downba_app.utils.UiUtils;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downba_app.view.MyListView;
 import com.strike.downba_app.view.NoScrollGridView;
@@ -75,7 +74,7 @@ public class AppDetailsActivity extends BaseActivity {
     private TextView tv_size;
 
     @ViewInject(R.id.tv_down)
-    private DownloadBtn tv_down;
+    private TextView tv_down;
 
     @ViewInject(R.id.imgList)
     private MyHorizontalScrollView imgList;

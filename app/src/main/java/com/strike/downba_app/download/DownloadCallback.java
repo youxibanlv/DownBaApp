@@ -1,16 +1,9 @@
 package com.strike.downba_app.download;
 
-
-import com.strike.downba_app.utils.DownLoadUtils;
-import com.strike.downba_app.utils.UiUtils;
-import com.strike.downba_app.view.DownloadBtn;
-import com.strike.downbaapp.R;
-
 import org.xutils.common.Callback;
-import org.xutils.ex.HttpException;
-import org.xutils.x;
+import org.xutils.common.util.LogUtil;
+import org.xutils.ex.DbException;
 
-import java.io.EOFException;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
@@ -23,16 +16,16 @@ import java.lang.ref.WeakReference;
         Callback.Cancelable {
 
     private DownloadInfo downloadInfo;
-    private WeakReference<DownloadBtn> viewHolderRef;
+    private WeakReference<DownloadViewHolder> viewHolderRef;
     private DownloadManager downloadManager;
     private boolean cancelled = false;
     private Cancelable cancelable;
 
-    public DownloadCallback(DownloadBtn viewHolder) {
+    public DownloadCallback(DownloadViewHolder viewHolder) {
         this.switchViewHolder(viewHolder);
     }
 
-    public boolean switchViewHolder(DownloadBtn viewHolder) {
+    public boolean switchViewHolder(DownloadViewHolder viewHolder) {
         if (viewHolder == null) return false;
 
         synchronized (DownloadCallback.class) {
@@ -42,7 +35,7 @@ import java.lang.ref.WeakReference;
                 }
             }
             this.downloadInfo = viewHolder.getDownloadInfo();
-            this.viewHolderRef = new WeakReference<DownloadBtn>(viewHolder);
+            this.viewHolderRef = new WeakReference<DownloadViewHolder>(viewHolder);
         }
         return true;
     }
@@ -55,9 +48,9 @@ import java.lang.ref.WeakReference;
         this.cancelable = cancelable;
     }
 
-    private DownloadBtn getViewHolder() {
+    private DownloadViewHolder getViewHolder() {
         if (viewHolderRef == null) return null;
-        DownloadBtn viewHolder = viewHolderRef.get();
+        DownloadViewHolder viewHolder = viewHolderRef.get();
         if (viewHolder != null) {
             DownloadInfo downloadInfo = viewHolder.getDownloadInfo();
             if (this.downloadInfo != null && this.downloadInfo.equals(downloadInfo)) {
@@ -69,47 +62,62 @@ import java.lang.ref.WeakReference;
 
     @Override
     public void onWaiting() {
-        downloadInfo.setState(DownloadState.WAITING);
-        downloadManager.updateDownloadInfo(downloadInfo);
-        DownloadBtn viewHolder = this.getViewHolder();
+        try {
+            downloadInfo.setState(DownloadState.WAITING);
+            downloadManager.updateDownloadInfo(downloadInfo);
+        } catch (DbException ex) {
+            LogUtil.e(ex.getMessage(), ex);
+        }
+        DownloadViewHolder viewHolder = this.getViewHolder();
         if (viewHolder != null) {
-            viewHolder.setText(R.string.queue_down);
+            viewHolder.onWaiting();
         }
     }
 
     @Override
     public void onStarted() {
-        downloadInfo.setState(DownloadState.STARTED);
-        downloadManager.updateDownloadInfo(downloadInfo);
-        DownloadBtn viewHolder = this.getViewHolder();
+        try {
+            downloadInfo.setState(DownloadState.STARTED);
+            downloadManager.updateDownloadInfo(downloadInfo);
+        } catch (DbException ex) {
+            LogUtil.e(ex.getMessage(), ex);
+        }
+        DownloadViewHolder viewHolder = this.getViewHolder();
         if (viewHolder != null) {
-            viewHolder.setText(0 + "%");
+            viewHolder.onStarted();
         }
     }
 
     @Override
     public void onLoading(long total, long current, boolean isDownloading) {
         if (isDownloading) {
-            downloadInfo.setState(DownloadState.STARTED);
-            downloadInfo.setFileLength(total);
-            downloadInfo.setProgress((int) (current * 100 / total));
-            downloadManager.updateDownloadInfo(downloadInfo);
-        }
-        DownloadBtn viewHolder = this.getViewHolder();
-        if (viewHolder != null) {
-            viewHolder.setText(downloadInfo.getProgress() + "%");
+            try {
+                downloadInfo.setState(DownloadState.STARTED);
+                downloadInfo.setFileLength(total);
+                downloadInfo.setProgress((int) (current * 100 / total));
+                downloadManager.updateDownloadInfo(downloadInfo);
+            } catch (DbException ex) {
+                LogUtil.e(ex.getMessage(), ex);
+            }
+            DownloadViewHolder viewHolder = this.getViewHolder();
+            if (viewHolder != null) {
+                viewHolder.onLoading(total, current);
+            }
         }
     }
 
     @Override
     public void onSuccess(File result) {
         synchronized (DownloadCallback.class) {
-            downloadInfo.setState(DownloadState.FINISHED);
-            downloadManager.updateDownloadInfo(downloadInfo);
-            DownloadBtn viewHolder = this.getViewHolder();
+            try {
+                downloadInfo.setState(DownloadState.FINISHED);
+                downloadManager.updateDownloadInfo(downloadInfo);
+            } catch (DbException ex) {
+                LogUtil.e(ex.getMessage(), ex);
+            }
+            DownloadViewHolder viewHolder = this.getViewHolder();
             if (viewHolder != null) {
-                DownLoadUtils.install(downloadInfo);
-                viewHolder.setText(R.string.open);
+                viewHolder.onSuccess(result);
             }
         }
     }
@@ -117,25 +125,15 @@ import java.lang.ref.WeakReference;
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
         synchronized (DownloadCallback.class) {
-            if (downloadInfo == null){
-                switchViewHolder(viewHolderRef.get());
+            try {
+                downloadInfo.setState(DownloadState.ERROR);
+                downloadManager.updateDownloadInfo(downloadInfo);
+            } catch (DbException e) {
+                LogUtil.e(e.getMessage(), e);
             }
-            downloadInfo.setState(DownloadState.ERROR);
-            downloadManager.updateDownloadInfo(downloadInfo);
-            DownloadBtn viewHolder = this.getViewHolder();
-            if (ex instanceof EOFException){
-                DownLoadUtils.deleteApk(downloadInfo);
-                downloadManager.removeDownload(downloadInfo);
-                UiUtils.showTipToast(false,x.app().getString(R.string.server_busy));
-            }
-            if (ex instanceof HttpException){
-                HttpException e = (HttpException) ex;
-                if (e.getCode() == 404){
-                    UiUtils.showTipToast(false, x.app().getString(R.string.server_not_found));
-                }
-            }
+            DownloadViewHolder viewHolder = this.getViewHolder();
             if (viewHolder != null) {
-                viewHolder.setText(R.string.restart_down);
+                viewHolder.onError(ex, isOnCallback);
             }
         }
     }
@@ -143,11 +141,15 @@ import java.lang.ref.WeakReference;
     @Override
     public void onCancelled(CancelledException cex) {
         synchronized (DownloadCallback.class) {
-            downloadInfo.setState(DownloadState.STOPPED);
-            downloadManager.updateDownloadInfo(downloadInfo);
-            DownloadBtn viewHolder = this.getViewHolder();
+            try {
+                downloadInfo.setState(DownloadState.STOPPED);
+                downloadManager.updateDownloadInfo(downloadInfo);
+            } catch (DbException ex) {
+                LogUtil.e(ex.getMessage(), ex);
+            }
+            DownloadViewHolder viewHolder = this.getViewHolder();
             if (viewHolder != null) {
-                viewHolder.setText(R.string.continue_down);
+                viewHolder.onCancelled(cex);
             }
         }
     }

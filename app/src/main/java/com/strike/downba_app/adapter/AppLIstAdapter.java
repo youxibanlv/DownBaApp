@@ -3,7 +3,6 @@ package com.strike.downba_app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.NumberUtil;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -106,7 +104,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         TextView tv_des;
 
         @ViewInject(R.id.tv_down)
-        DownloadBtn tv_down;
+        TextView tv_down;
 
         @ViewInject(R.id.tv_down_num)
         TextView tv_down_num;

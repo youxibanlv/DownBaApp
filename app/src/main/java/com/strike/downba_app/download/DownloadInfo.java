@@ -8,7 +8,7 @@ import org.xutils.db.annotation.Table;
  * Date: 13-11-10
  * Time: 下午8:11
  */
-@Table(name = "download", onCreated = "CREATE UNIQUE INDEX index_name ON download(fileSavePath,objId)")
+@Table(name = "download", onCreated = "CREATE UNIQUE INDEX index_name ON download(objId,fileSavePath)")
 public class DownloadInfo {
 
     public DownloadInfo() {
@@ -71,7 +71,7 @@ public class DownloadInfo {
     }
 
     public void setObjId(String objId) {
-        this.objId = objId;
+        this.objId = this.objId;
     }
 
     public String getFileSavePath() {
@@ -113,7 +113,6 @@ public class DownloadInfo {
     public void setAutoRename(boolean autoRename) {
         this.autoRename = autoRename;
     }
-
 
     @Override
     public boolean equals(Object o) {

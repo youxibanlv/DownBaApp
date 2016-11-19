@@ -96,9 +96,11 @@
         android:paddingBottom="@dimen/wdp10"
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
-        <com.strike.downba_app.view.DownloadBtn
+        <TextView
             android:id="@+id/tv_down"
             android:layout_width="match_parent"
+            android:background="@drawable/download_bg"
+            android:gravity="center"
             android:layout_height="@dimen/wdp40"
             android:text="@string/install"
             android:textSize="@dimen/wdp20"/>

@@ -1,6 +1,6 @@
 package com.strike.downba_app.download;
 
-import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xutils.common.Callback;
@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class DefaultDownloadViewHolder extends DownloadViewHolder {
 
-    public DefaultDownloadViewHolder(View view, DownloadInfo downloadInfo) {
+    public DefaultDownloadViewHolder(TextView view, DownloadInfo downloadInfo) {
         super(view, downloadInfo);
     }
 

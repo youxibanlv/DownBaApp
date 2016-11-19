@@ -63,10 +63,11 @@
             android:numStars="1"
             />
     </RelativeLayout>
-    <com.strike.downba_app.view.DownloadBtn
+    <TextView
         android:id="@+id/app_install"
         android:layout_width="@dimen/wdp90"
         android:layout_height="@dimen/wdp40"
+        android:background="@drawable/download_bg"
         android:layout_marginTop="@dimen/wdp11"
         android:text="@string/install"
         android:textSize="@dimen/wdp18"

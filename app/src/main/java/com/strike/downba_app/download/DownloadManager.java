@@ -1,10 +1,5 @@
 package com.strike.downba_app.download;
 
-
-import com.strike.downba_app.base.AppConfig;
-import com.strike.downba_app.db.table.App;
-import com.strike.downba_app.view.DownloadBtn;
-
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.common.task.PriorityExecutor;
@@ -38,14 +33,12 @@ public final class DownloadManager {
 
     private final DbManager db;
     private final Executor executor = new PriorityExecutor(MAX_DOWNLOAD_THREAD, true);
-    private final List<DownloadInfo> downloadInfoList = new ArrayList<DownloadInfo>();
+    private final List<DownloadInfo> downloadInfoList = new ArrayList<>();
     private final ConcurrentHashMap<DownloadInfo, DownloadCallback>
-            callbackMap = new ConcurrentHashMap<DownloadInfo, DownloadCallback>(5);
+            callbackMap = new ConcurrentHashMap<>(5);
 
     private DownloadManager() {
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig()
-                .setDbName("download")
-                .setDbVersion(1);
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("download").setDbVersion(1);
         db = x.getDb(daoConfig);
         try {
             List<DownloadInfo> infoList = db.selector(DownloadInfo.class).findAll();
@@ -74,12 +67,8 @@ public final class DownloadManager {
         return instance;
     }
 
-    public void updateDownloadInfo(DownloadInfo info) {
-        try {
-            db.update(info);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+    public void updateDownloadInfo(DownloadInfo info) throws DbException {
+        db.update(info);
     }
 
     public int getDownloadListCount() {
@@ -89,41 +78,21 @@ public final class DownloadManager {
     public DownloadInfo getDownloadInfo(int index) {
         return downloadInfoList.get(index);
     }
-    public DownloadInfo getDownloadInfo(App app) {
-        DownloadInfo info = null;
-        try {
-            info = db.selector(DownloadInfo.class).where("objId","=",app.getApp_id()).findFirst();
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
-        return info;
-    }
-    public synchronized void startDownload(String url, App app, DownloadBtn viewHolder) {
-        String objId = app.getApp_id();
-        String path = AppConfig.getBasePath()+"apk/";
-        String savePath = path+app.getApp_title()+".apk";
-        boolean autoResume = true;
-        boolean autoRename = true;
 
-        File dir = new File(path);
-        if (!dir.exists()){
-            dir.mkdirs();
-        }
+    public synchronized void startDownload(String url, String label, String savePath,
+                                           boolean autoResume, boolean autoRename,
+                                           DownloadViewHolder viewHolder) throws DbException {
+
         String fileSavePath = new File(savePath).getAbsolutePath();
-        DownloadInfo downloadInfo = null;
-        try {
-            downloadInfo = db.selector(DownloadInfo.class)
-                    .where("objId", "=", objId)
-                    .and("fileSavePath", "=", fileSavePath)
-                    .findFirst();
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+        DownloadInfo downloadInfo = db.selector(DownloadInfo.class)
+                .where("label", "=", label)
+                .and("fileSavePath", "=", fileSavePath)
+                .findFirst();
         if (downloadInfo != null) {
             DownloadCallback callback = callbackMap.get(downloadInfo);
             if (callback != null) {
                 if (viewHolder == null) {
-                    return;
+                    viewHolder = new DefaultDownloadViewHolder(null, downloadInfo);
                 }
                 if (callback.switchViewHolder(viewHolder)) {
                     return;
@@ -139,18 +108,14 @@ public final class DownloadManager {
             downloadInfo.setUrl(url);
             downloadInfo.setAutoRename(autoRename);
             downloadInfo.setAutoResume(autoResume);
-            downloadInfo.setObjId(objId);
+            downloadInfo.setObjId(label);
             downloadInfo.setFileSavePath(fileSavePath);
-            try {
-                db.saveBindingId(downloadInfo);
-            } catch (DbException e) {
-                e.printStackTrace();
-            }
+            db.saveBindingId(downloadInfo);
         }
 
         // start downloading
         if (viewHolder == null) {
-//            viewHolder = new DefaultDownloadViewHolder(null, downloadInfo);
+            viewHolder = new DefaultDownloadViewHolder(null, downloadInfo);
         } else {
             viewHolder.update(downloadInfo);
         }
@@ -178,29 +143,13 @@ public final class DownloadManager {
 
     public void stopDownload(int index) {
         DownloadInfo downloadInfo = downloadInfoList.get(index);
-        stopDownload(downloadInfo,null);
+        stopDownload(downloadInfo);
     }
 
-    public void stopDownload(DownloadInfo downloadInfo,DownloadBtn viewHolder) {
+    public void stopDownload(DownloadInfo downloadInfo) {
         Callback.Cancelable cancelable = callbackMap.get(downloadInfo);
         if (cancelable != null) {
             cancelable.cancel();
-            downloadInfo.setState(DownloadState.STOPPED);
-                updateDownloadInfo(downloadInfo);
-        }else {
-            DownloadCallback callback = new DownloadCallback(viewHolder);
-            callback.setDownloadManager(this);
-            viewHolder.update(downloadInfo);
-            callback.switchViewHolder(viewHolder);
-            RequestParams params = new RequestParams(downloadInfo.getUrl());
-            params.setAutoResume(downloadInfo.isAutoResume());
-            params.setAutoRename(downloadInfo.isAutoRename());
-            params.setSaveFilePath(downloadInfo.getFileSavePath());
-            params.setExecutor(executor);
-            params.setCancelFast(true);
-            cancelable = x.http().get(params, callback);
-            callback.setCancelable(cancelable);
-            callbackMap.put(downloadInfo, callback);
         }
     }
 
@@ -216,17 +165,13 @@ public final class DownloadManager {
     public void removeDownload(int index) throws DbException {
         DownloadInfo downloadInfo = downloadInfoList.get(index);
         db.delete(downloadInfo);
-        stopDownload(downloadInfo,null);
+        stopDownload(downloadInfo);
         downloadInfoList.remove(index);
     }
 
-    public void removeDownload(DownloadInfo downloadInfo) {
-        try {
-            db.delete(downloadInfo);
-            stopDownload(downloadInfo,null);
-            downloadInfoList.remove(downloadInfo);
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+    public void removeDownload(DownloadInfo downloadInfo) throws DbException {
+        db.delete(downloadInfo);
+        stopDownload(downloadInfo);
+        downloadInfoList.remove(downloadInfo);
     }
 }

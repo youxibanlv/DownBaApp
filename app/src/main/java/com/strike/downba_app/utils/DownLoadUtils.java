@@ -6,19 +6,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.view.View;
+import android.widget.TextView;
 
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.DownloadManager;
-import com.strike.downba_app.download.DownloadState;
+import com.strike.downba_app.download.DownloadViewHolder;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.request.DownloadUrlReq;
 import com.strike.downba_app.http.response.DownloadUrlRsp;
-import com.strike.downba_app.view.DownloadBtn;
-import com.strike.downbaapp.R;
 
 import org.xutils.x;
 
@@ -71,7 +69,7 @@ public class DownLoadUtils {
         }
     }
 
-    public void download(final App app, final DownloadBtn downloadBtn) {
+    public void download(final App app, final DownloadViewHolder downloadBtn) {
         DownloadUrlReq req = new DownloadUrlReq(app.getApp_id(), app.getApp_version(),app.getUid());
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -81,7 +79,7 @@ public class DownLoadUtils {
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
                         String url = rsp.resultData;
                         if (!TextUtils.isEmpty(url)) {
-                            manager.startDownload(url, app, downloadBtn);
+//                            manager.startDownload(url, app, downloadBtn);
                         }
                     }
                 }
@@ -95,75 +93,75 @@ public class DownLoadUtils {
         });
     }
 
-    public void initDownLoad(final App app, final DownloadBtn textView) {
-        DownloadInfo info = manager.getDownloadInfo(app);
+    public void initDownLoad(final App app, final TextView textView) {
+//        DownloadInfo info = manager.getDownloadInfo(app);
         //检查是否存在下载记录,初始化下载按钮显示文字
-        if (info != null) {
-            switch (info.getState()) {
-                case WAITING:
-                    manager.startDownload(info.getUrl(),app,textView);
-                    textView.setText(R.string.queue_down);
-                    break;
-                case STARTED:
-                    manager.startDownload(info.getUrl(),app,textView);
-                    textView.setText(info.getProgress() + "%");
-                    break;
-                case FINISHED:
-                    textView.setText(R.string.install);
-                    break;
-                case STOPPED:
-                    textView.setText(R.string.continue_down);
-                    break;
-                case ERROR:
-                    textView.setText(R.string.restart_down);
-                    break;
-            }
-        } else {
-            textView.setText(R.string.free_down);
-        }
-        //为按钮添加点击事件
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DownloadInfo downloadInfo = manager.getDownloadInfo(app);
-                if (System.currentTimeMillis() - lastClick < 2000) {
-                    UiUtils.showTipToast(false, context.getString(R.string.click_too_fast));
-                    return;
-                } else {
-                    lastClick = System.currentTimeMillis();
-                }
-                if (downloadInfo != null) {
-                    switch (downloadInfo.getState()) {
-                        case WAITING:
-                            manager.startDownload(downloadInfo.getUrl(),app,textView);
-                            break;
-                        case STARTED:
-                            textView.setText(R.string.continue_down);
-                            manager.stopDownload(downloadInfo,textView);
-                            break;
-                        case FINISHED:
-                            if (checkApk(downloadInfo)) {
-                                install(downloadInfo);
-                            } else {
-                                deleteApk(downloadInfo);
-                                downloadInfo.setState(DownloadState.ERROR);
-                                manager.removeDownload(downloadInfo);
-                                UiUtils.showTipToast(false, context.getString(R.string.retry_download));
-                                textView.setText(R.string.restart_down);
-                            }
-                            break;
-                        case STOPPED:
-                            textView.setText(downloadInfo.getProgress() + "%");
-                            manager.startDownload(downloadInfo.getUrl(), app, textView);
-                            break;
-                        case ERROR:
-                            manager.startDownload(downloadInfo.getUrl(), app, textView);
-                            break;
-                    }
-                } else {
-                    download(app, textView);
-                }
-            }
-        });
+//        if (info != null) {
+//            switch (info.getState()) {
+//                case WAITING:
+//                    manager.startDownload(info.getUrl(),app,textView);
+//                    textView.setText(R.string.queue_down);
+//                    break;
+//                case STARTED:
+//                    manager.startDownload(info.getUrl(),app,textView);
+//                    textView.setText(info.getProgress() + "%");
+//                    break;
+//                case FINISHED:
+//                    textView.setText(R.string.install);
+//                    break;
+//                case STOPPED:
+//                    textView.setText(R.string.continue_down);
+//                    break;
+//                case ERROR:
+//                    textView.setText(R.string.restart_down);
+//                    break;
+//            }
+//        } else {
+//            textView.setText(R.string.free_down);
+//        }
+//        //为按钮添加点击事件
+//        textView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DownloadInfo downloadInfo = manager.getDownloadInfo(app);
+//                if (System.currentTimeMillis() - lastClick < 2000) {
+//                    UiUtils.showTipToast(false, context.getString(R.string.click_too_fast));
+//                    return;
+//                } else {
+//                    lastClick = System.currentTimeMillis();
+//                }
+//                if (downloadInfo != null) {
+//                    switch (downloadInfo.getState()) {
+//                        case WAITING:
+//                            manager.startDownload(downloadInfo.getUrl(),app,textView);
+//                            break;
+//                        case STARTED:
+//                            textView.setText(R.string.continue_down);
+//                            manager.stopDownload(downloadInfo,textView);
+//                            break;
+//                        case FINISHED:
+//                            if (checkApk(downloadInfo)) {
+//                                install(downloadInfo);
+//                            } else {
+//                                deleteApk(downloadInfo);
+//                                downloadInfo.setState(DownloadState.ERROR);
+//                                manager.removeDownload(downloadInfo);
+//                                UiUtils.showTipToast(false, context.getString(R.string.retry_download));
+//                                textView.setText(R.string.restart_down);
+//                            }
+//                            break;
+//                        case STOPPED:
+//                            textView.setText(downloadInfo.getProgress() + "%");
+//                            manager.startDownload(downloadInfo.getUrl(), app, textView);
+//                            break;
+//                        case ERROR:
+//                            manager.startDownload(downloadInfo.getUrl(), app, textView);
+//                            break;
+//                    }
+//                } else {
+//                    download(app, textView);
+//                }
+//            }
+//        });
     }
 }
