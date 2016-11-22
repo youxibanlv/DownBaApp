@@ -1,6 +1,8 @@
 package com.strike.downba_app.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -44,12 +46,28 @@ public class ListFragment extends BaseFragment {
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 7,total = 0;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constance.ACTION_LOADING.equals(intent.getAction())){
+                int objId = intent.getIntExtra(Constance.APP_ID, -1);
+                int state = intent.getIntExtra(Constance.STATE, -1);
+            }
+        }
+    };
+
 
     private Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (cateId == null){
+            cateId = savedInstanceState.getInt("cate_id");
+        }
+        if (orderType == null){
+            orderType = savedInstanceState.getInt("orderType");
+        }
         context = getContext();
         adapter = new AppLIstAdapter(context);
     }
@@ -90,6 +108,17 @@ public class ListFragment extends BaseFragment {
     public void refresh(int orderType,int cateId){
         this.cateId = cateId;
         this.orderType = orderType;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (cateId != null){
+            outState.putInt("cate_id",cateId);
+        }
+       if (orderType != null){
+           outState.putInt("orderType",orderType);
+       }
     }
 
     @Override

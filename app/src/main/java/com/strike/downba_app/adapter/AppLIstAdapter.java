@@ -15,19 +15,27 @@ import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
+import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by strike on 16/6/14.
  */
 public class AppLIstAdapter extends MyBaseAdapter<App> {
 
+    private List<View> viewList = new ArrayList<>(); //View对象集合
+    private DownLoadUtils utils;
     public AppLIstAdapter(Context context) {
         super(context);
+        utils = new DownLoadUtils(context);
     }
 
     @Override
@@ -65,7 +73,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             int num = NumberUtil.parseToInt(app.getApp_down());
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-//            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
+
+            utils.initDownLoad(app,holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,6 +87,11 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                 }
             });
         }
+        /* 标识View对象 */
+        //将list_view的ID作为Tag的Key值
+        //此处将位置信息作为标识传递
+        convertView.setTag(R.id.pull_to_refresh,position);
+        viewList.add(convertView);
         return convertView;
     }
 
@@ -104,7 +118,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         TextView tv_des;
 
         @ViewInject(R.id.tv_down)
-        TextView tv_down;
+        DownloadBtn tv_down;
 
         @ViewInject(R.id.tv_down_num)
         TextView tv_down_num;

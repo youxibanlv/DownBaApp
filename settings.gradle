@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':EventBusAnnotationProcessor', ':EventBusTest', ':EventBusTestSubscriberInJar', ':EventBusPerformance', ':EventBus'

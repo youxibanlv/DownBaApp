@@ -6,17 +6,20 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.widget.TextView;
+import android.view.View;
 
+import com.strike.downba_app.base.AppConfig;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.DownloadManager;
-import com.strike.downba_app.download.DownloadViewHolder;
+import com.strike.downba_app.download.DownloadState;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.request.DownloadUrlReq;
 import com.strike.downba_app.http.response.DownloadUrlRsp;
+import com.strike.downba_app.view.DownloadBtn;
+import com.strike.downbaapp.R;
 
 import org.xutils.x;
 
@@ -31,9 +34,12 @@ public class DownLoadUtils {
     private Context context;
     private DownloadManager manager;
 
+    private String fileSavePath;
+
     public DownLoadUtils(Context context) {
         this.context = context;
         manager = DownloadManager.getInstance();
+        fileSavePath = AppConfig.DOWNLOAD_PATH;
     }
 
     //安装应用
@@ -69,8 +75,8 @@ public class DownLoadUtils {
         }
     }
 
-    public void download(final App app, final DownloadViewHolder downloadBtn) {
-        DownloadUrlReq req = new DownloadUrlReq(app.getApp_id(), app.getApp_version(),app.getUid());
+    public void download(final App app, final DownloadBtn downloadBtn) {
+        DownloadUrlReq req = new DownloadUrlReq(app.getApp_id(), app.getApp_version(), app.getUid());
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
@@ -79,7 +85,7 @@ public class DownLoadUtils {
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
                         String url = rsp.resultData;
                         if (!TextUtils.isEmpty(url)) {
-//                            manager.startDownload(url, app, downloadBtn);
+                            manager.startDownload(url, NumberUtil.parseToInt(app.getApp_id()), fileSavePath + app.getApp_title() + ".apk", downloadBtn);
                         }
                     }
                 }
@@ -92,76 +98,145 @@ public class DownLoadUtils {
             }
         });
     }
-
-    public void initDownLoad(final App app, final TextView textView) {
-//        DownloadInfo info = manager.getDownloadInfo(app);
+    //初始化下载按钮
+    public void initDownLoad(final App app, final DownloadBtn holder) {
+        DownloadInfo info = manager.getInfoByObjId(NumberUtil.parseToInt(app.getApp_id()));
         //检查是否存在下载记录,初始化下载按钮显示文字
-//        if (info != null) {
-//            switch (info.getState()) {
-//                case WAITING:
-//                    manager.startDownload(info.getUrl(),app,textView);
-//                    textView.setText(R.string.queue_down);
-//                    break;
-//                case STARTED:
-//                    manager.startDownload(info.getUrl(),app,textView);
-//                    textView.setText(info.getProgress() + "%");
-//                    break;
-//                case FINISHED:
-//                    textView.setText(R.string.install);
-//                    break;
-//                case STOPPED:
-//                    textView.setText(R.string.continue_down);
-//                    break;
-//                case ERROR:
-//                    textView.setText(R.string.restart_down);
-//                    break;
-//            }
-//        } else {
-//            textView.setText(R.string.free_down);
+        if (info != null) {
+            switch (info.getState()) {
+                case WAITING:
+                    holder.refresh(info.getObjId(),"队列中。。。");
+                    break;
+                case STARTED:
+                    holder.refresh(info.getObjId(),info.getProgress() + "%");
+                    break;
+                case FINISHED:
+                    holder.refresh(info.getObjId(),"打 开");
+                    break;
+                case STOPPED:
+                    holder.refresh(info.getObjId(),"继续下载");
+                    break;
+                case ERROR:
+                    holder.refresh(info.getObjId(),"重新开始");
+                    break;
+                default:
+                    holder.refresh(info.getObjId(),"安 装");
+                    break;
+            }
+        }else{
+            holder.refresh(NumberUtil.parseToInt(app.getApp_id()),"安 装");
+        }
+        //为按钮添加点击事件
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DownloadInfo downloadInfo = manager.getInfoByObjId(NumberUtil.parseToInt(app.getApp_id()));
+                if (System.currentTimeMillis() - lastClick < 2000) {
+                    UiUtils.showTipToast(false, context.getString(R.string.click_too_fast));
+                    return;
+                } else {
+                    lastClick = System.currentTimeMillis();
+                }
+                if (downloadInfo != null) {
+                    switch (downloadInfo.getState()) {
+                        case WAITING:
+                            manager.startDownload(downloadInfo.getUrl(), downloadInfo.getObjId(), downloadInfo.getFileSavePath(), holder);
+                            break;
+                        case STARTED:
+                            manager.stopDownload(downloadInfo);
+                            break;
+                        case FINISHED:
+                            if (checkApk(downloadInfo)) {
+                                install(downloadInfo);
+                            } else {
+                                deleteApk(downloadInfo);
+                                downloadInfo.setState(DownloadState.ERROR);
+                                manager.removeDownload(downloadInfo);
+                                UiUtils.showTipToast(false, context.getString(R.string.retry_download));
+                                holder.refresh(downloadInfo.getObjId(),"重新下载");
+                            }
+                            break;
+                        case STOPPED:
+                            manager.startDownload(downloadInfo.getUrl(), downloadInfo.getObjId(), downloadInfo.getFileSavePath(), holder);
+                            break;
+                        case ERROR:
+                            manager.startDownload(downloadInfo.getUrl(), downloadInfo.getObjId(), downloadInfo.getFileSavePath(), holder);
+                            break;
+                    }
+                } else {
+                    download(app, holder);
+                }
+            }
+        });
+
+    }
+
+//    class MyBroadcastReceiver extends BroadcastReceiver{
+//
+//        private WeakReference<DownloadBtn> viewHolderRef;
+//        private DownloadInfo info;
+//
+//        public MyBroadcastReceiver(DownloadBtn holder) {
+//            viewHolderRef = new WeakReference<>(holder);
+//            info = holder.getDownloadInfo();
 //        }
-//        //为按钮添加点击事件
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DownloadInfo downloadInfo = manager.getDownloadInfo(app);
-//                if (System.currentTimeMillis() - lastClick < 2000) {
-//                    UiUtils.showTipToast(false, context.getString(R.string.click_too_fast));
-//                    return;
-//                } else {
-//                    lastClick = System.currentTimeMillis();
-//                }
-//                if (downloadInfo != null) {
-//                    switch (downloadInfo.getState()) {
-//                        case WAITING:
-//                            manager.startDownload(downloadInfo.getUrl(),app,textView);
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (viewHolderRef == null || info == null){
+//                return;
+//            }
+//            DownloadBtn viewHolder = viewHolderRef.get();
+//            if (viewHolder == null){
+//                return;
+//            }
+//            int objId = intent.getIntExtra(Constance.APP_ID, -1);
+//            if (objId != -1 && objId == info.getObjId()) {
+//                int state = intent.getIntExtra(Constance.STATE, -1);
+//                if (state != -1) {
+//                    switch (state) {
+//                        case Constance.WAITTING:
+//                            viewHolder.refresh(objId,"队列中。。");
 //                            break;
-//                        case STARTED:
-//                            textView.setText(R.string.continue_down);
-//                            manager.stopDownload(downloadInfo,textView);
+//                        case Constance.LOADING:
+//                            viewHolder.refresh(objId,info.getProgress() + "%");
 //                            break;
-//                        case FINISHED:
-//                            if (checkApk(downloadInfo)) {
-//                                install(downloadInfo);
+//                        case Constance.COMPLETE:
+//                            //安装apk
+//                            if (checkApk(info)) {
+//                                install(info);
+//                                viewHolder.refresh(objId,"打 开");
 //                            } else {
-//                                deleteApk(downloadInfo);
-//                                downloadInfo.setState(DownloadState.ERROR);
-//                                manager.removeDownload(downloadInfo);
-//                                UiUtils.showTipToast(false, context.getString(R.string.retry_download));
-//                                textView.setText(R.string.restart_down);
+//                                deleteApk(info);
+//                                info.setState(DownloadState.ERROR);
+//                                viewHolder.refresh(objId,"重新下载");
 //                            }
 //                            break;
-//                        case STOPPED:
-//                            textView.setText(downloadInfo.getProgress() + "%");
-//                            manager.startDownload(downloadInfo.getUrl(), app, textView);
+//                        case Constance.FAILD:
+//                            viewHolder.refresh(objId,"重新下载");
 //                            break;
-//                        case ERROR:
-//                            manager.startDownload(downloadInfo.getUrl(), app, textView);
+//                        case Constance.PAUSE:
+//                            viewHolder.refresh(objId,"继续下载");
 //                            break;
 //                    }
-//                } else {
-//                    download(app, textView);
 //                }
 //            }
-//        });
-    }
+//        }
+//    }
+//
+//    //注册广播，更新下载进度
+//    public void registReciver(DownloadBtn holder) {
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Constance.ACTION_LOADING);
+//        MyBroadcastReceiver receiver = new MyBroadcastReceiver(holder);
+//        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+//        localBroadcastManager.registerReceiver(receiver, intentFilter);
+//        map.put(holder, receiver);
+//    }
+//
+//    public void unRigistReciver(MyBroadcastReceiver receiver,DownloadBtn btn){
+//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+//        manager.unregisterReceiver(receiver);
+//        map.remove(btn);
+//    }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -34,13 +35,15 @@ public class ExtrAppVertical extends LinearLayout {
     private TextView app_size;
 
     @ViewInject(R.id.app_install)
-    private TextView app_install;
+    private DownloadBtn app_install;
 
     private View view;
+    private DownLoadUtils utils;
 
     public ExtrAppVertical(Context context, AttributeSet attrs) {
         super(context, attrs);
         view = LayoutInflater.from(context).inflate(R.layout.app_v, this, true);
+        utils = new DownLoadUtils(context);
         x.view().inject(view);
     }
 
@@ -60,6 +63,9 @@ public class ExtrAppVertical extends LinearLayout {
 
     public void setApp(App app){
         String appLogo = app.getApp_logo();
+        if (app != null){
+            utils.initDownLoad(app,app_install);
+        }
        if (app_icon != null && appLogo != null && !"".equals(appLogo)){
            x.image().bind(app_icon,app.getApp_logo(), ImgConfig.getImgOption());
        }

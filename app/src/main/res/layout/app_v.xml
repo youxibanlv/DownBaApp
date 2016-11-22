@@ -63,13 +63,15 @@
             android:numStars="1"
             />
     </RelativeLayout>
-    <TextView
+    <com.strike.downba_app.view.DownloadBtn
         android:id="@+id/app_install"
         android:layout_width="@dimen/wdp90"
         android:layout_height="@dimen/wdp40"
         android:background="@drawable/download_bg"
         android:layout_marginTop="@dimen/wdp11"
+        android:textColor="@color/white"
+        android:lines="1"
         android:text="@string/install"
-        android:textSize="@dimen/wdp18"
+        android:textSize="@dimen/wdp20"
         android:gravity="center"/>
 </LinearLayout>
