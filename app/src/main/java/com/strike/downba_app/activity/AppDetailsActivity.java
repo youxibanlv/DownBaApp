@@ -1,5 +1,7 @@
 package com.strike.downba_app.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,7 +40,6 @@ import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downba_app.utils.UiUtils;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downba_app.view.MyListView;
 import com.strike.downba_app.view.NoScrollGridView;
@@ -75,7 +76,7 @@ public class AppDetailsActivity extends BaseActivity {
     private TextView tv_size;
 
     @ViewInject(R.id.tv_down)
-    private DownloadBtn tv_down;
+    private TextView tv_down;
 
     @ViewInject(R.id.imgList)
     private MyHorizontalScrollView imgList;
@@ -104,9 +105,6 @@ public class AppDetailsActivity extends BaseActivity {
     @ViewInject(R.id.comment_content)
     private EditText comment_content;
 
-
-    private DownLoadUtils downloadUtils;
-
     private HorizontalScrollViewAdapter adapter;
 
     private CommentAdapter commentAdapter;
@@ -114,12 +112,45 @@ public class AppDetailsActivity extends BaseActivity {
 
     private App app;
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constance.ACTION_DOWNLOAD.equals(intent.getAction())){
+                Bundle bundle = intent.getExtras();
+                String objId = bundle.getString(Constance.APP_ID,null);
+                int progress = bundle.getInt(Constance.PROGRESS,-1);
+                int state = bundle.getInt(Constance.STATE,-1);
+                if (objId != null && objId.equals(app.getApp_id())){
+                    switch (state){
+                        case Constance.LOADING:
+                            if (progress!= -1){
+                                tv_down.setText(progress+"%");
+                            }
+                            break;
+                        case Constance.PAUSE:
+                             tv_down.setText("继续下载");
+                            break;
+                        case Constance.COMPLETE:
+                             tv_down.setText("打 开");
+                            break;
+                        case Constance.WAITTING:
+                             tv_down.setText("等待中。。");
+                            break;
+                        default:
+                             tv_down.setText("下 载");
+                    }
+                }
+            }
+        }
+    };
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        downloadUtils = new DownLoadUtils(this);
         commentAdapter = new CommentAdapter(this);
         suspectAdapter = new GridRecommendAdapter(this);
+        DownLoadUtils.registReciver(this,receiver);
         try {
             app = (App) getIntent().getExtras().getSerializable(Constance.APP);
             initView();
@@ -148,6 +179,12 @@ public class AppDetailsActivity extends BaseActivity {
             getCate(NumberUtil.parseToInt(app.getLast_cate_id()));
             getSuspect();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DownLoadUtils.unRegistReciver(this,receiver);
     }
 
     @Event(value = {R.id.iv_back,R.id.des_open,R.id.comment_open,R.id.btn_send})
@@ -331,7 +368,7 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void initView() {
-        downloadUtils.initDownLoad(app, tv_down);
+        DownLoadUtils.initDownLoad(app,tv_down,-1);
         if (app.getApp_logo() != null) {
             x.image().bind(iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
         }

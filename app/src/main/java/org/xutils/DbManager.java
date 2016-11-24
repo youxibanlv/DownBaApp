@@ -162,7 +162,7 @@ public interface DbManager extends Closeable {
     public static class DaoConfig {
         private File dbDir;
         private String dbName = "xUtils.db"; // default db name
-        private int dbVersion = 2;
+        private int dbVersion = 1;
         private boolean allowTransaction = true;
         private DbUpgradeListener dbUpgradeListener;
         private TableCreateListener tableCreateListener;

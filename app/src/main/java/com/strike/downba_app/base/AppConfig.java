@@ -30,9 +30,9 @@ public class AppConfig {
      */
     public static final String LOG_PATH = getBasePath() + "/log/";
     /**
-     * 下载应用的的存储路径
+     * 下载文件的存储路径
      */
-    public static final String DOWNLOAD_PATH = getBasePath() + "/apk/";
+    public static final String DOWN_PATH = getBasePath() + "/apk/";
     /**
      * 默认的字符格式
      */
@@ -53,5 +53,5 @@ public class AppConfig {
      */
     public static boolean DEBUG = true;
 
-    public static final String DOWNLOAD_APK_NAME = "DownBaApp.apk";
+    public static final String DOWNLOAD_APK_NAME = "82down.apk";
 }

@@ -17,7 +17,6 @@ import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
-import com.strike.downba_app.view.DownloadBtn;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -31,11 +30,45 @@ import java.util.List;
  */
 public class AppLIstAdapter extends MyBaseAdapter<App> {
 
-    private List<View> viewList = new ArrayList<>(); //View对象集合
-    private DownLoadUtils utils;
+    private List<View> views = new ArrayList<>();
     public AppLIstAdapter(Context context) {
         super(context);
-        utils = new DownLoadUtils(context);
+    }
+
+    public void refreshHolder(String objid,Integer positon,int state,int progress){
+        if (positon != -1){
+            View view = null;
+            for (View v :views){
+                if (v.getTag(R.id.pull_to_refresh)== positon){
+                    view = v;
+                    break;
+                }
+            }
+            App app = getItem(positon);
+            if (view != null && app.getApp_id().equals(objid)){
+                AppListViewHolder holder = (AppListViewHolder) view.getTag();
+                if (holder!= null){
+                    switch (state){
+                        case Constance.LOADING:
+                            if (progress!= -1){
+                                holder.tv_down.setText(progress+"%");
+                            }
+                            break;
+                        case Constance.PAUSE:
+                            holder.tv_down.setText("继续下载");
+                            break;
+                        case Constance.COMPLETE:
+                            holder.tv_down.setText("打 开");
+                            break;
+                        case Constance.WAITTING:
+                            holder.tv_down.setText("等待中。。");
+                            break;
+                        default:
+                            holder.tv_down.setText("下 载");
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -73,8 +106,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             int num = NumberUtil.parseToInt(app.getApp_down());
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-
-            utils.initDownLoad(app,holder.tv_down);
+//            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
+            DownLoadUtils.initDownLoad(app,holder.tv_down,position);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,11 +120,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                 }
             });
         }
-        /* 标识View对象 */
-        //将list_view的ID作为Tag的Key值
-        //此处将位置信息作为标识传递
         convertView.setTag(R.id.pull_to_refresh,position);
-        viewList.add(convertView);
+        views.add(convertView);
         return convertView;
     }
 
@@ -118,7 +148,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         TextView tv_des;
 
         @ViewInject(R.id.tv_down)
-        DownloadBtn tv_down;
+        TextView tv_down;
 
         @ViewInject(R.id.tv_down_num)
         TextView tv_down_num;

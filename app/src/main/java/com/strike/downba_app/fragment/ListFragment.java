@@ -20,6 +20,7 @@ import com.strike.downba_app.http.entity.PageBean;
 import com.strike.downba_app.http.request.GetAppByCateIdReq;
 import com.strike.downba_app.http.response.GetAppListRsp;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
@@ -46,30 +47,38 @@ public class ListFragment extends BaseFragment {
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 7,total = 0;
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+    private Context context;
+
+    private  BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Constance.ACTION_LOADING.equals(intent.getAction())){
-                int objId = intent.getIntExtra(Constance.APP_ID, -1);
-                int state = intent.getIntExtra(Constance.STATE, -1);
+            if (Constance.ACTION_DOWNLOAD.equals(intent.getAction())){
+                Bundle bundle = intent.getExtras();
+                String objId = bundle.getString(Constance.APP_ID,null);
+                int position = bundle.getInt(Constance.POSITION,-1);
+                int progress = bundle.getInt(Constance.PROGRESS,-1);
+                int state = bundle.getInt(Constance.STATE,-1);
+                if (position == -1){
+                    return;
+                }
+                adapter.refreshHolder(objId,position,state,progress);
             }
         }
     };
 
-
-    private Context context;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DownLoadUtils.unRegistReciver(getActivity(),receiver);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (cateId == null){
-            cateId = savedInstanceState.getInt("cate_id");
-        }
-        if (orderType == null){
-            orderType = savedInstanceState.getInt("orderType");
-        }
         context = getContext();
         adapter = new AppLIstAdapter(context);
+        DownLoadUtils.registReciver(getActivity(),receiver);
     }
 
     @Override
@@ -108,17 +117,6 @@ public class ListFragment extends BaseFragment {
     public void refresh(int orderType,int cateId){
         this.cateId = cateId;
         this.orderType = orderType;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (cateId != null){
-            outState.putInt("cate_id",cateId);
-        }
-       if (orderType != null){
-           outState.putInt("orderType",orderType);
-       }
     }
 
     @Override

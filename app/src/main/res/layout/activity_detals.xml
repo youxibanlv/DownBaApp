@@ -138,13 +138,11 @@
                     android:textSize="@dimen/wdp18" />
             </RelativeLayout>
 
-            <com.strike.downba_app.view.DownloadBtn
+            <TextView
                 android:id="@+id/tv_down"
                 android:layout_width="match_parent"
                 android:background="@drawable/download_bg"
-                android:textColor="@color/white"
                 android:gravity="center"
-                android:lines="1"
                 android:layout_height="@dimen/wdp57"
                 android:layout_marginBottom="@dimen/wdp12"
                 android:layout_marginTop="@dimen/wdp15"

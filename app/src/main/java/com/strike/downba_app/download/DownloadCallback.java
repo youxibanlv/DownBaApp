@@ -3,35 +3,35 @@ package com.strike.downba_app.download;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.strike.downba_app.base.AppContext;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.view.DownloadBtn;
+import com.strike.downba_app.utils.UiUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.DbException;
+import org.xutils.x;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 
 /**
  * Created by wyouflf on 15/11/10.
  */
 /*package*/
-class DownloadCallback implements Callback.CommonCallback<File>, Callback.ProgressCallback<File>,Callback.Cancelable {
+class DownloadCallback implements Callback.CommonCallback<File>, Callback.ProgressCallback<File>, Callback.Cancelable {
 
     private DownloadInfo downloadInfo;
-    private WeakReference<DownloadBtn> viewHolderRef;
+    private Integer position;
     private DownloadManager downloadManager;
     private boolean cancelled = false;
     private Cancelable cancelable;
 
-    public DownloadCallback(DownloadBtn viewHolder) {
-        this.switchViewHolder(viewHolder);
+    public DownloadCallback(DownloadInfo info,Integer position) {
+        this.downloadInfo = info;
+        this.position = position;
     }
 
-    public boolean switchViewHolder(DownloadBtn viewHolder) {
-        if (viewHolder == null) return false;
+    public boolean switchViewHolder(Integer position) {
+        if (position == null) return false;
 
         synchronized (DownloadCallback.class) {
             if (downloadInfo != null) {
@@ -39,8 +39,7 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
                     return false;
                 }
             }
-            this.downloadInfo = viewHolder.getDownloadInfo();
-            this.viewHolderRef = new WeakReference<>(viewHolder);
+            this.position = position;
         }
         return true;
     }
@@ -53,16 +52,13 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
         this.cancelable = cancelable;
     }
 
-    public DownloadBtn getViewHolder() {
-        if (viewHolderRef == null) return null;
-        DownloadBtn viewHolder = viewHolderRef.get();
-        if (viewHolder != null) {
-            DownloadInfo downloadInfo = viewHolder.getDownloadInfo();
-            if (this.downloadInfo != null && this.downloadInfo.equals(downloadInfo)) {
-                return viewHolder;
-            }
-        }
-        return null;
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     @Override
@@ -70,10 +66,10 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
         try {
             downloadInfo.setState(DownloadState.WAITING);
             downloadManager.updateDownloadInfo(downloadInfo);
+            broadcastDownload(Constance.WAITTING);
         } catch (DbException ex) {
             LogUtil.e(ex.getMessage(), ex);
         }
-        broadCasetDowanLoadState(downloadInfo,Constance.WAITTING);
     }
 
     @Override
@@ -81,6 +77,7 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
         try {
             downloadInfo.setState(DownloadState.STARTED);
             downloadManager.updateDownloadInfo(downloadInfo);
+            broadcastDownload(Constance.LOADING);
         } catch (DbException ex) {
             LogUtil.e(ex.getMessage(), ex);
         }
@@ -94,10 +91,10 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
                 downloadInfo.setFileLength(total);
                 downloadInfo.setProgress((int) (current * 100 / total));
                 downloadManager.updateDownloadInfo(downloadInfo);
+                broadcastDownload(Constance.LOADING);
             } catch (DbException ex) {
                 LogUtil.e(ex.getMessage(), ex);
             }
-            broadCasetDowanLoadState(downloadInfo,Constance.LOADING);
         }
     }
 
@@ -107,11 +104,10 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             try {
                 downloadInfo.setState(DownloadState.FINISHED);
                 downloadManager.updateDownloadInfo(downloadInfo);
+                broadcastDownload(Constance.COMPLETE);
             } catch (DbException ex) {
                 LogUtil.e(ex.getMessage(), ex);
             }
-            broadCasetDowanLoadState(downloadInfo,Constance.COMPLETE);
-
         }
     }
 
@@ -121,10 +117,11 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             try {
                 downloadInfo.setState(DownloadState.ERROR);
                 downloadManager.updateDownloadInfo(downloadInfo);
+                broadcastDownload(Constance.PAUSE);
             } catch (DbException e) {
                 LogUtil.e(e.getMessage(), e);
             }
-            broadCasetDowanLoadState(downloadInfo,Constance.FAILD);
+            UiUtils.showTipToast(false,ex.getMessage());
         }
     }
 
@@ -134,10 +131,10 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             try {
                 downloadInfo.setState(DownloadState.STOPPED);
                 downloadManager.updateDownloadInfo(downloadInfo);
+                broadcastDownload(Constance.PAUSE);
             } catch (DbException ex) {
                 LogUtil.e(ex.getMessage(), ex);
             }
-            broadCasetDowanLoadState(downloadInfo,Constance.PAUSE);
         }
     }
 
@@ -166,14 +163,16 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
 
 
     // 广播下载状态
-    private void broadCasetDowanLoadState(DownloadInfo downloadInfo, int state) {
-
-        Intent arg0 = new Intent();
-        arg0.setAction(Constance.ACTION_LOADING);
-        arg0.putExtra(Constance.APP_ID, downloadInfo.getObjId());
-        arg0.putExtra(Constance.CURRENT, downloadInfo.getProgress());
-        arg0.putExtra(Constance.TOTAL, downloadInfo.getFileLength());
-        arg0.putExtra(Constance.STATE, state);// 设置下载状态
-        LocalBroadcastManager.getInstance(AppContext.getContext()).sendBroadcast(arg0);
-    }
+    private void broadcastDownload(int state) {
+            Intent arg0 = new Intent();
+            arg0.setAction(Constance.ACTION_DOWNLOAD);
+            arg0.putExtra(Constance.APP_ID, downloadInfo.getObjId());
+            arg0.putExtra(Constance.PROGRESS, downloadInfo.getProgress());
+            if (position != -1){
+                arg0.putExtra(Constance.POSITION,position);
+            }
+            arg0.putExtra(Constance.STATE, state);// 设置下载状态
+            LocalBroadcastManager.getInstance(x.app()).sendBroadcast(arg0);
+        LogUtil.e("------objId="+downloadInfo.getObjId()+",position = "+position +",state = "+state +" ,progress ="+ downloadInfo.getProgress());
+        }
 }

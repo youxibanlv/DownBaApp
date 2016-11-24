@@ -1,6 +1,6 @@
 package com.strike.downba_app.download;
 
-import com.strike.downba_app.view.DownloadBtn;
+import com.strike.downba_app.base.AppConfig;
 
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
@@ -77,81 +77,66 @@ public final class DownloadManager {
         return downloadInfoList.size();
     }
 
-    public DownloadInfo getDownloadInfo(int index) {
-        return downloadInfoList.get(index);
-    }
-
-    public DownloadInfo getInfoByObjId(int objId){
-        if (downloadInfoList!=null && downloadInfoList.size()>0){
-            for (DownloadInfo info :downloadInfoList){
-                if (info.getObjId()== (objId)){
+    public DownloadInfo getDownloadInfo(String objId) {
+        if (downloadInfoList != null && downloadInfoList.size()>0){
+            for (DownloadInfo info : downloadInfoList){
+                if (objId.equals(info.getObjId())){
                     return info;
                 }
             }
         }
         return null;
     }
-
-    public synchronized void startDownload(String url, int objId, String savePath,DownloadBtn viewHolder) {
-        try {
-            String fileSavePath = new File(savePath).getAbsolutePath();
-            DownloadInfo downloadInfo = db.selector(DownloadInfo.class).where("objId", "=", objId)
-                    .and("fileSavePath", "=", fileSavePath).findFirst();
-            if (downloadInfo != null) {
-                DownloadCallback callback = callbackMap.get(downloadInfo);
-                if (callback != null) {
-                    if (viewHolder == null) {
-                        viewHolder = callback.getViewHolder();
-                    }
-                    if (callback.switchViewHolder(viewHolder)) {
-                        return;
-                    } else {
-                        callback.cancel();
-                    }
+    public synchronized void startDownload(String url, String objId,int position ) throws DbException {
+        String savePath = AppConfig.DOWN_PATH + objId+".apk";
+        String fileSavePath = new File(savePath).getAbsolutePath();
+        DownloadInfo downloadInfo = db.selector(DownloadInfo.class)
+                .where("objId", "=", objId)
+                .and("fileSavePath", "=", fileSavePath)
+                .findFirst();
+        if (downloadInfo != null) {
+            DownloadCallback callback = callbackMap.get(downloadInfo);
+            if (callback != null) {
+                if (callback.switchViewHolder(position)) {
+                    return;
+                } else {
+                    callback.cancel();
                 }
             }
-
-            // create download info
-            if (downloadInfo == null) {
-                downloadInfo = new DownloadInfo();
-                downloadInfo.setUrl(url);
-                downloadInfo.setAutoRename(false);
-                downloadInfo.setAutoResume(true);
-                downloadInfo.setObjId(objId);
-                downloadInfo.setFileSavePath(fileSavePath);
-                db.saveBindingId(downloadInfo);
-            }
-
-            // start downloading
-            if (viewHolder == null) {
-                throw new  Exception("viewHolder is null");
-            } else {
-                viewHolder.update(downloadInfo);
-            }
-            DownloadCallback callback = new DownloadCallback(viewHolder);
-            callback.setDownloadManager(this);
-            callback.switchViewHolder(viewHolder);
-            RequestParams params = new RequestParams(url);
-            params.setAutoResume(downloadInfo.isAutoResume());
-            params.setAutoRename(downloadInfo.isAutoRename());
-            params.setSaveFilePath(downloadInfo.getFileSavePath());
-            params.setExecutor(executor);
-            params.setCancelFast(true);
-            Callback.Cancelable cancelable = x.http().get(params, callback);
-            callback.setCancelable(cancelable);
-            callbackMap.put(downloadInfo, callback);
-
-            if (downloadInfoList.contains(downloadInfo)) {
-                int index = downloadInfoList.indexOf(downloadInfo);
-                downloadInfoList.remove(downloadInfo);
-                downloadInfoList.add(index, downloadInfo);
-            } else {
-                downloadInfoList.add(downloadInfo);
-            }
-        }catch (Exception e){
-
         }
 
+        // create download info
+        if (downloadInfo == null) {
+            downloadInfo = new DownloadInfo();
+            downloadInfo.setUrl(url);
+            downloadInfo.setAutoRename(false);
+            downloadInfo.setAutoResume(true);
+            downloadInfo.setObjId(objId);
+            downloadInfo.setFileSavePath(fileSavePath);
+            db.saveBindingId(downloadInfo);
+        }
+
+        // start downloading
+        DownloadCallback callback = new DownloadCallback(downloadInfo,position);
+        callback.setDownloadManager(this);
+        callback.switchViewHolder(position);
+        RequestParams params = new RequestParams(url);
+        params.setAutoResume(downloadInfo.isAutoResume());
+        params.setAutoRename(downloadInfo.isAutoRename());
+        params.setSaveFilePath(downloadInfo.getFileSavePath());
+        params.setExecutor(executor);
+        params.setCancelFast(true);
+        Callback.Cancelable cancelable = x.http().get(params, callback);
+        callback.setCancelable(cancelable);
+        callbackMap.put(downloadInfo, callback);
+
+        if (downloadInfoList.contains(downloadInfo)) {
+            int index = downloadInfoList.indexOf(downloadInfo);
+            downloadInfoList.remove(downloadInfo);
+            downloadInfoList.add(index, downloadInfo);
+        } else {
+            downloadInfoList.add(downloadInfo);
+        }
     }
 
     public void stopDownload(int index) {
@@ -182,14 +167,9 @@ public final class DownloadManager {
         downloadInfoList.remove(index);
     }
 
-    public void removeDownload(DownloadInfo downloadInfo){
-        try {
-            db.delete(downloadInfo);
-            stopDownload(downloadInfo);
-            downloadInfoList.remove(downloadInfo);
-        }catch (Exception e){
-
-        }
-
+    public void removeDownload(DownloadInfo downloadInfo) throws DbException {
+        db.delete(downloadInfo);
+        stopDownload(downloadInfo);
+        downloadInfoList.remove(downloadInfo);
     }
 }
