@@ -35,7 +35,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         super(context);
     }
 
-    public void refreshHolder(String objId,Integer positon,int state,int progress){
+    public void refreshHolder(String objId,int state,int progress){
          if (objId != null ){
              View view = null;
              for (View v:views){

@@ -56,10 +56,9 @@ public class ListFragment extends BaseFragment {
             if (Constance.ACTION_DOWNLOAD.equals(intent.getAction())){
                 Bundle bundle = intent.getExtras();
                 String objId = bundle.getString(Constance.APP_ID,null);
-                int position = bundle.getInt(Constance.POSITION,-1);
                 int progress = bundle.getInt(Constance.PROGRESS,-1);
                 int state = bundle.getInt(Constance.STATE,-1);
-                adapter.refreshHolder(objId,position,state,progress);
+                adapter.refreshHolder(objId,state,progress);
             }
         }
     };
