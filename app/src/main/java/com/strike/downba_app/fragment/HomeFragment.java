@@ -1,6 +1,7 @@
 package com.strike.downba_app.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.ListView;
 
 import com.strike.downba_app.adapter.HomeAdapter;
 import com.strike.downba_app.base.BaseFragment;
+import com.strike.downba_app.download.DataChanger;
+import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.download.Watcher;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
@@ -29,6 +33,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by strike on 16/6/5.
@@ -45,6 +50,28 @@ public class HomeFragment extends BaseFragment {
 
     private long waitTime = 0,lastRefreshTime = 0,minWaitTime = 15000;//等待时间，最后一次刷新时间,最小等待时间，用于控制用户的刷新频率
     private View view;
+    private Watcher watcher = new Watcher() {
+        @Override
+        public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
+            if (info != null){
+                adapter.refreshHolder(info);
+            }
+        }
+    };
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DataChanger.getInstance().addObserver(watcher);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (watcher != null){
+            DataChanger.getInstance().deleteObserver(watcher);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

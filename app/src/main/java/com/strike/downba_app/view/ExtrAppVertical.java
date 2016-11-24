@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -44,6 +45,11 @@ public class ExtrAppVertical extends LinearLayout {
         x.view().inject(view);
     }
 
+    public void refreshDownload(String msg){
+        if (msg!= null && app_install!= null){
+            app_install.setText(msg);
+        }
+    }
     public void hideDownBtn(boolean hide){
         if (app_install != null ){
             if (hide){
@@ -85,5 +91,6 @@ public class ExtrAppVertical extends LinearLayout {
         if (app_size != null) {
             app_size.setText(size);
         }
+        DownLoadUtils.initDownLoad(app,app_install);
     }
 }

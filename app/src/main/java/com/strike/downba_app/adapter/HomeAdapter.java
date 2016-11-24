@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.strike.downba_app.activity.RecommendActivity;
+import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.http.entity.HomeBean;
 import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.view.NoScrollGridView;
@@ -36,16 +37,29 @@ public class HomeAdapter extends BaseAdapter {
     private List<Recommend> wheelPages = new ArrayList<>();//轮播图集合
     private List<HomeBean> homeBeens = new ArrayList<>();//精品推荐
 
-    private GridRecommendAdapter gridAdapter;
-//    private  AppLIstAdapter appListAdapter;
+    private List<AppLIstAdapter> listAdapters = new ArrayList<>();
+    private List<GridRecommendAdapter> gridAdapters = new ArrayList<>();
 
     private Context context;
     private LayoutInflater inflater;
+    //更新下载进度
+    public void refreshHolder(DownloadInfo info) {
+        //刷新列表项
+        if (listAdapters.size()>0){
+            for (AppLIstAdapter adapter : listAdapters){
+                adapter.refreshHolder(info);
+            }
+        }
+        //刷新格子
+        if (gridAdapters.size()>0){
+            for (GridRecommendAdapter gAdapter:gridAdapters){
+                gAdapter.refreshHolder(info);
+            }
+        }
 
+    }
     public HomeAdapter(Context context) {
         this.context = context;
-        gridAdapter = new GridRecommendAdapter(context);
-//        appListAdapter = new AppLIstAdapter(context);
         inflater = LayoutInflater.from(context);
     }
 
@@ -166,10 +180,12 @@ public class HomeAdapter extends BaseAdapter {
             case TYPE_RECOMMEND:
                 bean = homeBeens.get(position-1);
                 recommendHolder.tv_recommend.setText(bean.getHomeBeanTitle());
+                GridRecommendAdapter gridAdapter = new GridRecommendAdapter(context);
                 recommendHolder.gv_recommend.setAdapter(gridAdapter);
                 if (bean.getApps().size() > 0) {
                     gridAdapter.setList(bean.getApps());
                 }
+                gridAdapters.add(gridAdapter);
                 recommendHolder.tv_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -184,7 +200,9 @@ public class HomeAdapter extends BaseAdapter {
                 appListViewHolder.tv_recommend.setText(bean.getHomeBeanTitle());
                 AppLIstAdapter appListAdapter = new AppLIstAdapter(context);
                 appListViewHolder.lv_recommend.setAdapter(appListAdapter);
-                appListAdapter.refresh(bean.getApps()   );
+                appListAdapter.refresh(bean.getApps());
+                //添加到adapter集合，方便刷新下载进度
+                listAdapters.add(appListAdapter);
                 break;
             case TYPE_SUBJECT:
                 bean = homeBeens.get(position-1);
@@ -193,6 +211,7 @@ public class HomeAdapter extends BaseAdapter {
         }
         return convertView;
     }
+
 
     class WheelPageHolder {
         WheelViewPage myWheelPages;

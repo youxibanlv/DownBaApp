@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.ExtrAppVertical;
 import com.strike.downbaapp.R;
@@ -25,6 +26,43 @@ public class GridRecommendAdapter extends BaseAdapter {
     private Context context;
     private List<App> list = new ArrayList<>();
     private LayoutInflater inflater;
+    private List<View> views = new ArrayList<>();
+
+    public void refreshHolder(DownloadInfo info){
+        if (views.size()>0){
+            View view = null;
+            for (View v:views){
+                if (v.getTag(R.id.gv_recommend).equals(info.getObjId())){
+                    view = v;
+                    break;
+                }
+            }
+            if (view != null){
+                String msg;
+                switch (info.getState()){
+                    case WAITING:
+                        msg = "队列中。。";
+                        break;
+                    case STARTED:
+                        msg = info.getProgress()+"%";
+                        break;
+                    case FINISHED:
+                        msg ="打 开";
+                        break;
+                    case STOPPED:
+                        msg = "继续下载";
+                        break;
+                    case ERROR:
+                        msg ="重新下载";
+                        break;
+                    default:
+                        msg = "安 装";
+                }
+                ViewHolder holder = (ViewHolder) view.getTag();
+                holder.grid_recommend.refreshDownload(msg);
+            }
+        }
+    }
 
     public GridRecommendAdapter(Context context) {
         this.context = context;
@@ -66,7 +104,8 @@ public class GridRecommendAdapter extends BaseAdapter {
             holder.grid_recommend.hideDownBtn(true);
         }
         //配置app界面
-        holder.grid_recommend.setApp(list.get(position));
+        App app = getItem(position);
+        holder.grid_recommend.setApp(app);
         holder.grid_recommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +117,8 @@ public class GridRecommendAdapter extends BaseAdapter {
 
             }
         });
+        convertView.setTag(R.id.gv_recommend,app.getApp_id());
+        views.add(convertView);
         return convertView;
     }
 
