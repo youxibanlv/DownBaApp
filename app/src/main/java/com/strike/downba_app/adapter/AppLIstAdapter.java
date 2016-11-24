@@ -42,6 +42,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             for (View v:views){
                 if (v.getTag(R.id.pull_to_refresh).equals(info.getObjId())){
                     view = v;
+                    break;
                 }
             }
             if (view != null){

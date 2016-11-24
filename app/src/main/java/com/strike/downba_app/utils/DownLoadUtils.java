@@ -85,7 +85,6 @@ public class DownLoadUtils {
                 }
 
             }
-
             @Override
             public void onFinished() {
 
