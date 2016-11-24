@@ -67,39 +67,6 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                  }
              }
          }
-//        if (positon != -1){
-//            View view = null;
-//            for (View v :views){
-//                if (v.getTag(R.id.pull_to_refresh)== positon){
-//                    view = v;
-//                    break;
-//                }
-//            }
-//            App app = getItem(positon);
-//            if (view != null && app.getApp_id().equals(objId)){
-//                AppListViewHolder holder = (AppListViewHolder) view.getTag();
-//                if (holder!= null){
-//                    switch (state){
-//                        case Constance.LOADING:
-//                            if (progress!= -1){
-//                                holder.tv_down.setText(progress+"%");
-//                            }
-//                            break;
-//                        case Constance.PAUSE:
-//                            holder.tv_down.setText("继续下载");
-//                            break;
-//                        case Constance.COMPLETE:
-//                            holder.tv_down.setText("打 开");
-//                            break;
-//                        case Constance.WAITTING:
-//                            holder.tv_down.setText("等待中。。");
-//                            break;
-//                        default:
-//                            holder.tv_down.setText("下 载");
-//                    }
-//                }
-//            }
-//        }
     }
 
     @Override
