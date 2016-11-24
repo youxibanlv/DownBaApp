@@ -168,11 +168,8 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             arg0.setAction(Constance.ACTION_DOWNLOAD);
             arg0.putExtra(Constance.APP_ID, downloadInfo.getObjId());
             arg0.putExtra(Constance.PROGRESS, downloadInfo.getProgress());
-            if (position != -1){
-                arg0.putExtra(Constance.POSITION,position);
-            }
             arg0.putExtra(Constance.STATE, state);// 设置下载状态
             LocalBroadcastManager.getInstance(x.app()).sendBroadcast(arg0);
-        LogUtil.e("------objId="+downloadInfo.getObjId()+",position = "+position +",state = "+state +" ,progress ="+ downloadInfo.getProgress());
+        LogUtil.e("------objId="+downloadInfo.getObjId()+",state = "+state +" ,progress ="+ downloadInfo.getProgress());
         }
 }
