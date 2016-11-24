@@ -35,20 +35,18 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         super(context);
     }
 
-    public void refreshHolder(String objid,Integer positon,int state,int progress){
-        if (positon != -1){
-            View view = null;
-            for (View v :views){
-                if (v.getTag(R.id.pull_to_refresh)== positon){
-                    view = v;
-                    break;
-                }
-            }
-            App app = getItem(positon);
-            if (view != null && app.getApp_id().equals(objid)){
-                AppListViewHolder holder = (AppListViewHolder) view.getTag();
-                if (holder!= null){
-                    switch (state){
+    public void refreshHolder(String objId,Integer positon,int state,int progress){
+         if (objId != null ){
+             View view = null;
+             for (View v:views){
+                 if (v.getTag(R.id.pull_to_refresh).equals(objId)){
+                     view = v;
+                 }
+             }
+             if (view!= null){
+                 AppListViewHolder holder = (AppListViewHolder) view.getTag();
+                 if (holder!= null){
+                     switch (state){
                         case Constance.LOADING:
                             if (progress!= -1){
                                 holder.tv_down.setText(progress+"%");
@@ -66,9 +64,42 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                         default:
                             holder.tv_down.setText("下 载");
                     }
-                }
-            }
-        }
+                 }
+             }
+         }
+//        if (positon != -1){
+//            View view = null;
+//            for (View v :views){
+//                if (v.getTag(R.id.pull_to_refresh)== positon){
+//                    view = v;
+//                    break;
+//                }
+//            }
+//            App app = getItem(positon);
+//            if (view != null && app.getApp_id().equals(objId)){
+//                AppListViewHolder holder = (AppListViewHolder) view.getTag();
+//                if (holder!= null){
+//                    switch (state){
+//                        case Constance.LOADING:
+//                            if (progress!= -1){
+//                                holder.tv_down.setText(progress+"%");
+//                            }
+//                            break;
+//                        case Constance.PAUSE:
+//                            holder.tv_down.setText("继续下载");
+//                            break;
+//                        case Constance.COMPLETE:
+//                            holder.tv_down.setText("打 开");
+//                            break;
+//                        case Constance.WAITTING:
+//                            holder.tv_down.setText("等待中。。");
+//                            break;
+//                        default:
+//                            holder.tv_down.setText("下 载");
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -106,7 +137,6 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             int num = NumberUtil.parseToInt(app.getApp_down());
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-//            new DownLoadUtils(context).initDownLoad(app,holder.tv_down);
             DownLoadUtils.initDownLoad(app,holder.tv_down,position);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,7 +150,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
                 }
             });
         }
-        convertView.setTag(R.id.pull_to_refresh,position);
+        convertView.setTag(R.id.pull_to_refresh,app.getApp_id());
         views.add(convertView);
         return convertView;
     }
