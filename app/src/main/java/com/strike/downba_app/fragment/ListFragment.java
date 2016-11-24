@@ -59,9 +59,6 @@ public class ListFragment extends BaseFragment {
                 int position = bundle.getInt(Constance.POSITION,-1);
                 int progress = bundle.getInt(Constance.PROGRESS,-1);
                 int state = bundle.getInt(Constance.STATE,-1);
-                if (position == -1){
-                    return;
-                }
                 adapter.refreshHolder(objId,position,state,progress);
             }
         }
