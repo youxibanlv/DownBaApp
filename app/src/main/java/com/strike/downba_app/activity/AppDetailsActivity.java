@@ -1,7 +1,5 @@
 package com.strike.downba_app.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +19,9 @@ import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.db.table.User;
+import com.strike.downba_app.download.DataChanger;
+import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.download.Watcher;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
@@ -52,6 +53,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by strike on 16/6/21.
@@ -112,45 +114,37 @@ public class AppDetailsActivity extends BaseActivity {
 
     private App app;
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private Watcher watcher = new Watcher() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Constance.ACTION_DOWNLOAD.equals(intent.getAction())){
-                Bundle bundle = intent.getExtras();
-                String objId = bundle.getString(Constance.APP_ID,null);
-                int progress = bundle.getInt(Constance.PROGRESS,-1);
-                int state = bundle.getInt(Constance.STATE,-1);
-                if (objId != null && objId.equals(app.getApp_id())){
-                    switch (state){
-                        case Constance.LOADING:
-                            if (progress!= -1){
-                                tv_down.setText(progress+"%");
-                            }
-                            break;
-                        case Constance.PAUSE:
-                             tv_down.setText("继续下载");
-                            break;
-                        case Constance.COMPLETE:
-                             tv_down.setText("打 开");
-                            break;
-                        case Constance.WAITTING:
-                             tv_down.setText("等待中。。");
-                            break;
-                        default:
-                             tv_down.setText("下 载");
-                    }
+        public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
+            if (info!= null && info.getObjId().equals(app.getApp_id())){
+                switch (info.getState()){
+                    case WAITING:
+                        tv_down.setText("队列中。。");
+                        break;
+                    case STARTED:
+                        tv_down.setText(info.getProgress()+"%");
+                        break;
+                    case FINISHED:
+                        tv_down.setText("打 开");
+                        break;
+                    case STOPPED:
+                        tv_down.setText("继续下载");
+                        break;
+                    case ERROR:
+                        tv_down.setText("重新下载");
+                        break;
                 }
             }
         }
     };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         commentAdapter = new CommentAdapter(this);
         suspectAdapter = new GridRecommendAdapter(this);
-        DownLoadUtils.registReciver(this,receiver);
+        DataChanger.getInstance().addObserver(watcher);
         try {
             app = (App) getIntent().getExtras().getSerializable(Constance.APP);
             initView();
@@ -184,7 +178,9 @@ public class AppDetailsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DownLoadUtils.unRegistReciver(this,receiver);
+        if (watcher!= null){
+            DataChanger.getInstance().deleteObserver(watcher);
+        }
     }
 
     @Event(value = {R.id.iv_back,R.id.des_open,R.id.comment_open,R.id.btn_send})
@@ -368,7 +364,7 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void initView() {
-        DownLoadUtils.initDownLoad(app,tv_down,-1);
+        DownLoadUtils.initDownLoad(app,tv_down);
         if (app.getApp_logo() != null) {
             x.image().bind(iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
         }

@@ -1,8 +1,6 @@
 package com.strike.downba_app.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +11,9 @@ import android.widget.ListView;
 import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.download.DataChanger;
+import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.download.Watcher;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
@@ -20,7 +21,6 @@ import com.strike.downba_app.http.entity.PageBean;
 import com.strike.downba_app.http.request.GetAppByCateIdReq;
 import com.strike.downba_app.http.response.GetAppListRsp;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
@@ -31,6 +31,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by strike on 2016/11/12.
@@ -46,27 +47,23 @@ public class ListFragment extends BaseFragment {
     private View view;
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 7,total = 0;
-
-
     private Context context;
-
-    private  BroadcastReceiver receiver = new BroadcastReceiver() {
+    private Watcher watcher = new Watcher() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Constance.ACTION_DOWNLOAD.equals(intent.getAction())){
-                Bundle bundle = intent.getExtras();
-                String objId = bundle.getString(Constance.APP_ID,null);
-                int progress = bundle.getInt(Constance.PROGRESS,-1);
-                int state = bundle.getInt(Constance.STATE,-1);
-                adapter.refreshHolder(objId,state,progress);
+        public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
+            if (info != null){
+                adapter.refreshHolder(info);
             }
         }
     };
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        DownLoadUtils.unRegistReciver(getActivity(),receiver);
+        if (watcher != null){
+            DataChanger.getInstance().deleteObserver(watcher);
+        }
     }
 
     @Override
@@ -74,7 +71,7 @@ public class ListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         context = getContext();
         adapter = new AppLIstAdapter(context);
-        DownLoadUtils.registReciver(getActivity(),receiver);
+        DataChanger.getInstance().addObserver(watcher);
     }
 
     @Override

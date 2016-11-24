@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
@@ -35,38 +36,37 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         super(context);
     }
 
-    public void refreshHolder(String objId,int state,int progress){
-         if (objId != null ){
-             View view = null;
-             for (View v:views){
-                 if (v.getTag(R.id.pull_to_refresh).equals(objId)){
-                     view = v;
-                 }
-             }
-             if (view!= null){
-                 AppListViewHolder holder = (AppListViewHolder) view.getTag();
-                 if (holder!= null){
-                     switch (state){
-                        case Constance.LOADING:
-                            if (progress!= -1){
-                                holder.tv_down.setText(progress+"%");
-                            }
+    public void refreshHolder(DownloadInfo info){
+        if (info.getObjId() != null){
+            View view = null;
+            for (View v:views){
+                if (v.getTag(R.id.pull_to_refresh).equals(info.getObjId())){
+                    view = v;
+                }
+            }
+            if (view != null){
+                AppListViewHolder holder = (AppListViewHolder) view.getTag();
+                if (holder != null){
+                    switch (info.getState()){
+                        case WAITING:
+                            holder.tv_down.setText("队列中。。");
                             break;
-                        case Constance.PAUSE:
-                            holder.tv_down.setText("继续下载");
+                        case STARTED:
+                            holder.tv_down.setText(info.getProgress()+"%");
                             break;
-                        case Constance.COMPLETE:
+                        case FINISHED:
                             holder.tv_down.setText("打 开");
                             break;
-                        case Constance.WAITTING:
-                            holder.tv_down.setText("等待中。。");
+                        case STOPPED:
+                            holder.tv_down.setText("继续下载");
                             break;
-                        default:
-                            holder.tv_down.setText("下 载");
+                        case ERROR:
+                            holder.tv_down.setText("重新下载");
+                            break;
                     }
-                 }
-             }
-         }
+                }
+            }
+        }
     }
 
     @Override
@@ -104,7 +104,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             int num = NumberUtil.parseToInt(app.getApp_down());
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-            DownLoadUtils.initDownLoad(app,holder.tv_down,position);
+            DownLoadUtils.initDownLoad(app,holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,13 +1,9 @@
 package com.strike.downba_app.utils;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -69,7 +65,7 @@ public class DownLoadUtils {
         }
     }
 
-    public static void download(final App app, final int position) {
+    public static void download(final App app) {
         DownloadUrlReq req = new DownloadUrlReq(app.getApp_id(), app.getApp_version(),app.getUid());
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -80,7 +76,7 @@ public class DownLoadUtils {
                         String url = rsp.resultData;
                         if (!TextUtils.isEmpty(url)) {
                             try {
-                                manager.startDownload(url,app.getApp_id(),position);
+                                manager.startDownload(url,app.getApp_id());
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -96,23 +92,8 @@ public class DownLoadUtils {
             }
         });
     }
-    //注册广播收听下载进度
-    public static void registReciver(Context context, BroadcastReceiver myReceiver){
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constance.ACTION_DOWNLOAD);
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-                .getInstance(context);
-        localBroadcastManager.registerReceiver(myReceiver, intentFilter);
-    }
-
-    public static void unRegistReciver(Context context,BroadcastReceiver myReceiver){
-        LocalBroadcastManager manager1 = LocalBroadcastManager.getInstance(context);
-        if (myReceiver != null){
-            manager1.unregisterReceiver(myReceiver);
-        }
-    }
    //初始化下载按钮
-    public static void initDownLoad(final App app, final TextView textView, final int position) {
+    public static void initDownLoad(final App app, final TextView textView) {
         DownloadInfo info = manager.getDownloadInfo(app.getApp_id());
         //检查是否存在下载记录,初始化下载按钮显示文字
         if (info != null) {
@@ -151,7 +132,7 @@ public class DownLoadUtils {
                     switch (downloadInfo.getState()) {
                         case WAITING:
                             try {
-                                manager.startDownload(downloadInfo.getUrl(),app.getApp_id(),position);
+                                manager.startDownload(downloadInfo.getUrl(),app.getApp_id());
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -176,21 +157,21 @@ public class DownLoadUtils {
                             break;
                         case STOPPED:
                             try {
-                                manager.startDownload(downloadInfo.getUrl(), app.getApp_id(),position);
+                                manager.startDownload(downloadInfo.getUrl(), app.getApp_id());
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
                             break;
                         case ERROR:
                             try {
-                                manager.startDownload(downloadInfo.getUrl(), app.getApp_id(),position);
+                                manager.startDownload(downloadInfo.getUrl(), app.getApp_id());
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
                             break;
                     }
                 } else {
-                    download(app,position);
+                    download(app);
                 }
             }
         });

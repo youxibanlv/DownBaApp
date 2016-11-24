@@ -87,7 +87,7 @@ public final class DownloadManager {
         }
         return null;
     }
-    public synchronized void startDownload(String url, String objId,int position ) throws DbException {
+    public synchronized void startDownload(String url, String objId) throws DbException {
         String savePath = AppConfig.DOWN_PATH + objId+".apk";
         String fileSavePath = new File(savePath).getAbsolutePath();
         DownloadInfo downloadInfo = db.selector(DownloadInfo.class)
@@ -97,7 +97,7 @@ public final class DownloadManager {
         if (downloadInfo != null) {
             DownloadCallback callback = callbackMap.get(downloadInfo);
             if (callback != null) {
-                if (callback.switchViewHolder(position)) {
+                if (callback.switchViewHolder(downloadInfo)) {
                     return;
                 } else {
                     callback.cancel();
@@ -117,9 +117,9 @@ public final class DownloadManager {
         }
 
         // start downloading
-        DownloadCallback callback = new DownloadCallback(downloadInfo,position);
+        DownloadCallback callback = new DownloadCallback(downloadInfo);
         callback.setDownloadManager(this);
-        callback.switchViewHolder(position);
+        callback.switchViewHolder(downloadInfo);
         RequestParams params = new RequestParams(url);
         params.setAutoResume(downloadInfo.isAutoResume());
         params.setAutoRename(downloadInfo.isAutoRename());

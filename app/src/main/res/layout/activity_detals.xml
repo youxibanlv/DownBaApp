@@ -143,10 +143,12 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/download_bg"
                 android:gravity="center"
+                android:lines="1"
                 android:layout_height="@dimen/wdp57"
                 android:layout_marginBottom="@dimen/wdp12"
                 android:layout_marginTop="@dimen/wdp15"
                 android:text="@string/install"
+                android:textColor="@color/white"
                 android:textSize="@dimen/wdp24" />
         </LinearLayout>
     </LinearLayout>
