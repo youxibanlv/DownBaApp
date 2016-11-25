@@ -1,0 +1,245 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="generator" content="Aspose.Words for .NET 15.1.0.0" />
+    <title></title>
+</head>
+<body>
+ <div>
+   <p style="font-size:14pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:center; widows:0">
+     <span style="font-family:宋体; font-size:14pt; font-weight:bold">
+       下吧市场用户服务协议
+     </span>
+   </p>
+   <p style="font-size:14pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:center; widows:0">
+     <span style="font-family:Calibri; font-size:14pt; font-weight:bold">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+     <span style="font-family:宋体; font-size:10.5pt">
+       本服务条款是您与重庆同轩科技有限公司（以下简称“下吧市场”）所订立的相关权利义务规范，就下吧市场向您提供服务及您使用服务所涉及的详细规定。
+     </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+      <span style="font-family:宋体; font-size:10.5pt">
+        请您仔细阅读本条款，只要您完成注册或开始使用下吧市场提供的任何服务，即表示您已无条件接受了本条款的相关规定，并愿意受其约束，
+        且不得以未仔细阅读为由进行抗辩。
+      </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+      <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+       <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">1</span>
+       <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+       <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">服务内容</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">1</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">
+            本服务的具体内容由下吧市场根据实际情况提供，在遵守相关法律法规前提下，下吧市场有权决定用户在软件界面看到的广告内容。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">2</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">
+            除非有明确约定，下吧市场软件或服务的版本更新、增加新功能或服务，均自动适应本协议的约定。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">3</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">下吧市场</span><span style="font-family:Calibri; font-size:10.5pt">APP</span>
+        <span style="font-family:宋体; font-size:10.5pt">在未经您许可的情况下不会使用</span><span style="font-family:Calibri; font-size:10.5pt">2G/3G/4G</span>
+        <span style="font-family:宋体; font-size:10.5pt">
+            网络流量。如果您许可下吧市场使用网络流量，产生的流量费用将由运营商收取，下吧市场不会在其中得到收益，
+            您应当自行负担使用下吧市场服务所需的设备及所需的费用。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">二、用户注册</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">1</span><span style="font-family:宋体; font-size:10.5pt">、用户承诺：用户具有</span>
+        <span style="font-family:宋体; font-size:10.5pt">完全民事权利能力和行为能力或虽不具有完全民事权利能力和行为能力但经其法定代理人同意并由其法定代理人代理注册</span>
+        <span style="font-family:宋体; font-size:10.5pt">及应用下吧市场</span>
+        <span style="font-family:Calibri; font-size:10.5pt">APP</span>
+        <span style="font-family:宋体; font-size:10.5pt">服务。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">2</span><span style="font-family:宋体; font-size:10.5pt">
+            、您注册则代表您了解和认可，下吧市场账号的所有权归下吧市场所有，下吧市场账号的使用权归属于原始注册人。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">3</span><span style="font-family:宋体; font-size:10.5pt">
+            、未经下吧市场的事先书面同意，您不得以任何形式将下吧市场账号及密码转让、赠予、出借、售卖予第三方或以其他方式许可非初始注册人对其进行使用，
+            否则下吧市场有权封禁、删除该账号。如您并非当前所使用下吧市场账号的原始注册人，您应立即停止对该账号的一切使用及操作，
+            对此引发的全部责任及损失与下吧市场无关。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">4</span><span style="font-family:宋体; font-size:10.5pt">
+            、您应对您的账号及密码的安全，以及对通过您账号和密码实施的行为负责，如因黑客、第三人行为或您自身保管疏忽导致账号、
+            密码遭他人非法使用并给您造成损失的，下吧市场就此不承担任何责任。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">5</span><span style="font-family:宋体; font-size:10.5pt">
+            、如您发现自身账号遭他人非法使用或异常使用的情形，应立即修改密码或联系下吧市场客服，经核个人身份后，协助您维护自身的合法权利，
+            但下吧市场不承诺您一定能通过该途径找回账号。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">3</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">使用规则</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:宋体; font-size:10.5pt">您保证在使用下吧市场</span>
+        <span style="font-family:Calibri; font-size:10.5pt">APP</span>
+        <span style="font-family:宋体; font-size:10.5pt">服务的过程中遵循以下原则：</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">1</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">遵守中国有关的法律和法规，遵守本条款及下吧市场发布的相关管理规定，
+            不得以任何形式侵犯第三方及下吧市场的合法权益。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+       <span style="font-family:Calibri; font-size:10.5pt">2</span>
+       <span style="font-family:宋体; font-size:10.5pt">、</span>
+       <span style="font-family:宋体; font-size:10.5pt">您应合法、正当的使用下吧市场，不得对其进行反编译、反汇编、破解等行为。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">3</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">您在下吧市场上公开发表内容（例如评论）时，须遵守社会公序良德和相关法律法规，
+            不得发布违法宪法确定的基本原则，违反我过法律、法规及其它规定，违背社会公序良俗、有损社会公共利益，违法或骚扰性的广告内容或链接。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">4</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">您在下吧市场上发布的任何内容权利归您所有，
+            但均视为您已同意授权下吧市场获得相应内容在全世界范围内免费、永久、不可撤销、非独家和完全再许可的权利和许可，以复制、使用、修改、改编、出版、翻译、
+            传播和展示此等内容（整体或部分）。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">4</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">隐私</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:宋体; font-size:10.5pt">您在本站进行注册、浏览、下载、评价等行为时，涉及您真实姓名</span>
+        <span style="font-family:Calibri; font-size:10.5pt">/</span><span style="font-family:宋体; font-size:10.5pt">称、通信地址</span>
+        <span style="font-family:宋体; font-size:10.5pt">、联系电话、电子邮箱、评价或反馈等信息，本站有权从客户服务、开展活动、
+            完成良好的客户体验等多种角度予以收集，并对其中涉及个人隐私信息</span>
+        <span style="font-family:宋体; font-size:10.5pt">予以严格保密，除非得到您的授权、为履行强行性法律义务（如国家安全机关指令）或法律另有规定、
+            本注册协议或其他条款另有约定外，本站不会向外界披露您的隐私信息。
+        </span></p><p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">5</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">免责声明</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">1</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">下吧市场所展示的用户存储的内容、用户发布的内容（评论、图片）、
+            以及这些内容链接或指向的其他内容（如广告、推广）等非下吧市场直接提供的内容，我们对其准确性、合法性、可靠性概不负责，亦不承担任何法律责任。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">2</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">用户在下吧市场发表的任何意见均属于个人意见，并不代表下吧市场也持同样的观点。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">3</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">如用户在使用下吧市场的过程中，因自身原因而造成任何直接或间接的损害，
+            下吧市场概不负责，如给下吧市场造成损失，下吧市场将保留其追责的权利。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">6</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">服务终止或中止</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:宋体; font-size:10.5pt">下吧市场可能随时更新、变更、终止部分内容或服务，无需对任何个人或第三方进行通知或负责，
+            亦不承担赔偿责任，如您欲使用下吧市场提供的服务，需承担以上风险。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">7</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">法律适用</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:宋体; font-size:10.5pt">本协议服务条款与中华人民共和国的法律解释相一致，用户与下吧市场一致同意服从中华人民共和国（
+            不包括港澳台地区）的法律管辖。如用户在使用下吧市场服务产生的或与此相关的纠纷，首先应协商，如协商不成，
+            下吧市场及您均有权将其提交至重庆市南岸区仲裁委员会解决，此方式对双方均有约束力。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">&#xa0;</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+       <span style="font-family:Calibri; font-size:10.5pt; font-weight:bold">8</span>
+       <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">、</span>
+       <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">其他规定</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">1</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">下吧市场服务条款的修改、服务变更或其他变动时，可根据实际情况选择通过重要页面公告、电子邮件、
+            常规信件等形式进行。
+        </span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">2</span><span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">如发生服务条款与</span>
+        <span style="font-family:宋体; font-size:10.5pt">中华人民共和国</span>
+        <span style="font-family:宋体; font-size:10.5pt">法律相抵触时，则这些条款将完全按法律规定重新解释，而其它条款则依旧保持约束力。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">3</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">下吧市场未对您的违约行为采取制止或追责的，并不意味着下吧市场放弃了协议下的该等权利。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">4</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">本协议的版权由下吧市场在线所有，下吧市场在线保留一切解释和修改的权力。</span>
+   </p>
+   <p style="font-size:10.5pt; line-height:115%; margin:0pt 0pt 10pt; orphans:0; text-align:justify; text-indent:0pt; widows:0">
+        <span style="font-family:Calibri; font-size:10.5pt">5</span>
+        <span style="font-family:宋体; font-size:10.5pt">、</span>
+        <span style="font-family:宋体; font-size:10.5pt">本协议</span>
+        <span style="font-family:宋体; font-size:10.5pt">从</span>
+        <span style="font-family:Calibri; font-size:10.5pt">2016</span>
+        <span style="font-family:宋体; font-size:10.5pt">年</span>
+        <span style="font-family:Calibri; font-size:10.5pt">11</span>
+        <span style="font-family:宋体; font-size:10.5pt">月</span>
+        <span style="font-family:Calibri; font-size:10.5pt">30</span>
+        <span style="font-family:宋体; font-size:10.5pt">日起适用。</span>
+   </p>
+ </div>
+ </body>
+</html>

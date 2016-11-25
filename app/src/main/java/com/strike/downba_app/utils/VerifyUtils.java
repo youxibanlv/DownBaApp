@@ -10,8 +10,13 @@ public class VerifyUtils {
 
     // 判断输入用户名是否正确
     public static boolean checkUserName(String userName) {
-        String regexWifiName = "^[a-zA-Z0-9_]{3,32}";
-        return Pattern.matches(regexWifiName, userName);
+        if (userName == null || "".equals(userName)){
+            return false;
+        }
+        if (isEmail(userName) || isPhoneNum(userName)){
+            return true;
+        }
+        return false;
     }
 
     // 判断输入用密码是否正确

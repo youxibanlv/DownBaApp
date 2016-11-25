@@ -3,7 +3,6 @@ package com.strike.downba_app.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -30,7 +29,6 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.ShareSDK;
-import gson.Gson;
 
 /**
  * Created by strike on 16/6/3.
@@ -56,21 +54,13 @@ public class LoginActivity extends BaseActivity {
         loginReq.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                dismissProgressDialog();
-                if (!TextUtils.isEmpty(result)){
-                    Gson gson = new Gson();
-                    LoginRsp rsp = (LoginRsp) BaseResponse.getRsp(result,LoginRsp.class);
-                    if (rsp!= null){
-                        if (rsp.result == HttpConstance.HTTP_SUCCESS){
-                             User user = gson.fromJson(gson.toJson(rsp.resultData), User.class);
-                            if (user != null) {
-                                UserDao.saveUser(user);
-                                UiUtils.showTipToast(true, getString(R.string.login_success));
-                                LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                LoginActivity.this.finish();
-                            }
-                        }
-                    }
+                LoginRsp rsp = (LoginRsp) BaseResponse.getRsp(result,LoginRsp.class);
+                if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                    User user = rsp.resultData.user;
+                    UserDao.saveUser(user);
+                    UiUtils.showTipToast(true, getString(R.string.login_success));
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    LoginActivity.this.finish();
                 }
             }
 

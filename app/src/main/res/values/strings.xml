@@ -9,7 +9,7 @@
     <string name="forget_pass">忘记密码</string>
     <string name="register">立即注册</string>
     <string name="login_success">登录成功</string>
-    <string name="format_error_username">用户名格式不正确，只能输入（3-32）位字母和数字</string>
+    <string name="format_error_username">用户名格式不正确，只能输入邮箱或者手机号</string>
     <string name="format_error_password">密码格式不正确，只能输入（3-32）位字母和数字</string>
     <string name="enter_account">请输入账号</string>
     <string name="enter_pass">请输入密码</string>
@@ -56,6 +56,7 @@
     <string name="login_weixin">微信登陆</string>
     <string name="qq">QQ登陆</string>
     <string name="login_weibo">新浪微博登陆</string>
+    <string name="provision">用户服务协议</string>
 
     <!--=======-->
 

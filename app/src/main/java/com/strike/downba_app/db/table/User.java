@@ -41,6 +41,10 @@ public class User {
 
     @Column(name = "point")
     private int point;//积分点
+    @Column(name = "regist_time")
+    private long regist_time;//注册时间
+    @Column(name = "update_time")
+    private long update_time;//更新时间
 
     public int getId() {
         return id;
@@ -159,5 +163,21 @@ public class User {
         result = 31 * result + (alipay != null ? alipay.hashCode() : 0);
         result = 31 * result + point;
         return result;
+    }
+
+    public long getRegist_time() {
+        return regist_time;
+    }
+
+    public void setRegist_time(long regist_time) {
+        this.regist_time = regist_time;
+    }
+
+    public long getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(long update_time) {
+        this.update_time = update_time;
     }
 }

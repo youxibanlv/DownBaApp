@@ -2,8 +2,8 @@ package com.strike.downba_app.http.request;
 
 
 import com.strike.downba_app.http.BaseRequest;
-
-import org.xutils.common.util.MD5;
+import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.SecurityUtils;
 
 /**
  * Created by strike on 16/6/1.
@@ -23,7 +23,7 @@ public class RegisterReq extends BaseRequest {
         String password;
         public RequestParam(String name,String pass){
             username = name;
-            password = MD5.md5(pass);
+            password = SecurityUtils.encrypt128(pass, Constance.CLIENT_SECRET);
         }
     }
 }
