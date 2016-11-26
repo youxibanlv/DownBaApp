@@ -1,10 +1,9 @@
 package com.strike.downba_app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.strike.downba_app.adapter.SubjectDetailsAdapter;
 import com.strike.downba_app.base.BaseActivity;
@@ -13,7 +12,7 @@ import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Subject;
-import com.strike.downba_app.http.request.GetAppsByIdListReq;
+import com.strike.downba_app.http.request.GetAppsByIdStringReq;
 import com.strike.downba_app.http.response.GetAppListRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.PullToRefreshUtils;
@@ -33,12 +32,6 @@ import java.util.List;
 @ContentView(R.layout.activity_subject)
 public class SubjectActivity extends BaseActivity {
 
-    @ViewInject(R.id.title)
-    private TextView title;
-
-//    @ViewInject(R.id.area_html)
-//    private TextView area_html;
-
     @ViewInject(R.id.pull_to_refresh)
     private PullToRefreshListView pull_to_refresh;
 
@@ -57,31 +50,23 @@ public class SubjectActivity extends BaseActivity {
             }
         }
         adapter = new SubjectDetailsAdapter(this);
-        pull_to_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pull_to_refresh.setMode(PullToRefreshBase.Mode.DISABLED);
         PullToRefreshUtils.initRefresh(pull_to_refresh);
-        adapter = new SubjectDetailsAdapter(this);
         pull_to_refresh.setAdapter(adapter);
-        pull_to_refresh.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
 
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                getAppsByIdList(subject.getIdString());
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (subject != null){
-            title.setText(subject.getTitle());
-//            area_html.setText(Html.fromHtml(subject.getDes()));
+            adapter.refreshImg(subject.getLogo());
             getAppsByIdList(subject.getIdString());
         }
     }
 
     private void getAppsByIdList(String idList){
-        GetAppsByIdListReq req = new GetAppsByIdListReq(idList);
+        GetAppsByIdStringReq req = new GetAppsByIdStringReq(idList);
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
@@ -89,7 +74,7 @@ public class SubjectActivity extends BaseActivity {
                 GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
                 List<App> list = rsp.getAppList();
                 if (list != null){
-                    adapter.refresh(list);
+                    adapter.refreshApps(list);
                 }
             }
 
@@ -101,11 +86,17 @@ public class SubjectActivity extends BaseActivity {
         });
     }
 
-    @Event(value = {R.id.iv_back})
+    @Event(value = {R.id.iv_back,R.id.iv_manager,R.id.edt_search})
     private void getEvent(View view){
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.iv_manager:
+
+                break;
+            case R.id.edt_search:
+                startActivity(new Intent(this,SearchActivity.class));
                 break;
         }
     }

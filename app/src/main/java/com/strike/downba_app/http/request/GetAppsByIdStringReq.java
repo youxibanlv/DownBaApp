@@ -6,13 +6,13 @@ import com.strike.downba_app.http.BaseRequest;
 /**
  * Created by strike on 16/8/3.
  */
-public class GetAppsByIdListReq extends BaseRequest {
+public class GetAppsByIdStringReq extends BaseRequest {
 
     RequestParam requestParams;
 
-    public GetAppsByIdListReq(String idList){
+    public GetAppsByIdStringReq(String idList){
         cmdType = "appService";
-        methodName = "getAppsByIdList";
+        methodName = "getAppsByIdString";
         requestParams = new RequestParam(idList);
     }
 

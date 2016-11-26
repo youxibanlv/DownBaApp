@@ -43,7 +43,6 @@
                 android:paddingLeft="@dimen/wdp25"
                 android:text="输入搜索关键词"
                 android:lines="1"
-                android:editable="false"
                 android:maxLength="20"
                 android:gravity="center_vertical"
                 android:textColor="@color/text_hit"

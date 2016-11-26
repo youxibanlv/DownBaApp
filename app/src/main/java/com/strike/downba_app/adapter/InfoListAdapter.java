@@ -41,16 +41,6 @@ public class InfoListAdapter extends MyBaseAdapter<Info> {
         viewHolder.title.setText(info.getInfo_title());
         viewHolder.body.setText(info.getInfo_desc());
         viewHolder.visitors.setText(info.getInfo_visitors()+"");
-//        viewHolder.ll_info.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, InfoActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(Constance.INFO,info);
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
-//            }
-//        });
         viewHolder.ll_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

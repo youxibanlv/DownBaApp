@@ -53,7 +53,7 @@ public class Subject implements Serializable{
     }
 
     public String getLogo() {
-        if (!VerifyUtils.isUrl(logo)){
+        if (!VerifyUtils.isUrl(logo) && logo != null && !"".equals(logo)){
             logo = UrlConfig.BASE_IMG_URL + logo;
         }
         return logo;
