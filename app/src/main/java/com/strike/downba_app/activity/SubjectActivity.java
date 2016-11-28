@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ListView;
 
 import com.strike.downba_app.adapter.SubjectDetailsAdapter;
 import com.strike.downba_app.base.BaseActivity;
@@ -15,9 +16,6 @@ import com.strike.downba_app.http.entity.Subject;
 import com.strike.downba_app.http.request.GetAppsByIdStringReq;
 import com.strike.downba_app.http.response.GetAppListRsp;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.PullToRefreshUtils;
-import com.strike.downba_app.view.library.PullToRefreshBase;
-import com.strike.downba_app.view.library.PullToRefreshListView;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -33,7 +31,7 @@ import java.util.List;
 public class SubjectActivity extends BaseActivity {
 
     @ViewInject(R.id.pull_to_refresh)
-    private PullToRefreshListView pull_to_refresh;
+    private ListView pull_to_refresh;
 
     private Subject subject;
     private SubjectDetailsAdapter adapter;
@@ -50,8 +48,6 @@ public class SubjectActivity extends BaseActivity {
             }
         }
         adapter = new SubjectDetailsAdapter(this);
-        pull_to_refresh.setMode(PullToRefreshBase.Mode.DISABLED);
-        PullToRefreshUtils.initRefresh(pull_to_refresh);
         pull_to_refresh.setAdapter(adapter);
 
     }
@@ -80,7 +76,6 @@ public class SubjectActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-                pull_to_refresh.onRefreshComplete();
                 dismissProgressDialog();
             }
         });
