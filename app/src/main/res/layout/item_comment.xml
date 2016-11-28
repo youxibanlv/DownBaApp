@@ -10,16 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="游客 :"
-        android:layout_marginLeft="@dimen/wdp20"
-        android:textSize="@dimen/wdp20"
-        android:textColor="@color/text_black"
+        android:textSize="@dimen/wdp24"
+        android:textColor="@color/text_gray"
         android:layout_marginTop="@dimen/wdp10"
         />
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/wdp20"
+        android:textSize="@dimen/wdp24"
         android:text="2016-8-11"
         android:textColor="@color/text_gray"
         android:layout_marginRight="@dimen/wdp20"
@@ -31,9 +30,9 @@
         android:layout_below="@id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/wdp20"
+        android:textSize="@dimen/wdp24"
         android:text="看起来不错，值得玩玩"
-        android:textColor="@color/text_gray"
+        android:textColor="@color/light_black"
         android:layout_marginTop="@dimen/wdp10"
         />
 </RelativeLayout>

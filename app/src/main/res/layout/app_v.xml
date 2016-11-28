@@ -19,6 +19,7 @@
         android:maxWidth="@dimen/wdp120"
         android:text="@string/app_title"
         android:lines="1"
+        android:textColor="@color/light_black"
         android:ellipsize="end"
         android:textSize="@dimen/wdp22"
         android:layout_marginTop="@dimen/wdp14"/>
@@ -70,6 +71,7 @@
         android:background="@drawable/download_bg"
         android:layout_marginTop="@dimen/wdp11"
         android:text="@string/install"
+        android:textColor="@color/white"
         android:textSize="@dimen/wdp18"
         android:gravity="center"/>
 </LinearLayout>

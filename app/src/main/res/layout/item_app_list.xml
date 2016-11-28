@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
+            android:textColor="@color/light_black"
             android:ellipsize="end"
             android:textSize="@dimen/wdp24"
             />
@@ -101,6 +102,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/download_bg"
             android:gravity="center"
+            android:textColor="@color/white"
             android:layout_height="@dimen/wdp40"
             android:text="@string/install"
             android:textSize="@dimen/wdp20"/>

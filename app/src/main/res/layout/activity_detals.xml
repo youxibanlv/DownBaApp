@@ -208,7 +208,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/info"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/wdp26" />
+                    android:textSize="@dimen/wdp30" />
 
                 <ImageView
                     android:id="@+id/des_open"
@@ -220,7 +220,8 @@
                     android:paddingLeft="@dimen/wdp15"
                     android:paddingRight="@dimen/wdp15"
                     android:paddingTop="@dimen/wdp10"
-                    android:src="@mipmap/down" />
+                    android:src="@mipmap/down"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <TextView
@@ -230,8 +231,21 @@
                 android:layout_marginLeft="@dimen/wdp20"
                 android:layout_marginRight="@dimen/wdp20"
                 android:layout_marginTop="@dimen/wdp20"
-                android:textSize="@dimen/wdp20" />
-
+                android:lines="3"
+                android:ellipsize="end"
+                android:letterSpacing="@dimen/wdp10"
+                android:lineSpacingExtra="@dimen/wdp10"
+                android:textSize="@dimen/wdp24" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@color/white"
+                android:textColor="@color/default_bg"
+                android:drawableRight="@mipmap/down"
+                android:layout_marginRight="@dimen/wdp34"
+                android:drawablePadding="@dimen/wdp10"
+                android:text="查看全文"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/wdp1"
@@ -251,7 +265,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/user_comment"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/wdp24" />
+                    android:textSize="@dimen/wdp30" />
 
                 <ImageView
                     android:id="@+id/comment_open"
@@ -306,7 +320,7 @@
                 android:layout_marginTop="@dimen/wdp13"
                 android:text="@string/guess_you_like"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/wdp24" />
+                android:textSize="@dimen/wdp30" />
 
             <com.strike.downba_app.view.NoScrollGridView
                 android:id="@+id/gv_recommend"
