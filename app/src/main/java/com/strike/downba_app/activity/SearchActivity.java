@@ -73,7 +73,6 @@ public class SearchActivity extends BaseActivity {
 
     private List<Keyword> keywords;
 
-//    private String key;
 
     private int pageNo = 0,pageSize = 5,total,keySize = 5;
     private AppLIstAdapter appLIstAdapter;

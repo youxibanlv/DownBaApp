@@ -38,9 +38,11 @@ public class ExtrAppVertical extends LinearLayout {
     private TextView app_install;
 
     private View view;
+    private Context context;
 
     public ExtrAppVertical(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
         view = LayoutInflater.from(context).inflate(R.layout.app_v, this, true);
         x.view().inject(view);
     }
@@ -48,6 +50,7 @@ public class ExtrAppVertical extends LinearLayout {
     public void refreshDownload(String msg){
         if (msg!= null && app_install!= null){
             app_install.setText(msg);
+            app_install.setBackgroundColor(context.getResources().getColor(R.color.text_gray));
         }
     }
     public void hideDownBtn(boolean hide){

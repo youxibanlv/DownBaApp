@@ -118,6 +118,7 @@ public class AppDetailsActivity extends BaseActivity {
         @Override
         public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
             if (info!= null && info.getObjId().equals(app.getApp_id())){
+                tv_down.setBackgroundColor(context.getResources().getColor(R.color.text_gray));
                 switch (info.getState()){
                     case WAITING:
                         tv_down.setText("队列中。。");

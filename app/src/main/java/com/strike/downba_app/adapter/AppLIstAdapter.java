@@ -47,6 +47,7 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }
             if (view != null){
                 AppListViewHolder holder = (AppListViewHolder) view.getTag();
+                holder.tv_down.setBackgroundColor(context.getResources().getColor(R.color.text_gray));
                 if (holder != null){
                     switch (info.getState()){
                         case WAITING:
