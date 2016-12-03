@@ -207,6 +207,12 @@ public class HomeAdapter extends BaseAdapter {
             case TYPE_SUBJECT:
                 bean = homeBeens.get(position-1);
                 x.image().bind(subjectHolder.icon,bean.getHomeBeanLogo());
+                subjectHolder.icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 2016/11/28 跳转逻辑 
+                    }
+                });
                 break;
         }
         return convertView;

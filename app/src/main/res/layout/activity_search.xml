@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
         android:background="@color/default_bg"
@@ -17,6 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/wdp20"
             android:src="@mipmap/icon_back" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/wdp50"
@@ -58,8 +61,9 @@
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        >
         <com.strike.downba_app.view.library.PullToRefreshListView
             android:id="@+id/pull_to_refresh"
             android:layout_width="match_parent"
@@ -70,23 +74,34 @@
             android:paddingBottom="30dp"
             android:scrollbars="none"
             android:smoothScrollbar="true"
-            android:visibility="gone"/>
+            />
 
         <RelativeLayout
             android:id="@+id/rl_default_key"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/wdp20"
-            android:paddingRight="@dimen/wdp20">
+            android:paddingRight="@dimen/wdp20"
+            >
+
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/wdp45"
-                android:textSize="@dimen/wdp26"
-                android:textColor="@color/text_black"
-                android:text="大家都在搜"/>
+                android:text="大家都在搜："
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/wdp35" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rl_key"
+                android:layout_marginTop="@dimen/wdp30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp"
+                android:layout_below="@id/title" />
 
         </RelativeLayout>
     </FrameLayout>
-    
-</LinearLayout>
+
+</RelativeLayout>
