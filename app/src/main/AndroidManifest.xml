@@ -74,13 +74,14 @@
         <activity android:name="com.strike.downba_app.activity.UserInfoActivity"/>
         <activity android:name="com.strike.downba_app.activity.SearchActivity"/>
         <activity android:name="com.strike.downba_app.activity.AppDetailsActivity"/>
-        <activity android:name="com.strike.downba_app.activity.RecommendActivity"/>
+        <activity android:name="com.strike.downba_app.activity.CateActivity"/>
         <activity android:name="com.strike.downba_app.activity.ImgDetailsActivity"/>
         <activity android:name="com.strike.downba_app.activity.UpLoadActivity"/>
         <activity android:name="com.strike.downba_app.activity.SubjectActivity"/>
         <activity android:name="com.strike.downba_app.activity.InfoActivity"/>
         <activity android:name="com.strike.downba_app.activity.CommonWebviewActivity"/>
         <activity android:name="com.strike.downba_app.activity.ProtocolActivity"/>
+        <activity android:name="com.strike.downba_app.activity.ManagerActivity"/>
     </application>
 
 </manifest>

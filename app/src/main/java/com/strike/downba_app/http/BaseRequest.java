@@ -70,15 +70,16 @@ public class BaseRequest {
 
     public void upLoadFile(String path,Callback.CommonCallback<String> callback){
         try {
-            rp = new RequestParams(UrlConfig.getUrl(cmdType),null,null,null);
+            rp = new RequestParams(UrlConfig.getUrl(cmdType)+methodName+".do",null,null,null);
             rp.setMultipart(true);
             rp.addBodyParameter("methodName",methodName);
             rp.addBodyParameter("cmdType",cmdType);
             rp.addBodyParameter("openId",openId);
             rp.addBodyParameter("token",token);
             rp.addBodyParameter("file",new File(path));
-            rp.addBodyParameter("user",UserDao.getUser().getUsername());
+            rp.addBodyParameter("user",UserDao.getUser().getUid());
             x.http().request(HttpMethod.POST,rp,callback);
+            LogUtil.e(rp.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

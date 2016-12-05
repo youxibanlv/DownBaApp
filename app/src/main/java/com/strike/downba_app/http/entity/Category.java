@@ -3,12 +3,14 @@ package com.strike.downba_app.http.entity;
 import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.VerifyUtils;
 
+import java.io.Serializable;
+
 /**
  * Created by strike on 16/7/2.
  *
  * 分类的实体对象
  */
-public class Category {
+public class Category implements Serializable{
     private int cate_id;//类别id
     private int parent_id;//父类id
     private String cname;//分类名称

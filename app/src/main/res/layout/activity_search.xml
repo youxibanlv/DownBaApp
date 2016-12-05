@@ -46,6 +46,7 @@
                 android:paddingLeft="@dimen/wdp25"
                 android:paddingRight="@dimen/wdp25"
                 android:textColorHint="@color/text_hit"
+                android:textColor="@color/white"
                 android:textSize="@dimen/wdp20" />
 
             <ImageView

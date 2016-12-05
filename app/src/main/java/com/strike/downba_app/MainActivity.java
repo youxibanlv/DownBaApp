@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.strike.downba_app.activity.LoginActivity;
+import com.strike.downba_app.activity.ManagerActivity;
 import com.strike.downba_app.activity.SearchActivity;
 import com.strike.downba_app.activity.UserInfoActivity;
 import com.strike.downba_app.base.BaseActivity;
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.iv_manager://app管理界面
-
+                startActivity(new Intent(MainActivity.this, ManagerActivity.class));
                 break;
             case R.id.title_bar://搜索界面
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));

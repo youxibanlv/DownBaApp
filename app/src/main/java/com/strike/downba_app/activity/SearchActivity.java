@@ -74,7 +74,7 @@ public class SearchActivity extends BaseActivity {
     private List<Keyword> keywords;
 
 
-    private int pageNo = 0,pageSize = 5,total,keySize = 5;
+    private int pageNo = 0,pageSize = 7,total,keySize = 5;
     private AppLIstAdapter appLIstAdapter;
 
     private Handler handler = new Handler(){

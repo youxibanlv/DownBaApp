@@ -5,17 +5,18 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
-        android:background="@color/light_black"
-        android:orientation="vertical">
+        android:background="@color/default_bg"
+        android:paddingLeft="@dimen/wdp20"
+        android:paddingRight="@dimen/wdp20">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/wdp45"
-            android:layout_height="@dimen/wdp45"
+            android:layout_width="@dimen/wdp36"
+            android:layout_height="@dimen/wdp36"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/wdp20"
             android:src="@mipmap/icon_back" />
 
         <TextView
@@ -23,10 +24,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/recommend"
+            android:text="你若安好，便是晴天"
             android:textColor="@color/white"
-            android:textSize="@dimen/wdp30" />
+            android:textSize="@dimen/wdp26" />
 
+        <ImageView
+            android:id="@+id/shouCan"
+            android:layout_width="@dimen/wdp32"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_shoucan" />
+
+        <ImageView
+            android:id="@+id/share"
+            android:layout_width="@dimen/wdp32"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wdp42"
+            android:layout_toLeftOf="@id/shouCan"
+            android:src="@mipmap/icon_share" />
     </RelativeLayout>
     <com.strike.downba_app.view.library.PullToRefreshListView
         android:id="@+id/pull_to_refresh"

@@ -27,6 +27,8 @@ public interface Constance {
 
     String CLIENT_SECRET ="down8app@strike%*xo" ;//app鉴权秘钥
 
+    String CATE ="cate";
+
     int PARENT_GAME = 2;//游戏分类
     int PARENT_APP = 1;//应用分类
     int ORDER_HOT= 1;//排行

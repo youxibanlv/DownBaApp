@@ -1,14 +1,17 @@
 package com.strike.downba_app.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.strike.downba_app.activity.CateActivity;
 import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.http.BaseResponse;
@@ -17,6 +20,7 @@ import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Category;
 import com.strike.downba_app.http.request.GetCategoryReq;
 import com.strike.downba_app.http.response.GetCategoryRsp;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
 
 import org.xutils.common.util.LogUtil;
@@ -99,10 +103,17 @@ public class CategoryFragment extends BaseFragment {
             }else{
                 holder = (ViewHolder) convertView.getTag();
             }
-            Category category = getItem(position);
+            final Category category = getItem(position);
             holder.name.setText(category.getCname());
             x.image().bind(holder.icon,category.getCimg());
-
+            holder.rl_catel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CateActivity.class);
+                    intent.putExtra(Constance.CATE,category);
+                    context.startActivity(intent);
+                }
+            });
             return convertView;
         }
     }
@@ -112,6 +123,8 @@ public class CategoryFragment extends BaseFragment {
         ImageView icon;
         @ViewInject(R.id.name)
         TextView name;
+        @ViewInject(R.id.rl_cate)
+        LinearLayout rl_catel;
 
         public ViewHolder(View view){
             x.view().inject(this,view);

@@ -43,7 +43,7 @@ public class AppConfig {
     /**
      * APP默认数据库版本号
      */
-    public static final int DEFAULT_DB_VERSION = 1;
+    public static final int DEFAULT_DB_VERSION = 2;
     /**
      * APP默认编码格式
      */

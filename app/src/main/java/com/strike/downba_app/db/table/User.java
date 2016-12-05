@@ -12,10 +12,8 @@ import org.xutils.db.annotation.Table;
  */
 @Table(name = "appcms_user")
 public class User {
-    @Column(name = "id", isId = true)
-    private int id;
 
-    @Column(name = "uid")
+    @Column(name = "uid",isId = true)
     private String uid;//用户id
 
     @Column(name = "username")
@@ -45,14 +43,6 @@ public class User {
     private long regist_time;//注册时间
     @Column(name = "update_time")
     private long update_time;//更新时间
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUid() {
         return uid;

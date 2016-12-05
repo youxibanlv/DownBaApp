@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/wdp80"
-        android:background="@color/light_black"
+        android:background="@color/default_bg"
         android:orientation="vertical">
 
         <ImageView
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/wdp20"
-            android:src="@mipmap/default_usericon" />
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -176,5 +176,7 @@
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/default_bg"
+        android:textColor="@color/white"
         android:text="退出登录" />
 </LinearLayout>

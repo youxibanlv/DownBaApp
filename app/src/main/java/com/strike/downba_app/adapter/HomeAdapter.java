@@ -2,6 +2,7 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.strike.downba_app.activity.RecommendActivity;
+import com.strike.downba_app.activity.CateActivity;
+import com.strike.downba_app.activity.SubjectActivity;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.http.entity.HomeBean;
 import com.strike.downba_app.http.entity.Recommend;
+import com.strike.downba_app.http.entity.Subject;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.NoScrollGridView;
 import com.strike.downba_app.view.WheelViewPage;
 import com.strike.downbaapp.R;
@@ -170,7 +174,7 @@ public class HomeAdapter extends BaseAdapter {
             }
         }
         //设置资源
-        HomeBean bean;
+        final HomeBean bean;
         switch (type) {
             case TYPE_HEAD:
                 if (wheelPages.size() > 0) {
@@ -190,7 +194,7 @@ public class HomeAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         //点击更多，跳转到app推荐列表界面
-                        Intent intent = new Intent(context, RecommendActivity.class);
+                        Intent intent = new Intent(context, CateActivity.class);
                         context.startActivity(intent);
                     }
                 });
@@ -210,7 +214,12 @@ public class HomeAdapter extends BaseAdapter {
                 subjectHolder.icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: 2016/11/28 跳转逻辑 
+                        Subject subject = bean.getSubject();
+                        Intent intent = new Intent(context, SubjectActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Constance.SUBJECT,subject);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
                 });
                 break;

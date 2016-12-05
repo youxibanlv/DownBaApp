@@ -57,7 +57,7 @@ public class UpLoadActivity extends BaseActivity {
     }
     //上传头像
     private void upDataUserIcon(String path){
-        UploadUserIconReq req = new UploadUserIconReq(path);
+        UploadUserIconReq req = new UploadUserIconReq(path,UserDao.getUser());
         req.upLoadFile(path, new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
