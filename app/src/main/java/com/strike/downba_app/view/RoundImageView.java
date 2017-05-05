@@ -23,7 +23,7 @@ import com.strike.downbaapp.R;
  * * 设置颜色在xml布局文件中由自定义属性配置参数指定
  * 可以直接在xml中使用
  */
-public class RoundImageView extends ImageView {
+public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
     private int mBorderThickness = 0;
     private Context mContext;
     private int defaultColor = 0xFFFFFFFF;

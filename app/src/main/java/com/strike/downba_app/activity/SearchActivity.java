@@ -278,9 +278,9 @@ public class SearchActivity extends BaseActivity {
                         if (list != null && list.size()>0){
                             handler.obtainMessage(SHOWAPPS).sendToTarget();
                             if (isRefresh){
-                                appLIstAdapter.refresh(list);
+//                                appLIstAdapter.refresh(list);
                             }else{
-                                appLIstAdapter.getList().addAll(list);
+//                                appLIstAdapter.getList().addAll(list);
                                 appLIstAdapter.notifyDataSetChanged();
                             }
                         }else {

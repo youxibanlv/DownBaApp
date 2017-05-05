@@ -11,12 +11,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.strike.downba_app.activity.CateActivity;
 import com.strike.downba_app.activity.SubjectActivity;
 import com.strike.downba_app.download.DownloadInfo;
-import com.strike.downba_app.http.entity.HomeBean;
-import com.strike.downba_app.http.entity.Recommend;
-import com.strike.downba_app.http.entity.Subject;
+import com.strike.downba_app.http.bean.AppAd;
+import com.strike.downba_app.http.bean.AppHome;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.NoScrollGridView;
 import com.strike.downba_app.view.WheelViewPage;
@@ -28,6 +26,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.strike.downbaapp.R.string.subject;
+
 /**
  * Created by strike on 16/6/7.
  */
@@ -38,8 +38,8 @@ public class HomeAdapter extends BaseAdapter {
     private final int TYPE_LIST = 2;//普通推荐
     private final int TYPE_SUBJECT = 3;//专题推荐
 
-    private List<Recommend> wheelPages = new ArrayList<>();//轮播图集合
-    private List<HomeBean> homeBeens = new ArrayList<>();//精品推荐
+    private List<AppAd> wheelPages = new ArrayList<>();//轮播图集合
+    private List<AppHome> homeBeens = new ArrayList<>();//首页元素
 
     private List<AppLIstAdapter> listAdapters = new ArrayList<>();
     private List<GridRecommendAdapter> gridAdapters = new ArrayList<>();
@@ -68,26 +68,27 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     //设置轮播图数据
-    public void refreshWheelPages(List<Recommend> list) {
+    public void refreshWheelPages(List<AppAd> list) {
         wheelPages = list;
         notifyDataSetChanged();
     }
 
-    //    设置精品推荐数据
-    public void refreshRecommends(List<HomeBean> list) {
-        homeBeens = list;
+    // 设置设欧耶数据
+    public void refreshHome(AppHome appHome) {
+        homeBeens.clear();
+        homeBeens.add(appHome);
         notifyDataSetChanged();
     }
 
-    public void loadMore(List<HomeBean> list){
-        homeBeens.addAll(list);
+    public void loadMore(AppHome appHome){
+        homeBeens.add(appHome);
         notifyDataSetChanged();
     }
     @Override
     public int getCount() {
         int count = 1;
         if (homeBeens.size() > 0) {
-            count = count + homeBeens.size();
+            count = count + homeBeens.size()*3;
         }
         return count;
     }
@@ -98,11 +99,11 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public AppHome getItem(int position) {
         if (position < 1) {
             return null;
         } else {
-            return homeBeens.get(position);
+            return homeBeens.get((position-1)/3);
         }
 
     }
@@ -117,14 +118,13 @@ public class HomeAdapter extends BaseAdapter {
         if (position == 0) {
             return TYPE_HEAD;
         } else {
-            int  type = homeBeens.get(position-1).getHomeBeanType();
-           if (HomeBean.TYPE_RECOMMEND == type){
-               return TYPE_RECOMMEND;
-           }else if (HomeBean.TYPE_SUBJECT == type) {
-               return TYPE_SUBJECT;
-           }else{
-               return TYPE_LIST;
-           }
+            if ((position-1)%3 ==0){
+                return TYPE_RECOMMEND;
+            }else if ((position+1)%3==0){
+                return TYPE_LIST;
+            }else {
+                return TYPE_SUBJECT;
+            }
         }
     }
 
@@ -174,7 +174,7 @@ public class HomeAdapter extends BaseAdapter {
             }
         }
         //设置资源
-        final HomeBean bean;
+        final AppHome bean = getItem(position);
         switch (type) {
             case TYPE_HEAD:
                 if (wheelPages.size() > 0) {
@@ -182,39 +182,36 @@ public class HomeAdapter extends BaseAdapter {
                 }
                 break;
             case TYPE_RECOMMEND:
-                bean = homeBeens.get(position-1);
-                recommendHolder.tv_recommend.setText(bean.getHomeBeanTitle());
+                recommendHolder.tv_recommend.setText(bean.getTitle1());
                 GridRecommendAdapter gridAdapter = new GridRecommendAdapter(context);
                 recommendHolder.gv_recommend.setAdapter(gridAdapter);
-                if (bean.getApps().size() > 0) {
-                    gridAdapter.setList(bean.getApps());
+                if (bean.getRecomd().size() > 0) {
+                    gridAdapter.setList(bean.getRecomd());
                 }
                 gridAdapters.add(gridAdapter);
-                recommendHolder.tv_more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //点击更多，跳转到app推荐列表界面
-                        Intent intent = new Intent(context, CateActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
+//                recommendHolder.tv_more.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //点击更多，跳转到app推荐列表界面
+//                        Intent intent = new Intent(context, CateActivity.class);
+//                        context.startActivity(intent);
+//                    }
+//                });
                 break;
             case TYPE_LIST:
-                bean = homeBeens.get(position-1);
-                appListViewHolder.tv_recommend.setText(bean.getHomeBeanTitle());
+                appListViewHolder.tv_recommend.setText(bean.getTitle2());
                 AppLIstAdapter appListAdapter = new AppLIstAdapter(context);
                 appListViewHolder.lv_recommend.setAdapter(appListAdapter);
-                appListAdapter.refresh(bean.getApps());
+                appListAdapter.refresh(bean.getAppAdApp());
                 //添加到adapter集合，方便刷新下载进度
                 listAdapters.add(appListAdapter);
                 break;
             case TYPE_SUBJECT:
-                bean = homeBeens.get(position-1);
-                x.image().bind(subjectHolder.icon,bean.getHomeBeanLogo());
+                x.image().bind(subjectHolder.icon,bean.getBanner().getLogo());
                 subjectHolder.icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Subject subject = bean.getSubject();
+//                        Subject subject = bean.getSubject();
                         Intent intent = new Intent(context, SubjectActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(Constance.SUBJECT,subject);

@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
-import com.strike.downba_app.db.table.App;
-import com.strike.downba_app.http.entity.Recommend;
+import com.strike.downba_app.http.bean.AppAd;
+import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.utils.Constance;
 
 import org.xutils.image.ImageOptions;
@@ -24,29 +24,27 @@ import java.util.List;
  */
 public class ImageAdapter extends PagerAdapter {
 
-    private List<Recommend> pages;
+    private List<AppAd> pages;
     private List<ImageView> imageViews;
     private Context context;
 
-    public ImageAdapter(Context context,List<Recommend> list) {
-        this.pages = list;
+    public ImageAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setPages(List<AppAd> list){
+        pages = list;
         imageViews = new ArrayList<>();
         ImageOptions.Builder builder = new ImageOptions.Builder();
         builder.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
         ImageOptions options = builder.build();
         if (list!= null && list.size()>0){
-            for (Recommend wheelPage : list) {
+            for (AppAd wheelPage : list) {
                 ImageView imageView = new ImageView(context);
-                x.image().bind(imageView, wheelPage.getRecommend_logo(),options);
+                x.image().bind(imageView, wheelPage.getLogo(),options);
                 imageViews.add(imageView);
             }
         }
-
-    }
-
-    public void setPages(List<Recommend> wheelPages){
-        pages = wheelPages;
     }
 
     @Override
@@ -62,10 +60,24 @@ public class ImageAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
-                App app = pages.get(position).getApp();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constance.APP,app);
-                intent.putExtras(bundle);
+                AppAd appAd = pages.get(position);
+                Subject sb = appAd.getSubject();
+                if (sb == null){
+                    return;
+                }else {
+                    switch (sb.getSb_type()){
+                        case Constance.SB_ONE_APP://跳转详情
+
+                            break;
+                        case Constance.SB_LIST_APP://app列表
+
+                            break;
+                        case Constance.SB_APP_INFO://app+资讯
+
+                            break;
+                    }
+                }
                 context.startActivity(intent);
             }
         });

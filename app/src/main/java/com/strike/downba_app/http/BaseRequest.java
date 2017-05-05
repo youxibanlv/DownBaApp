@@ -33,22 +33,24 @@ public class BaseRequest {
      * 令牌
      */
     public String token = "";
-    /**
-     * openId
-     */
-    public String openId = "";
+
+    public String sign="";
+
+    public Object requestParams;
 
     public transient RequestParams rp;
 
 
     public String getRequestData(){
         Gson gson = new Gson();
-        token = UserDao.getToken();
+//        sign = HttpUtil.getSign(this);
         return gson.toJson(this);
     }
 
     public void sendRequest(Callback.CommonCallback<String> callback){
-        this.postRequest(UrlConfig.getUrl(cmdType)+methodName+".do",this.getRequestData(),callback);
+        String url = UrlConfig.BASE_URL+"/mobile/dispatcher.do";
+        this.postRequest(url,this.getRequestData(),callback);
+//        this.postRequest(UrlConfig.getUrl(cmdType)+methodName+".do",this.getRequestData(),callback);
     }
 
     private void postRequest(String url,String requestData,final Callback.CommonCallback<String> callback){
@@ -74,7 +76,6 @@ public class BaseRequest {
             rp.setMultipart(true);
             rp.addBodyParameter("methodName",methodName);
             rp.addBodyParameter("cmdType",cmdType);
-            rp.addBodyParameter("openId",openId);
             rp.addBodyParameter("token",token);
             rp.addBodyParameter("file",new File(path));
             rp.addBodyParameter("user",UserDao.getUser().getUid());

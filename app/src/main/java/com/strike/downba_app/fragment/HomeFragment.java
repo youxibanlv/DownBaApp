@@ -12,16 +12,16 @@ import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.download.DataChanger;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.Watcher;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.HomeBean;
-import com.strike.downba_app.http.entity.PageBean;
+import com.strike.downba_app.http.bean.AppAd;
+import com.strike.downba_app.http.bean.AppHome;
 import com.strike.downba_app.http.entity.Recommend;
-import com.strike.downba_app.http.request.HomeBeanReq;
-import com.strike.downba_app.http.request.RecommendReq;
-import com.strike.downba_app.http.response.HomeBeanRsp;
-import com.strike.downba_app.http.response.RecommendRsp;
+import com.strike.downba_app.http.req.AppHomeReq;
+import com.strike.downba_app.http.req.WheelReq;
+import com.strike.downba_app.http.rsp.AppHomeRsp;
+import com.strike.downba_app.http.rsp.WheelRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -87,8 +87,8 @@ public class HomeFragment extends BaseFragment {
                 if (lastRefreshTime == 0 || waitTime > minWaitTime){
                     lastRefreshTime = System.currentTimeMillis();
                     pageNo = 1;
-                    getRecommend(String.valueOf(Recommend.TYPE_WHEEL));
-                    getHomeList(pageNo,pageSize,true);
+                    getWheel(String.valueOf(Recommend.TYPE_WHEEL));
+                    getHomeList(pageNo,true);
                 }else{
                     waitTime = System.currentTimeMillis() - lastRefreshTime;
                     showTipToast(false,String.format(getString(R.string.refresh_too_fast),minWaitTime/1000));
@@ -97,38 +97,33 @@ public class HomeFragment extends BaseFragment {
             }
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    if (pageNo <= totalPage){
-                        pageNo ++;
-                       getHomeList(pageNo,pageSize,false);
-                    }else{
-                        UiUtils.showTipToast(false,getString(R.string.this_is_last));
-                        UiUtils.stopRefresh(pull_to_refresh);
-                    }
+                    pageNo ++;
+                   getHomeList(pageNo,false);
             }
         });
         //加载轮播图片
-        getRecommend(String.valueOf(Recommend.TYPE_WHEEL));
-        getHomeList(1, pageSize,true);
+        getWheel(String.valueOf(Recommend.TYPE_WHEEL));
+        getHomeList(1,true);
         return view;
     }
 
-    private void getHomeList(int pageNo, int pageSize, final boolean isRefresh){
-        final HomeBeanReq req = new HomeBeanReq(pageNo,pageSize);
+    private void getHomeList(int pageNo,  final boolean isRefresh){
+        final AppHomeReq req = new AppHomeReq(pageNo);
         showProgressDialogCloseDelay(getString(R.string.loading),HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                HomeBeanRsp rsp = (HomeBeanRsp) BaseResponse.getRsp(result,HomeBeanRsp.class);
-                List<HomeBean> beans = rsp.resultData.homeBeans;
-                PageBean pageBean = rsp.resultData.pageBean;
-                totalPage = pageBean.totalPage;
-                if (beans != null && beans.size()>0){
+                AppHomeRsp rsp = (AppHomeRsp) BaseRsp.getRsp(result,AppHomeRsp.class);
+                AppHome home = rsp.resultData.appHome;
+                if (home != null){
                     if (isRefresh){
-                        adapter.refreshRecommends(beans);
+                        adapter.refreshHome(home);
                     }else{
-                        adapter.loadMore(beans);
+                        adapter.loadMore(home);
                     }
                     adapter.notifyDataSetChanged();
+                }else {
+                    showTipToast(false,"已经到底了");
                 }
             }
 
@@ -143,14 +138,14 @@ public class HomeFragment extends BaseFragment {
         });
     }
     //加载轮播图
-    private void getRecommend(final String type){
-        final RecommendReq req = new RecommendReq(type);
+    private void getWheel(final String type){
+        final WheelReq req = new WheelReq();
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                RecommendRsp rsp = (RecommendRsp) BaseResponse.getRsp(result,RecommendRsp.class);
+                WheelRsp rsp = (WheelRsp) BaseRsp.getRsp(result,WheelRsp.class);
                 if (rsp.result == HttpConstance.HTTP_SUCCESS){
-                    List<Recommend> list = rsp.getAppList();
+                    List<AppAd> list = rsp.resultData.wheels;
                     if (list!= null && list.size()>0){
                         adapter.refreshWheelPages(list);
                         adapter.notifyDataSetChanged();

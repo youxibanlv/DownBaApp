@@ -45,28 +45,28 @@ public class CommonWebviewActivity extends BaseActivity {
     private int id = 0;
     private String webUrl;
 
-
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         webTitle = intent.getStringExtra(WEB_TITLE);
-        id = intent.getIntExtra(INFO_ID,-1);
+        id = intent.getIntExtra(INFO_ID, -1);
         //http://www.82down.com/index.php?tpl=content_info&id=909
-        webUrl = UrlConfig.WEB_URL+"/index.php?tpl=content_info&id="+id;
+//        webUrl = UrlConfig.WEB_URL+"/index.php?tpl=content_info&id="+id;
+        webUrl = UrlConfig.BASE_URL + "/appService/getInfoDes.do?id="+id;
         if (webview != null) {
-            webview.setInitialScale(5);
             WebSettings webSettings = webview.getSettings();
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-            webSettings.setJavaScriptEnabled(true);
-            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
             webSettings.setSupportZoom(true);
-            webSettings.setBuiltInZoomControls(true);
-            webSettings.setUseWideViewPort(true);
+            webSettings.setBuiltInZoomControls(false);
+            webSettings.setUseWideViewPort(false);
             webSettings.setDomStorageEnabled(true);
             //启动缓存
             webSettings.setAppCacheEnabled(true);
             webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+            webSettings.setJavaScriptEnabled(true);
+            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
 
 
             //在Android系统4.3.1~3.0版本,系统webview默认添加了searchBoxJavaBridge_接口,如果未移除该接口可能导致低版本Android系统远程命令执行漏洞
@@ -95,8 +95,8 @@ public class CommonWebviewActivity extends BaseActivity {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, final String url) {
                     //LogIotUtils.e("shouldOverrideUrlLoading", "url="+url);
-
-                    return false;
+                    view.loadUrl(url);
+                    return true;
                 }
             });
             webview.setWebChromeClient(new WebChromeClient());
@@ -115,7 +115,7 @@ public class CommonWebviewActivity extends BaseActivity {
 
     public void onResume() {
         super.onResume();
-        tv_title.setText(webTitle);
+        tv_title.setText("详情界面");
         LogUtil.e(webUrl);
     }
 

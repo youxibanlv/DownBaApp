@@ -6,8 +6,6 @@ import com.strike.downba_app.http.entity.Version;
 
 public class VersionReq extends BaseRequest {
 
-	public RequestParam requestParams;
-
 	public VersionReq(Version version) {
 		cmdType = "versionService";
 		methodName = "checkUpdate";

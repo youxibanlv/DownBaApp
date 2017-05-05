@@ -589,7 +589,7 @@ import java.util.concurrent.atomic.AtomicLong;
     }
 
     @SuppressLint("ViewConstructor")
-    private final static class FakeImageView extends ImageView {
+    private final static class FakeImageView extends android.support.v7.widget.AppCompatImageView {
 
         private Drawable drawable;
 

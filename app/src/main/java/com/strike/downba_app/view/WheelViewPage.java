@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.strike.downba_app.adapter.ImageAdapter;
-import com.strike.downba_app.http.entity.Recommend;
+import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -42,7 +42,7 @@ public class WheelViewPage extends LinearLayout {
 
     private ImageView[] mBottomImages;//底部只是当前页面的小圆点
 
-    private List<Recommend> list = new ArrayList<>();
+    private List<AppAd> list = new ArrayList<>();
 
     private Timer timer = new Timer(); //为了方便取消定时轮播，将 Timer 设为全局
 
@@ -85,13 +85,14 @@ public class WheelViewPage extends LinearLayout {
         }, 5000, 5000);
         x.view().inject(view);
     }
-    public void setViewPage(List<Recommend> pagelist) {
+    public void setViewPage(List<AppAd> pagelist) {
         list = pagelist;
         if (list.size() <1){
             return;
         }
         if(adapter == null){
-            adapter = new ImageAdapter(context, list);
+            adapter = new ImageAdapter(context);
+            adapter.setPages(list);
             vp_hottest.setAdapter(adapter);
         }else{
             adapter.setPages(list);

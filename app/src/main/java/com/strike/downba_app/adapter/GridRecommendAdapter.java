@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.ExtrAppVertical;
 import com.strike.downbaapp.R;
@@ -24,7 +24,7 @@ import java.util.List;
 public class GridRecommendAdapter extends BaseAdapter {
 
     private Context context;
-    private List<App> list = new ArrayList<>();
+    private List<AppAd> list = new ArrayList<>();
     private LayoutInflater inflater;
     private List<View> views = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class GridRecommendAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(List<App> appList) {
+    public void setList(List<AppAd> appList) {
         list = appList;
         notifyDataSetChanged();
     }
@@ -80,7 +80,7 @@ public class GridRecommendAdapter extends BaseAdapter {
     }
 
     @Override
-    public App getItem(int position) {
+    public AppAd getItem(int position) {
         return list.get(position);
     }
 
@@ -104,8 +104,8 @@ public class GridRecommendAdapter extends BaseAdapter {
             holder.grid_recommend.hideDownBtn(true);
         }
         //配置app界面
-        App app = getItem(position);
-        holder.grid_recommend.setApp(app);
+        AppAd ad = getItem(position);
+        holder.grid_recommend.setApp(ad);
         holder.grid_recommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +117,7 @@ public class GridRecommendAdapter extends BaseAdapter {
 
             }
         });
-        convertView.setTag(R.id.gv_recommend,app.getApp_id());
+        convertView.setTag(R.id.gv_recommend,ad.getObj_id());
         views.add(convertView);
         return convertView;
     }

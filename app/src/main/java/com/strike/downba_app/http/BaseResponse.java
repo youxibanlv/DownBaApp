@@ -17,7 +17,7 @@ public class BaseResponse {
     public String cmdType;
     public String methodName;
 
-    public static BaseResponse getRsp(String result,Class resultClass){
+    public static BaseResponse getRsp(String result, Class resultClass){
         BaseResponse rsp = new BaseResponse();
         if (!TextUtils.isEmpty(result)){
             Gson gson = new Gson();

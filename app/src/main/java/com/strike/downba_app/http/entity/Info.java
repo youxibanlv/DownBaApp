@@ -4,6 +4,11 @@ package com.strike.downba_app.http.entity;
 import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.VerifyUtils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +23,9 @@ public class Info implements Serializable{
     private String info_body;
     private int info_visitors;
     private String info_desc;
+    private int info_update_time;
+    private String info_from;
+
 
     public int getInfo_id() {
         return info_id;
@@ -63,7 +71,17 @@ public class Info implements Serializable{
     }
 
     public String getInfo_body() {
-        return info_body;
+        //替换相对路径为绝对路径
+        Document document = Jsoup.parse(info_body);
+        Elements imgs = document.select("img[src]");
+        for(Element img :imgs){
+            String imgUrl = img.attr("src");
+            if (!VerifyUtils.isUrl(imgUrl)) {
+                imgUrl = UrlConfig.WEB_URL + imgUrl;
+                img.attr("src",imgUrl);
+            }
+        }
+        return document.toString();
     }
 
     public void setInfo_body(String info_body) {
@@ -84,5 +102,21 @@ public class Info implements Serializable{
 
     public void setInfo_desc(String info_desc) {
         this.info_desc = info_desc;
+    }
+
+    public int getInfo_update_time() {
+        return info_update_time;
+    }
+
+    public void setInfo_update_time(int info_update_time) {
+        this.info_update_time = info_update_time;
+    }
+
+    public String getInfo_from() {
+        return info_from;
+    }
+
+    public void setInfo_from(String info_from) {
+        this.info_from = info_from;
     }
 }

@@ -1,5 +1,7 @@
 package com.strike.downba_app.utils;
 
+import android.text.TextUtils;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,6 +15,23 @@ import java.util.Locale;
  */
 public class TimeUtil {
 
+    //日期转时间戳
+    public static long dateToLong(String dateStr,String formartStr){
+        if (formartStr == null) {
+            formartStr = "yyyy-MM-dd hh:mm:ss";
+        }
+        long ts=0;
+        SimpleDateFormat format = new SimpleDateFormat(formartStr);
+        if (!TextUtils.isEmpty(dateStr)) {
+            try {
+                ts = format.parse(dateStr).getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return ts;
+    }
     /**
      * 转换日期格式.
      *
@@ -105,9 +124,16 @@ public class TimeUtil {
     }
     /******long转时间****/
     public static String longToDateStr(long m,String formart){
+        if (formart == null) {
+            formart = "yyyy-MM-dd";
+        }
+        if (m < 1000000000000L) {
+            m = m*1000L;
+        }
         DateFormat sdf = new SimpleDateFormat(formart);
-        Date date = new Date(m);
-        return sdf.format(date);
+        Date d = new Date(m);
+        System.out.println(sdf.format(d));
+        return sdf.format(d);
     }
 
     /**

@@ -197,7 +197,7 @@ public class UpdateManager {
 					File file = new File(mSavePath);
 					// 判断文件目录是否存在
 					if (!file.exists()) {
-						file.mkdir();
+						file.mkdirs();
 					}
 					File apkFile = new File(mSavePath, fileName);
 					FileOutputStream fos = new FileOutputStream(apkFile);

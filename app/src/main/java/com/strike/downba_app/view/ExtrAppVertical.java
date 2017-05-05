@@ -9,10 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.strike.downba_app.db.table.App;
+import com.strike.downba_app.http.bean.AppAd;
+import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
-import com.strike.downba_app.utils.DownLoadUtils;
-import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -67,11 +66,15 @@ public class ExtrAppVertical extends LinearLayout {
         }
     }
 
-    public void setApp(App app){
-        String appLogo = app.getApp_logo();
+    public void setApp(AppAd ad){
+        String appLogo = ad.getLogo();
        if (app_icon != null && appLogo != null && !"".equals(appLogo)){
-           x.image().bind(app_icon,app.getApp_logo(), ImgConfig.getImgOption());
+           x.image().bind(app_icon,appLogo, ImgConfig.getImgOption());
        }
+        AppInfo app = ad.getApp();
+        if (app == null){
+            return;
+        }
         String title = app.getApp_title();
         if (title == null){
             title = "";
@@ -79,13 +82,13 @@ public class ExtrAppVertical extends LinearLayout {
         if (app_title != null) {
             app_title.setText(title);
         }
-        String score = app.getApp_recomment();
+        int score = app.getApp_grade()/2;
         if (app_score != null ) {
-            int num = NumberUtil.parseToInt(score)/2;
-            if (num>5){
-                num = 5;
+
+            if (score>5){
+                score = 5;
             }
-            app_score.setNumStars(num);
+            app_score.setNumStars(score);
         }
         String size = app.getApp_size();
         if (size == null){
@@ -94,6 +97,6 @@ public class ExtrAppVertical extends LinearLayout {
         if (app_size != null) {
             app_size.setText(size);
         }
-        DownLoadUtils.initDownLoad(app,app_install);
+//        DownLoadUtils.initDownLoad(app,app_install);
     }
 }

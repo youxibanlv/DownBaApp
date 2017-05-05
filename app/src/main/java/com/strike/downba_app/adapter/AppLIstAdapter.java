@@ -1,8 +1,6 @@
 package com.strike.downba_app.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,13 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.http.bean.AppAd;
+import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
-import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -29,7 +25,7 @@ import java.util.List;
 /**
  * Created by strike on 16/6/14.
  */
-public class AppLIstAdapter extends MyBaseAdapter<App> {
+public class AppLIstAdapter extends MyBaseAdapter<AppAd> {
 
     private List<View> views = new ArrayList<>();
     public AppLIstAdapter(Context context) {
@@ -81,7 +77,8 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
         } else {
             holder = (AppListViewHolder) convertView.getTag();
         }
-         App app = list.get(position);
+        AppAd ad = list.get(position);
+        AppInfo app = ad.getApp();
         if (app != null){
             if (app.getApp_logo()!= null){
                 x.image().bind(holder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
@@ -91,10 +88,10 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             }else{
                 holder.tv_app_title.setText(app.getApp_title());
             }
-            int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
+            int score = app.getApp_grade();
             holder.app_score.setNumStars(score);
-            if (app.getSeo_keywords()!= null){
-                holder.tv_des.setText(app.getSeo_keywords());
+            if (app.getApp_seo()!= null){
+                holder.tv_des.setText(app.getApp_seo());
             }else {
                 holder.tv_des.setText("");
             }
@@ -104,18 +101,18 @@ public class AppLIstAdapter extends MyBaseAdapter<App> {
             if (app.getApp_version()!= null){
                 holder.app_version.setText("版本："+app.getApp_version());
             }
-            int num = NumberUtil.parseToInt(app.getApp_down());
+            int num = app.getApp_down();
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-            DownLoadUtils.initDownLoad(app,holder.tv_down);
+//            DownLoadUtils.initDownLoad(app,holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    App app1 = list.get(position);
-                    Intent intent = new Intent(context, AppDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constance.APP,app1);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+//                    App app1 = list.get(position);
+//                    Intent intent = new Intent(context, AppDetailsActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(Constance.APP,app1);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
                 }
             });
         }

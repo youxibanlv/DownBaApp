@@ -82,6 +82,7 @@
         <activity android:name="com.strike.downba_app.activity.CommonWebviewActivity"/>
         <activity android:name="com.strike.downba_app.activity.ProtocolActivity"/>
         <activity android:name="com.strike.downba_app.activity.ManagerActivity"/>
+        <activity android:name="com.strike.downba_app.activity.AppActivity"/>
     </application>
 
 </manifest>

@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.strike.downbaapp.R;
 
@@ -239,7 +238,7 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
         void onTabReselected(int position);
     }
 
-    private class TabView extends TextView {
+    private class TabView extends android.support.v7.widget.AppCompatTextView {
         private int mIndex;
 
         private int iconWidth;

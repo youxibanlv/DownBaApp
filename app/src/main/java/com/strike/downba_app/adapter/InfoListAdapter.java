@@ -18,6 +18,8 @@ import com.strike.downbaapp.R;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import static com.strike.downba_app.activity.CommonWebviewActivity.WEB_TITLE;
+
 /**
  * Created by strike on 16/8/4.
  */
@@ -47,7 +49,7 @@ public class InfoListAdapter extends MyBaseAdapter<Info> {
                 Intent intent = new Intent(context, CommonWebviewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt(CommonWebviewActivity.INFO_ID,info.getInfo_id());
-                bundle.putString(CommonWebviewActivity.WEB_TITLE,info.getInfo_title());
+                bundle.putString(WEB_TITLE,info.getInfo_title());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

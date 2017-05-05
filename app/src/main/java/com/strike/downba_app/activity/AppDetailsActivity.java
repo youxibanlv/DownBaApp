@@ -27,15 +27,12 @@ import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.entity.Category;
 import com.strike.downba_app.http.entity.Comment;
-import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.http.request.AddCommentReq;
 import com.strike.downba_app.http.request.AppDetailsReq;
 import com.strike.downba_app.http.request.GetCategoryReq;
-import com.strike.downba_app.http.request.RecommendReq;
 import com.strike.downba_app.http.response.AddCommentRsp;
 import com.strike.downba_app.http.response.AppDetailsRsp;
 import com.strike.downba_app.http.response.GetCategoryRsp;
-import com.strike.downba_app.http.response.RecommendRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.DownLoadUtils;
@@ -87,7 +84,7 @@ public class AppDetailsActivity extends BaseActivity {
     private TextView tv_des;
 
     @ViewInject(R.id.des_open)
-    private ImageView des_open;
+    private TextView des_open;
 
     @ViewInject(R.id.comment_open)
     private ImageView comment_open;
@@ -191,13 +188,8 @@ public class AppDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.des_open:
-                if (tv_des.getVisibility() == View.VISIBLE) {
-                    tv_des.setVisibility(View.GONE);
-                    des_open.setImageResource(R.mipmap.up);
-                } else {
-                    tv_des.setVisibility(View.VISIBLE);
-                    des_open.setImageResource(R.mipmap.down);
-                }
+                tv_des.setText(Html.fromHtml(app.getApp_desc()));
+                des_open.setVisibility(View.GONE);
                 break;
             case R.id.comment_open:
                 if (fl_comment.getVisibility() == View.VISIBLE) {
@@ -260,29 +252,29 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void getSuspect(){
-        RecommendReq req = new RecommendReq(String.valueOf(Recommend.TYPE_SUSPECT));
-        req.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                RecommendRsp rsp = (RecommendRsp) BaseResponse.getRsp(result,RecommendRsp.class);
-                if (rsp.result == HttpConstance.HTTP_SUCCESS){
-                    List<Recommend> list = rsp.getAppList();
-                    if (list!= null && list.size()>0){
-                        List<App> apps = new ArrayList<>();
-                        for (Recommend recommend:list){
-                            apps.add(recommend.getApp());
-                        }
-                        suspectAdapter.setList(apps);
-//                        suspectAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+//        RecommendReq req = new RecommendReq(String.valueOf(Recommend.TYPE_SUSPECT));
+//        req.sendRequest(new NormalCallBack() {
+//            @Override
+//            public void onSuccess(String result) {
+//                RecommendRsp rsp = (RecommendRsp) BaseResponse.getRsp(result,RecommendRsp.class);
+//                if (rsp.result == HttpConstance.HTTP_SUCCESS){
+//                    List<Recommend> list = rsp.getAppList();
+//                    if (list!= null && list.size()>0){
+//                        List<App> apps = new ArrayList<>();
+//                        for (Recommend recommend:list){
+//                            apps.add(recommend.getApp());
+//                        }
+//                        suspectAdapter.setList(apps);
+////                        suspectAdapter.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFinished() {
+//
+//            }
+//        });
     }
 
     private void getCate(int cateId) {
@@ -359,7 +351,9 @@ public class AppDetailsActivity extends BaseActivity {
             no_comment.setVisibility(View.VISIBLE);
         }
         if (app.getApp_desc() != null) {
-            tv_des.setText(Html.fromHtml(app.getApp_desc()));
+            String des = app.getApp_desc();
+            des = des.substring(0,des.length()>Constance.DES_LENGTH?Constance.DES_LENGTH:des.length())+".......";
+            tv_des.setText(Html.fromHtml(des));
         }
 
     }

@@ -135,9 +135,9 @@ public class CateActivity extends BaseActivity {
                     total = pageBean.getTotalPage();
                 }
                 if (isRefresh){
-                    adapter.refresh(list);
+//                    adapter.refresh(list);
                 }else{
-                    adapter.addData(list);
+//                    adapter.addData(list);
                 }
 
             }
