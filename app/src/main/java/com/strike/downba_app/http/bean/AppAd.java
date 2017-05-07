@@ -1,6 +1,8 @@
 package com.strike.downba_app.http.bean;
 
 
+import android.text.TextUtils;
+
 import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.VerifyUtils;
 
@@ -53,8 +55,9 @@ public class AppAd implements Serializable {
 
 
 	public String getLogo() {
+		if (TextUtils.isEmpty(logo)) return "";
 		if (!VerifyUtils.isUrl(logo)){
-			logo = UrlConfig.BASE_IMG_URL+logo;
+			logo = UrlConfig.BASE_IMG_URL+logo.trim();
 		}
 		return logo;
 	}

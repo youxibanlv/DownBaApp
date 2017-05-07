@@ -1,5 +1,7 @@
 package com.strike.downba_app.utils;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +66,7 @@ public class VerifyUtils {
 //                + "-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.[a-zA-Z]{2,4})(\\:[0-9]+)?(/"
 //                + "[^/][a-zA-Z0-9\\.\\,\\?\\'\\\\/\\+&%\\$\\=~_\\-@]*)*$";
 //        return Pattern.matches(UrlPatte, url);
+        if (TextUtils.isEmpty(url)) return false;
         if (url.contains("http://")){
             return true;
         }else{

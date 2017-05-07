@@ -93,6 +93,8 @@ public class ExtrAppVertical extends LinearLayout {
         String size = app.getApp_size();
         if (size == null){
             size = "";
+        }else {
+            size = size+"MB";
         }
         if (app_size != null) {
             app_size.setText(size);

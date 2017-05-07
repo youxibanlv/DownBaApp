@@ -88,7 +88,7 @@ public class AppLIstAdapter extends MyBaseAdapter<AppAd> {
             }else{
                 holder.tv_app_title.setText(app.getApp_title());
             }
-            int score = app.getApp_grade();
+            int score = app.getApp_grade()/2;
             holder.app_score.setNumStars(score);
             if (app.getApp_seo()!= null){
                 holder.tv_des.setText(app.getApp_seo());
@@ -96,7 +96,7 @@ public class AppLIstAdapter extends MyBaseAdapter<AppAd> {
                 holder.tv_des.setText("");
             }
             if (app.getApp_size()!= null){
-                holder.app_size.setText(app.getApp_size());
+                holder.app_size.setText(app.getApp_size()+"MB");
             }
             if (app.getApp_version()!= null){
                 holder.app_version.setText("版本："+app.getApp_version());

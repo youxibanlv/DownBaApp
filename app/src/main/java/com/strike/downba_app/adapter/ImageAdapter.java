@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,8 +42,11 @@ public class ImageAdapter extends PagerAdapter {
         if (list!= null && list.size()>0){
             for (AppAd wheelPage : list) {
                 ImageView imageView = new ImageView(context);
-                x.image().bind(imageView, wheelPage.getLogo(),options);
+                if (!TextUtils.isEmpty(wheelPage.getLogo())){
+                    x.image().bind(imageView, wheelPage.getLogo(),options);
+                }
                 imageViews.add(imageView);
+
             }
         }
     }

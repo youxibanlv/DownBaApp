@@ -114,16 +114,18 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 AppHomeRsp rsp = (AppHomeRsp) BaseRsp.getRsp(result,AppHomeRsp.class);
-                AppHome home = rsp.resultData.appHome;
-                if (home != null){
-                    if (isRefresh){
-                        adapter.refreshHome(home);
-                    }else{
-                        adapter.loadMore(home);
+                if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                    AppHome home = rsp.resultData.appHome;
+                    if (home != null){
+                        if (isRefresh){
+                            adapter.refreshHome(home);
+                        }else{
+                            adapter.loadMore(home);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }else {
+                        showTipToast(false,"已经到底了");
                     }
-                    adapter.notifyDataSetChanged();
-                }else {
-                    showTipToast(false,"已经到底了");
                 }
             }
 

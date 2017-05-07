@@ -3,6 +3,7 @@ package com.strike.downba_app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -207,7 +208,9 @@ public class HomeAdapter extends BaseAdapter {
                 listAdapters.add(appListAdapter);
                 break;
             case TYPE_SUBJECT:
-                x.image().bind(subjectHolder.icon,bean.getBanner().getLogo());
+                if (bean.getBanner()!= null && !TextUtils.isEmpty(bean.getBanner().getLogo())) {
+                    x.image().bind(subjectHolder.icon, bean.getBanner().getLogo());
+                }
                 subjectHolder.icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
