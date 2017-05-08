@@ -17,26 +17,21 @@ import com.strike.downba_app.adapter.GridRecommendAdapter;
 import com.strike.downba_app.adapter.HorizontalScrollViewAdapter;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.db.dao.UserDao;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.db.table.User;
 import com.strike.downba_app.download.DataChanger;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.Watcher;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Category;
-import com.strike.downba_app.http.entity.Comment;
-import com.strike.downba_app.http.request.AddCommentReq;
-import com.strike.downba_app.http.request.AppDetailsReq;
-import com.strike.downba_app.http.request.GetCategoryReq;
-import com.strike.downba_app.http.response.AddCommentRsp;
-import com.strike.downba_app.http.response.AppDetailsRsp;
-import com.strike.downba_app.http.response.GetCategoryRsp;
+import com.strike.downba_app.http.bean.AppInfo;
+import com.strike.downba_app.http.bean.Comment;
+import com.strike.downba_app.http.req.AddCommentReq;
+import com.strike.downba_app.http.req.AppDetailsReq;
+import com.strike.downba_app.http.rsp.AddCommentRsp;
+import com.strike.downba_app.http.rsp.AppDetailsRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.DownLoadUtils;
-import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downba_app.view.MyListView;
@@ -48,7 +43,6 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -109,7 +103,7 @@ public class AppDetailsActivity extends BaseActivity {
     private CommentAdapter commentAdapter;
     private GridRecommendAdapter suspectAdapter;
 
-    private App app;
+    private AppInfo app;
 
     private Watcher watcher = new Watcher() {
         @Override
@@ -140,12 +134,12 @@ public class AppDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        commentAdapter = new CommentAdapter(this);
-        suspectAdapter = new GridRecommendAdapter(this);
         DataChanger.getInstance().addObserver(watcher);
         try {
-            app = (App) getIntent().getExtras().getSerializable(Constance.APP);
-            initView();
+            int appId = getIntent().getExtras().getInt(Constance.APP_ID);
+            if (appId >0){
+                getAppDetails(appId);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,10 +149,12 @@ public class AppDetailsActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(AppDetailsActivity.this, ImgDetailsActivity.class);
                 intent.putExtra(ImgDetailsActivity.EXTRA_IMAGE_INDEX, pos);
-                intent.putStringArrayListExtra(ImgDetailsActivity.EXTRA_IMAGE_URLS, (ArrayList<String>) app.getResource());
+                intent.putStringArrayListExtra(ImgDetailsActivity.EXTRA_IMAGE_URLS,app.getRes());
                 AppDetailsActivity.this.startActivity(intent);
             }
         });
+        commentAdapter = new CommentAdapter(this);
+        suspectAdapter = new GridRecommendAdapter(this);
         lv_comment.setAdapter(commentAdapter);
         gv_recommend.setAdapter(suspectAdapter);
     }
@@ -166,11 +162,7 @@ public class AppDetailsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (app != null) {
-            getAppDetails(app.getApp_id());
-            getCate(NumberUtil.parseToInt(app.getLast_cate_id()));
-            getSuspect();
-        }
+        getSuspect();
     }
 
     @Override
@@ -188,7 +180,7 @@ public class AppDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.des_open:
-                tv_des.setText(Html.fromHtml(app.getApp_desc()));
+                tv_des.setText(Html.fromHtml(app.getApp_des()));
                 des_open.setVisibility(View.GONE);
                 break;
             case R.id.comment_open:
@@ -215,21 +207,23 @@ public class AppDetailsActivity extends BaseActivity {
 
     private void addComment(String content) {
         Comment comment = new Comment();
-        comment.setId(NumberUtil.parseToInt(app.getApp_id()));
+        comment.setObj_id(app.getApp_id());
+        comment.setObj_type(Constance.C_APP);
         comment.setContent(content);
-        comment.setDate_add(System.currentTimeMillis());
-        // TODO: 2016/11/14 设置用户名
+        comment.setTitle(app.getApp_title());
+        comment.setUpdate_time(System.currentTimeMillis());
         User user = UserDao.getUser();
         if (user!= null){
-            comment.setUid(NumberUtil.parseToInt(user.getUid()));
-            comment.setUname(user.getNickname()==null?user.getUsername():user.getNickname());
+            comment.setUser_name(user.getNickname()==null?user.getUsername():user.getNickname());
+        }else{
+            comment.setUser_name(Constance.DEFAULT_NAME);
         }
         AddCommentReq req = new AddCommentReq(comment);
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                AddCommentRsp rsp = (AddCommentRsp) BaseResponse.getRsp(result, AddCommentRsp.class);
+                AddCommentRsp rsp = (AddCommentRsp) BaseRsp.getRsp(result, AddCommentRsp.class);
                 List<Comment> list = rsp.resultData.list;
                 if (rsp.result == HttpConstance.HTTP_SUCCESS) {
                     UiUtils.showTipToast(true, "评论成功！");
@@ -277,50 +271,19 @@ public class AppDetailsActivity extends BaseActivity {
 //        });
     }
 
-    private void getCate(int cateId) {
-        GetCategoryReq req = new GetCategoryReq(cateId);
-        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
-        req.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                GetCategoryRsp rsp = (GetCategoryRsp) BaseResponse.getRsp(result, GetCategoryRsp.class);
-                List<Category> list = rsp.getResultList();
-                if (list != null && list.size() > 0) {
-                    Category category = list.get(0);
-                    if (category != null) {
-                        app_cate.setText(category.getCname());
-                    }
-                }
-            }
-
-            @Override
-            public void onFinished() {
-                dismissProgressDialog();
-            }
-        });
-    }
-
-    private void getAppDetails(String app_id) {
+    private void getAppDetails(int app_id) {
         showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         AppDetailsReq req = new AppDetailsReq(app_id);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {
-                    AppDetailsRsp rsp = (AppDetailsRsp) BaseResponse.getRsp(result, AppDetailsRsp.class);
+                    AppDetailsRsp rsp = (AppDetailsRsp) BaseRsp.getRsp(result, AppDetailsRsp.class);
                     if (rsp != null) {
                         if (rsp.result == HttpConstance.HTTP_SUCCESS) {
-                            App app1 = rsp.getApp();
-                            if (app1 != null) {
-                                if (app1.getResource() != null) {
-                                    app.setResource(app1.getResource());
-                                }
-                                if (app1.getCommentList() != null) {
-                                    app.setCommentList(app1.getCommentList());
-                                }
-                                if (app1.getApp_desc()!= null){
-                                    app.setApp_desc(app1.getApp_desc());
-                                }
+                            app = rsp.resultData.appInfo;
+                            if (app != null) {
+                                initView();
                                 loadResource();
                             }
                         }
@@ -337,21 +300,21 @@ public class AppDetailsActivity extends BaseActivity {
 
     private void loadResource() {
         //游戏截图
-        if (app.getResource() != null && app.getResource().size() > 0) {
-            adapter = new HorizontalScrollViewAdapter(this, app.getResource());
+        if (app.getRes() != null && app.getRes().size() > 0) {
+            adapter = new HorizontalScrollViewAdapter(this, app.getRes());
             imgList.initDatas(adapter);
         }
         //评论列表
-        if (app.getCommentList() != null && app.getCommentList().size() > 0) {
+        if (app.getComments() != null && app.getComments().size() > 0) {
             lv_comment.setVisibility(View.VISIBLE);
             no_comment.setVisibility(View.GONE);
-            commentAdapter.refresh(app.getCommentList());
+            commentAdapter.refresh(app.getComments());
         } else {
             lv_comment.setVisibility(View.GONE);
             no_comment.setVisibility(View.VISIBLE);
         }
-        if (app.getApp_desc() != null) {
-            String des = app.getApp_desc();
+        if (app.getApp_des() != null) {
+            String des = app.getApp_des();
             des = des.substring(0,des.length()>Constance.DES_LENGTH?Constance.DES_LENGTH:des.length())+".......";
             tv_des.setText(Html.fromHtml(des));
         }
@@ -359,17 +322,18 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void initView() {
-        DownLoadUtils.initDownLoad(app,tv_down);
+//        DownLoadUtils.initDownLoad(app,tv_down);
         if (app.getApp_logo() != null) {
             x.image().bind(iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
         }
         if (app.getApp_title() != null) {
             tv_app_title.setText(app.getApp_title());
         }
-        int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
+        app_cate.setText(app.getCateName());
+        int score = app.getApp_grade()/2;
         app_score.setNumStars(score);
         if (app.getApp_size() != null) {
-            tv_size.setText(app.getApp_size());
+            tv_size.setText(app.getApp_size()+"MB");
         }
     }
 

@@ -63,8 +63,6 @@ public class ImageAdapter extends PagerAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AppDetailsActivity.class);
-                Bundle bundle = new Bundle();
                 AppAd appAd = pages.get(position);
                 Subject sb = appAd.getSubject();
                 if (sb == null){
@@ -72,7 +70,11 @@ public class ImageAdapter extends PagerAdapter {
                 }else {
                     switch (sb.getSb_type()){
                         case Constance.SB_ONE_APP://跳转详情
-
+                            Intent intent = new Intent(context, AppDetailsActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constance.APP_ID,sb.getObj_id());
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                             break;
                         case Constance.SB_LIST_APP://app列表
 
@@ -82,7 +84,6 @@ public class ImageAdapter extends PagerAdapter {
                             break;
                     }
                 }
-                context.startActivity(intent);
             }
         });
         return imageViews.get(position);

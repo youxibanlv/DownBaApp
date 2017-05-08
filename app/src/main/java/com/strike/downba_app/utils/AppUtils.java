@@ -16,6 +16,9 @@ import android.provider.MediaStore;
  */
 public class AppUtils {
 
+
+    //获取本地app版本号和渠道号
+
     /**
      * 获取图片的真实地址
      *

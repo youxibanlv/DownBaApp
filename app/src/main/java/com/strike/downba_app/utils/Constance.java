@@ -39,11 +39,14 @@ public interface Constance {
     int ONLINE = 1;//在线
     int OFFLINE = 0;//下线
 
+    int C_APP = 0;//app评论
+    int C_INFO = 1;//资讯评论
+
     String INTENT_FLAG = "flag";//intent 携带的标示
 
     String KEYWORD = "keyword";//关键词
 
-    String APP_ID = "app_id";//应用id
+    String APP_ID = "appId";//应用id
 
     String IMG = "img";
 
@@ -86,4 +89,5 @@ public interface Constance {
     int WAITTING = 4;
 
     int DES_LENGTH=66;
+    String DEFAULT_NAME = "游客";
 }

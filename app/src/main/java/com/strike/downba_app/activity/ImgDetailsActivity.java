@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
 import com.strike.downba_app.fragment.ImageDetailFragment;
+import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.utils.VerifyUtils;
 import com.strike.downba_app.view.ImageViewPager;
 import com.strike.downbaapp.R;
 
@@ -52,6 +55,9 @@ public class ImgDetailsActivity extends FragmentActivity {
                 EXTRA_IMAGE_URLS);
         // 单个图片的路径
         String url = getIntent().getStringExtra(EXTRA_IMAGE_URLS);
+        if (!TextUtils.isEmpty(url)&& !VerifyUtils.isUrl(url)){
+            url = UrlConfig.BASE_IMG_URL+url;
+        }
         if (urls == null && url != null) {
             urls = new ArrayList<String>();
             urls.add(url);
@@ -115,6 +121,9 @@ public class ImgDetailsActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             String url = fileList.get(position);
+            if (!TextUtils.isEmpty(url)&& !VerifyUtils.isUrl(url)){
+                url = UrlConfig.BASE_IMG_URL+url;
+            }
             return ImageDetailFragment.newInstance(url);
         }
 

@@ -43,7 +43,7 @@ public class AppDao {
         App app = null;
         DbManager dbManager = MyApplication.getAppDb();
         try {
-            dbManager.selector(App.class).where("app_id","=",appId).findFirst();
+            dbManager.selector(App.class).where("appId","=",appId).findFirst();
         } catch (DbException e) {
             e.printStackTrace();
         }

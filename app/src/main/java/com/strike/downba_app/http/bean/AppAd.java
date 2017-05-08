@@ -15,6 +15,7 @@ public class AppAd implements Serializable {
 	private Integer obj_type;
 	private String logo;
 
+
 	private AppInfo app;
 	private Info info;
 	private Subject subject;
@@ -97,5 +98,5 @@ public class AppAd implements Serializable {
 		this.subject = subject;
 	}
 
-	
+
 }

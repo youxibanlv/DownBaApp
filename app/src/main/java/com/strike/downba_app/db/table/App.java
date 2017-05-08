@@ -20,7 +20,7 @@ public class App implements Serializable{
     @Column(name = "id", isId = true)
     private int id;
 
-    @Column(name = "app_id")
+    @Column(name = "appId")
     private String app_id;
 
     @Column(name = "last_cate_id")

@@ -46,7 +46,7 @@ public class HomeFragment extends BaseFragment {
 
     private HomeAdapter adapter;
 
-    private int pageNo = 1,pageSize = 3,totalPage;//热门游戏部分
+    private int pageNo = 1;
 
     private long waitTime = 0,lastRefreshTime = 0,minWaitTime = 15000;//等待时间，最后一次刷新时间,最小等待时间，用于控制用户的刷新频率
     private View view;

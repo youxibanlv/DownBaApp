@@ -4,6 +4,7 @@ import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.TimeUtil;
 import com.strike.downba_app.utils.VerifyUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +25,9 @@ public class AppInfo {
 	private Integer app_down;
 	private Integer app_sort;
 	private String url="";//下载地址
-	private List<Resource> resources;//资源地址
+
+	private ArrayList<String> res;//资源地址
+	private List<Comment> comments;
 	
 	private String cateName="";
 	private String dateStr="";
@@ -157,12 +160,6 @@ public class AppInfo {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public List<Resource> getResources() {
-		return resources;
-	}
-	public void setResources(List<Resource> resources) {
-		this.resources = resources;
-	}
 
 	public String getApp_size() {
 		return app_size;
@@ -172,5 +169,19 @@ public class AppInfo {
 		this.app_size = app_size;
 	}
 
-	
+	public ArrayList<String> getRes() {
+		return res;
+	}
+
+	public void setRes(ArrayList<String> res) {
+		this.res = res;
+	}
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
