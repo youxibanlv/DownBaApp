@@ -11,5 +11,6 @@ public class AddCommentRsp extends BaseRsp {
 
 	public class ResultData {
 		public List<Comment> list;
+		public int total;
 	}
 }

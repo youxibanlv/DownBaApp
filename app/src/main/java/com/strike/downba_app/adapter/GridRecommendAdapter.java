@@ -111,7 +111,7 @@ public class GridRecommendAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, AppDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constance.APP,getItem(position));
+                bundle.putInt(Constance.APP_ID,getItem(position).getObj_id());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
 

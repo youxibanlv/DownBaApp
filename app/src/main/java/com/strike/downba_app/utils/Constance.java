@@ -90,4 +90,6 @@ public interface Constance {
 
     int DES_LENGTH=66;
     String DEFAULT_NAME = "游客";
+    int DEFAULT_PAGE_SIZE = 8;//默认每页显示条目
+    int DEFAULT_COMMENT_SIZE = 5;//默认显示的评论数
 }

@@ -28,33 +28,12 @@ public class AppInfo {
 
 	private ArrayList<String> res;//资源地址
 	private List<Comment> comments;
+    private int totalComment;
 	
 	private String cateName="";
 	private String dateStr="";
 	
-	public AppInfo() {
-	}
-	
-	public AppInfo(Integer id, Integer app_id, Integer cate_id, String app_title, String app_version, String app_seo,
-			String app_size, String app_logo, String app_des, Integer app_grade, Integer app_visitors, Integer app_down,
-			Integer app_sort, String url) {
-		super();
-		this.id = id;
-		this.app_id = app_id;
-		this.cate_id = cate_id;
-		this.app_title = app_title;
-		this.app_version = app_version;
-		this.app_seo = app_seo;
-		this.app_size=app_size;
-		this.app_logo = app_logo;
-		this.app_des = app_des;
-		this.app_grade = app_grade;
-		this.app_visitors = app_visitors;
-		this.app_down = app_down;
-		this.app_sort = app_sort;
-		this.url = url;
-		this.update_time = System.currentTimeMillis();
-	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -183,5 +162,13 @@ public class AppInfo {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public int getTotalComment() {
+        return totalComment;
+    }
+
+    public void setTotalComment(int totalComment) {
+        this.totalComment = totalComment;
     }
 }

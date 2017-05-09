@@ -266,7 +266,7 @@
                     android:src="@mipmap/down" />
             </RelativeLayout>
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/fl_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -274,9 +274,10 @@
                 <com.strike.downba_app.view.MyListView
                     android:id="@+id/lv_comment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/wdp20"
                     android:layout_marginLeft="@dimen/wdp20"
+                    android:layout_marginBottom="@dimen/wdp30"
                     android:dividerHeight="0px"
                     android:divider="@color/white"
                     android:horizontalSpacing="@dimen/wdp5"
@@ -289,7 +290,22 @@
                     android:gravity="center"
                     android:minHeight="@dimen/wdp150"
                     android:text="暂时没有人评论哦" />
-            </FrameLayout>
+
+                <TextView
+                    android:id="@+id/more_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/white"
+                    android:textColor="@color/default_bg"
+                    android:drawableRight="@mipmap/down"
+                    android:layout_marginRight="@dimen/wdp34"
+                    android:drawablePadding="@dimen/wdp10"
+                    android:layout_marginTop="@dimen/wdp20"
+                    android:text="查看更多评论"/>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

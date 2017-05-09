@@ -22,4 +22,5 @@ public interface HttpConstance {
     int getWheel = 0x002;//查询轮播图
     int getAppDetails = 0x003;//查询app详情
     int addComment = 0x004;//发表评论
+    int getComments = 0x005;//查询评论列表
 }

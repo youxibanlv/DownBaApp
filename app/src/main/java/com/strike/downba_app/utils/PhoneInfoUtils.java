@@ -14,7 +14,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
-import com.strike.downba_app.http.bean.PhoneInfo;
+import com.strike.downba_app.http.bean.DevInfo;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,9 +42,9 @@ public class PhoneInfoUtils {
 	private String IMSI;
 
 	/****** 获取手机设备信息 ********/
-	public static PhoneInfo getPhone(Context ctx) {
+	public static DevInfo getPhone(Context ctx) {
 		tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-		PhoneInfo info = new PhoneInfo();
+		DevInfo info = new DevInfo();
 		try {
 			info.setDeviceId(tm.getDeviceId());
 			info.setNetworkOperator(tm.getNetworkOperator());

@@ -7,9 +7,9 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.strike.downba_app.adapter.CommentAdapter;
@@ -28,8 +28,10 @@ import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.http.bean.Comment;
 import com.strike.downba_app.http.req.AddCommentReq;
 import com.strike.downba_app.http.req.AppDetailsReq;
+import com.strike.downba_app.http.req.CommentReq;
 import com.strike.downba_app.http.rsp.AddCommentRsp;
 import com.strike.downba_app.http.rsp.AppDetailsRsp;
+import com.strike.downba_app.http.rsp.CommentRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
@@ -84,7 +86,7 @@ public class AppDetailsActivity extends BaseActivity {
     private ImageView comment_open;
 
     @ViewInject(R.id.fl_comment)
-    private FrameLayout fl_comment;
+    private RelativeLayout fl_comment;
 
     @ViewInject(R.id.lv_comment)
     private MyListView lv_comment;
@@ -98,24 +100,28 @@ public class AppDetailsActivity extends BaseActivity {
     @ViewInject(R.id.comment_content)
     private EditText comment_content;
 
+    @ViewInject(R.id.more_comment)
+    private TextView more_comment;
+
     private HorizontalScrollViewAdapter adapter;
 
     private CommentAdapter commentAdapter;
     private GridRecommendAdapter suspectAdapter;
 
     private AppInfo app;
+    private int commentNo = 2;//第一页已经显示，从第二页开始
 
     private Watcher watcher = new Watcher() {
         @Override
         public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
-            if (info!= null && info.getObjId().equals(app.getApp_id())){
+            if (info != null && info.getObjId().equals(app.getApp_id())) {
                 tv_down.setBackgroundColor(context.getResources().getColor(R.color.text_gray));
-                switch (info.getState()){
+                switch (info.getState()) {
                     case WAITING:
                         tv_down.setText("队列中。。");
                         break;
                     case STARTED:
-                        tv_down.setText(info.getProgress()+"%");
+                        tv_down.setText(info.getProgress() + "%");
                         break;
                     case FINISHED:
                         tv_down.setText("打 开");
@@ -137,7 +143,7 @@ public class AppDetailsActivity extends BaseActivity {
         DataChanger.getInstance().addObserver(watcher);
         try {
             int appId = getIntent().getExtras().getInt(Constance.APP_ID);
-            if (appId >0){
+            if (appId > 0) {
                 getAppDetails(appId);
             }
         } catch (Exception e) {
@@ -149,7 +155,7 @@ public class AppDetailsActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(AppDetailsActivity.this, ImgDetailsActivity.class);
                 intent.putExtra(ImgDetailsActivity.EXTRA_IMAGE_INDEX, pos);
-                intent.putStringArrayListExtra(ImgDetailsActivity.EXTRA_IMAGE_URLS,app.getRes());
+                intent.putStringArrayListExtra(ImgDetailsActivity.EXTRA_IMAGE_URLS, app.getRes());
                 AppDetailsActivity.this.startActivity(intent);
             }
         });
@@ -168,12 +174,12 @@ public class AppDetailsActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (watcher!= null){
+        if (watcher != null) {
             DataChanger.getInstance().deleteObserver(watcher);
         }
     }
 
-    @Event(value = {R.id.iv_back,R.id.des_open,R.id.comment_open,R.id.btn_send})
+    @Event(value = {R.id.iv_back, R.id.des_open, R.id.comment_open, R.id.btn_send,R.id.more_comment})
     private void getEvent(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -193,14 +199,42 @@ public class AppDetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_send:
-                UiUtils.closeKeybord(comment_content,AppDetailsActivity.this);
+                UiUtils.closeKeybord(comment_content, AppDetailsActivity.this);
                 String content = comment_content.getText().toString();
-                if (!TextUtils.isEmpty(content)){
+                if (!TextUtils.isEmpty(content)) {
                     addComment(content);
                     comment_content.setText("");
-                }else{
-                    UiUtils.showTipToast(false,"请输入评论内容");
+                } else {
+                    UiUtils.showTipToast(false, "请输入评论内容");
                 }
+                break;
+            case R.id.more_comment:
+                //加载更多评论
+                CommentReq req = new CommentReq(commentNo, Constance.DEFAULT_COMMENT_SIZE,
+                        Constance.C_APP, app.getApp_id());
+                showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
+                req.sendRequest(new NormalCallBack() {
+                    @Override
+                    public void onSuccess(String result) {
+                        CommentRsp rsp = (CommentRsp) BaseRsp.getRsp(result,CommentRsp.class);
+                        if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                            List<Comment> comments = rsp.resultData.comments;
+                            if (comments!= null && comments.size()>0){
+                                commentAdapter.addData(comments);
+                            }
+                            if (rsp.resultData.total>commentAdapter.getList().size()){
+                                more_comment.setVisibility(View.VISIBLE);
+                                commentNo++;
+                            }else {
+                                more_comment.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onFinished() {
+                        dismissProgressDialog();
+                    }
+                });
                 break;
         }
     }
@@ -213,9 +247,9 @@ public class AppDetailsActivity extends BaseActivity {
         comment.setTitle(app.getApp_title());
         comment.setUpdate_time(System.currentTimeMillis());
         User user = UserDao.getUser();
-        if (user!= null){
-            comment.setUser_name(user.getNickname()==null?user.getUsername():user.getNickname());
-        }else{
+        if (user != null) {
+            comment.setUser_name(user.getNickname() == null ? user.getUsername() : user.getNickname());
+        } else {
             comment.setUser_name(Constance.DEFAULT_NAME);
         }
         AddCommentReq req = new AddCommentReq(comment);
@@ -224,17 +258,22 @@ public class AppDetailsActivity extends BaseActivity {
             @Override
             public void onSuccess(String result) {
                 AddCommentRsp rsp = (AddCommentRsp) BaseRsp.getRsp(result, AddCommentRsp.class);
-                List<Comment> list = rsp.resultData.list;
                 if (rsp.result == HttpConstance.HTTP_SUCCESS) {
                     UiUtils.showTipToast(true, "评论成功！");
-                }
-                if (list != null && list.size() > 0) {
-                    lv_comment.setVisibility(View.VISIBLE);
-                    no_comment.setVisibility(View.GONE);
-                    commentAdapter.refresh(list);
-                }else{
-                    lv_comment.setVisibility(View.GONE);
-                    no_comment.setVisibility(View.VISIBLE);
+                    List<Comment> list = rsp.resultData.list;
+                    if (list != null && list.size() > 0) {
+                        lv_comment.setVisibility(View.VISIBLE);
+                        no_comment.setVisibility(View.GONE);
+                        commentAdapter.refresh(list);
+                        if (rsp.resultData.total>list.size()){
+                            more_comment.setVisibility(View.VISIBLE);
+                        }else {
+                            more_comment.setVisibility(View.GONE);
+                        }
+                    } else {
+                        lv_comment.setVisibility(View.GONE);
+                        no_comment.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -245,7 +284,7 @@ public class AppDetailsActivity extends BaseActivity {
         });
     }
 
-    private void getSuspect(){
+    private void getSuspect() {
 //        RecommendReq req = new RecommendReq(String.valueOf(Recommend.TYPE_SUSPECT));
 //        req.sendRequest(new NormalCallBack() {
 //            @Override
@@ -309,13 +348,18 @@ public class AppDetailsActivity extends BaseActivity {
             lv_comment.setVisibility(View.VISIBLE);
             no_comment.setVisibility(View.GONE);
             commentAdapter.refresh(app.getComments());
+            if (app.getTotalComment() > Constance.DEFAULT_COMMENT_SIZE) {
+                more_comment.setVisibility(View.VISIBLE);
+            } else {
+                more_comment.setVisibility(View.GONE);
+            }
         } else {
             lv_comment.setVisibility(View.GONE);
             no_comment.setVisibility(View.VISIBLE);
         }
         if (app.getApp_des() != null) {
             String des = app.getApp_des();
-            des = des.substring(0,des.length()>Constance.DES_LENGTH?Constance.DES_LENGTH:des.length())+".......";
+            des = des.substring(0, des.length() > Constance.DES_LENGTH ? Constance.DES_LENGTH : des.length()) + ".......";
             tv_des.setText(Html.fromHtml(des));
         }
 
@@ -330,10 +374,10 @@ public class AppDetailsActivity extends BaseActivity {
             tv_app_title.setText(app.getApp_title());
         }
         app_cate.setText(app.getCateName());
-        int score = app.getApp_grade()/2;
+        int score = app.getApp_grade() / 2;
         app_score.setNumStars(score);
         if (app.getApp_size() != null) {
-            tv_size.setText(app.getApp_size()+"MB");
+            tv_size.setText(app.getApp_size() + "MB");
         }
     }
 

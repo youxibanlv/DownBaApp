@@ -1,6 +1,8 @@
 package com.strike.downba_app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -8,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -107,12 +111,12 @@ public class AppLIstAdapter extends MyBaseAdapter<AppAd> {
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    App app1 = list.get(position);
-//                    Intent intent = new Intent(context, AppDetailsActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(Constance.APP,app1);
-//                    intent.putExtras(bundle);
-//                    context.startActivity(intent);
+                    AppAd appAd = list.get(position);
+                    Intent intent = new Intent(context, AppDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constance.APP_ID,appAd.getObj_id());
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
             });
         }
