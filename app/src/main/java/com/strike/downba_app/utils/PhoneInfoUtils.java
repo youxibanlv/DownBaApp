@@ -46,7 +46,7 @@ public class PhoneInfoUtils {
 		tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
 		DevInfo info = new DevInfo();
 		try {
-			info.setDeviceId(tm.getDeviceId());
+			info.setImei(tm.getDeviceId());
 			info.setNetworkOperator(tm.getNetworkOperator());
 			info.setNetworkOperatorName(tm.getNetworkOperatorName());
 			info.setSubscriberId(tm.getSubscriberId());

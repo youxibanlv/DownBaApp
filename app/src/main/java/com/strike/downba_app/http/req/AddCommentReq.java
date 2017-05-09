@@ -1,7 +1,6 @@
 package com.strike.downba_app.http.req;
 
 import com.strike.downba_app.http.BaseReq;
-import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.bean.Comment;
 
 /**
@@ -11,8 +10,8 @@ import com.strike.downba_app.http.bean.Comment;
 public class AddCommentReq extends BaseReq {
 
     public AddCommentReq(Comment comment){
-        cmdType = HttpConstance.SEV_APP;
-        methodName = HttpConstance.addComment;
+        cmdType = "appBusiness";
+        methodName = "addComment";
         requestParams = new RequestParam(comment);
     }
 

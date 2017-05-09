@@ -1,7 +1,9 @@
 package com.strike.downba_app.http.bean;
 //用户手机信息实体对象
 public class DevInfo {
-	private String deviceId;// imei 354286054659328 串号
+	private int id;
+	private String devId;//设备id
+	private String imei;// imei 354286054659328 串号
 	private String networkOperator;// 46000 网络运营商
 	private String networkOperatorName;// CMCC 网络运营商名字
 	private String subscriberId;// imsi 460008315040827 国际网络...串
@@ -15,12 +17,12 @@ public class DevInfo {
 	public DevInfo() {
 	}
 	
-	public String getDeviceId() {
-		return deviceId;
+	public String getImei() {
+		return imei;
 	}
 
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
+	public void setImei(String imei) {
+		this.imei = imei;
 	}
 
 	public String getNetworkOperator() {
@@ -97,11 +99,27 @@ public class DevInfo {
 
 	@Override
 	public String toString() {
-		return "DevInfo [deviceId=" + deviceId + ", networkOperator="
+		return "DevInfo [imei=" + imei + ", networkOperator="
 				+ networkOperator + ", networkOperatorName="
 				+ networkOperatorName + ", subscriberId=" + subscriberId
 				+ ", brand=" + brand + ", model=" + model + ", versionRelease="
 				+ versionRelease + ", versionSdk=" + versionSdk + ", mac="
 				+ mac + ", cpuInfo=" + cpuInfo + "]";
+	}
+
+	public String getDevId() {
+		return devId;
+	}
+
+	public void setDevId(String devId) {
+		this.devId = devId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

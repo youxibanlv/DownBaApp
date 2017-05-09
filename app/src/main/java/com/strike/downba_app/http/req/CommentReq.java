@@ -1,7 +1,6 @@
 package com.strike.downba_app.http.req;
 
 import com.strike.downba_app.http.BaseReq;
-import com.strike.downba_app.http.HttpConstance;
 
 /**
  * Created by strike on 2017/5/8.
@@ -10,8 +9,8 @@ import com.strike.downba_app.http.HttpConstance;
 public class CommentReq extends BaseReq {
 
     public CommentReq(int pageNo,int pageSize,int objType,int objId) {
-        cmdType = HttpConstance.SEV_APP;
-        methodName = HttpConstance.getComments;
+        cmdType = "appBusiness";
+        methodName = "getComments";
         requestParams = new RequestParam(pageNo,pageSize,objType,objId);
     }
 

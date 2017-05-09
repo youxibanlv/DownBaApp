@@ -2,7 +2,6 @@ package com.strike.downba_app.http.req;
 
 
 import com.strike.downba_app.http.BaseReq;
-import com.strike.downba_app.http.HttpConstance;
 
 /**
  * Created by strike on 16/6/6.
@@ -10,8 +9,8 @@ import com.strike.downba_app.http.HttpConstance;
 public class AppHomeReq extends BaseReq {
 
     public AppHomeReq(int pageNo){
-        cmdType = HttpConstance.SEV_APP;
-        methodName = HttpConstance.getAppHome;
+        cmdType = "appBusiness";
+        methodName = "getAppHome";
         requestParams = new RequestParam(pageNo);
     }
     public class RequestParam{

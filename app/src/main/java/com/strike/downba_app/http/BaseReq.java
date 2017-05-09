@@ -24,11 +24,11 @@ public class BaseReq {
     /**
      * 接口类型
      */
-    public int cmdType;
+    public String cmdType;
     /**
      * 方法名称
      */
-    public int methodName;
+    public String methodName;
     /**
      * 令牌
      */
@@ -57,11 +57,11 @@ public class BaseReq {
             StringBody sb = new StringBody(requestData, AppConfig.DEFAULT_CHARSET);
             rp = new RequestParams(url,null,null,null);
             rp.setRequestBody(sb);
-            LogUtil.e(requestData);
             if (callback instanceof NormalCallBack){
                 ((NormalCallBack) callback).setRequestTime(System.currentTimeMillis());
             }
             x.http().request(HttpMethod.POST,rp,callback);
+            LogUtil.e(requestData);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -72,8 +72,8 @@ public class BaseReq {
         try {
             rp = new RequestParams(UrlConfig.BASE_URL,null,null,null);
             rp.setMultipart(true);
-            rp.addBodyParameter("methodName",String.valueOf(methodName));
-            rp.addBodyParameter("cmdType",String.valueOf(cmdType));
+            rp.addBodyParameter("methodName",methodName);
+            rp.addBodyParameter("cmdType",cmdType);
             rp.addBodyParameter("token",token);
             rp.addBodyParameter("file",new File(path));
             rp.addBodyParameter("user",UserDao.getUser().getUid());
