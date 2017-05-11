@@ -3,11 +3,14 @@ package com.strike.downba_app.utils;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+
+import com.strike.downba_app.http.entity.Version;
 
 /**
  * Created by strike on 16/6/17.
@@ -18,7 +21,20 @@ public class AppUtils {
 
 
     //获取本地app版本号和渠道号
-
+    public static Version getLocalVersion(Context mContext) {
+        Version version = new Version();
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            String pkgName = mContext.getPackageName();
+            // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            version.setVersion_code(pm.getPackageInfo(pkgName, 0).versionCode);
+            version.setVersion_name(pm.getPackageInfo(pkgName,0).versionName);
+            version.setChannel_id(pm.getApplicationInfo(pkgName,PackageManager.GET_META_DATA).metaData.getInt("CHANNEL"));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
+    }
     /**
      * 获取图片的真实地址
      *

@@ -13,11 +13,11 @@ public class UrlConfig {
     /***
      * 服务器地址
      * **/
-//    public static String BASE_URL = "http://192.168.1.112:8080/DownBaWeb/mobile/dispatcher.do";//家里
+//    public static String BASE_URL = "http://192.168.1.111:8080/DownBaWeb/mobile/dispatcher.do";//家里
     public static String BASE_URL = "http://192.168.206.54:8080/DownBaWeb/mobile/dispatcher.do";//公司
 //    public static String BASE_URL = "http://123.57.86.113:8081/DownBaWeb/mobile/dispatcher.do";//外网
 
-//      public static String BASE_IMG_URL = "http://192.168.1.112:8080";//家里
+//      public static String BASE_IMG_URL = "http://192.168.1.111:8080";//家里
 //    public static String BASE_IMG_URL = "http://123.57.86.113:8081";//外网
     public static String BASE_IMG_URL = "http://192.168.206.54:8080";//公司
     public static  String WEB_URL = "http://www.82down.com";

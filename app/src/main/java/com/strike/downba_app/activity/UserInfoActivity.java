@@ -106,24 +106,24 @@ public class UserInfoActivity extends BaseActivity {
     private void init() {
         user = UserDao.getUser();
         if (user != null) {
-            if (user.getIcon() != null) {
-                x.image().bind(iv_user_icon, user.getIcon(), ImgConfig.getImgOptionNoCache());
+            if (user.getUser_icon() != null) {
+                x.image().bind(iv_user_icon, user.getUser_icon(), ImgConfig.getImgOptionNoCache());
             }
-            if (user.getUsername() != null) {
-                tv_account.setText(user.getUsername());
+            if (user.getUser_name() != null) {
+                tv_account.setText(user.getUser_name());
             }
             if (user.getNickname() != null) {
                 edt_nick.setText(user.getNickname());
                 edt_nick.setSelection(user.getNickname().length());
             }
-            tv_point.setText(user.getPoint() + "");
-            if (user.getPhone() != null) {
-                tv_phone.setText(user.getPhone());
+            tv_point.setText(user.getUser_point() + "");
+            if (user.getPhone_num() != null) {
+                tv_phone.setText(user.getPhone_num());
             }
-            if (user.getAlipay() != null) {
-                edt_alipay.setText(user.getAlipay());
-                edt_alipay.setSelection(user.getAlipay().length());
-            }
+//            if (user.getAlipay() != null) {
+//                edt_alipay.setText(user.getAlipay());
+//                edt_alipay.setSelection(user.getAlipay().length());
+//            }
         }
     }
 
@@ -180,9 +180,9 @@ public class UserInfoActivity extends BaseActivity {
                 if (checkInput(phone, alipay, nickName)) {
                     //更新用户信息
                     User info = user;
-                    info.setAlipay(alipay);
+//                    info.setAlipay(alipay);
                     info.setNickname(nickName);
-                    info.setPhone(phone);
+                    info.setPhone_num(phone);
                     update(info);
                 }
 

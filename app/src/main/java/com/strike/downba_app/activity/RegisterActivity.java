@@ -6,14 +6,14 @@ import android.widget.EditText;
 
 import com.strike.downba_app.MainActivity;
 import com.strike.downba_app.base.BaseActivity;
+import com.strike.downba_app.base.MyApplication;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.db.table.User;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.request.LoginReq;
-import com.strike.downba_app.http.request.RegisterReq;
-import com.strike.downba_app.http.response.LoginRsp;
+import com.strike.downba_app.http.req.RegisterReq;
+import com.strike.downba_app.http.rsp.UserInfoRsp;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.utils.VerifyUtils;
 import com.strike.downbaapp.R;
@@ -70,35 +70,17 @@ public class RegisterActivity extends BaseActivity {
         registerReq.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                BaseResponse rsp = BaseResponse.getRsp(result,BaseResponse.class);
-                if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS){
-                    UiUtils.showTipToast(true, getString(R.string.register_success));
-                    login(userName,password);
-                }
-            }
-
-            @Override
-            public void onFinished() {
-                dismissProgressDialog();
-            }
-        });
-    }
-
-    private void login(String userName, String password) {
-        LoginReq loginReq = new LoginReq(userName,password);
-        showProgressDialogCloseDelay("登录中，请稍后...", HttpConstance.DEFAULT_TIMEOUT);
-        loginReq.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                LoginRsp rsp = (LoginRsp) BaseResponse.getRsp(result,LoginRsp.class);
+                UserInfoRsp rsp = (UserInfoRsp) BaseRsp.getRsp(result,UserInfoRsp.class);
                 if (rsp.result == HttpConstance.HTTP_SUCCESS){
                     User user = rsp.resultData.user;
                     UserDao.saveUser(user);
+                    MyApplication.token = user.getUser_id();
                     UiUtils.showTipToast(true, getString(R.string.login_success));
                     startActivity(new Intent(RegisterActivity.this,MainActivity.class));
                     RegisterActivity.this.finish();
                 }
             }
+
             @Override
             public void onFinished() {
                 dismissProgressDialog();

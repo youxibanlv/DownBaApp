@@ -9,6 +9,11 @@ package com.strike.downba_app.utils;
  */
 public interface Constance {
 
+
+    int STATUS_NOMAL = 0;
+    int STATUS_PAUSE = 1;
+    int STATUS_STOP = 2;
+
     int ORDER_TYPE_SORT = 1;//sort 字段排序
     int ORDER_TYPE_TIME = 2;//时间排序
 

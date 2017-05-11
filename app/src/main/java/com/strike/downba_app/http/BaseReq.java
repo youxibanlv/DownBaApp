@@ -2,7 +2,10 @@ package com.strike.downba_app.http;
 
 
 import com.strike.downba_app.base.AppConfig;
+import com.strike.downba_app.base.MyApplication;
 import com.strike.downba_app.db.dao.UserDao;
+import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.UiUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.LogUtil;
@@ -36,6 +39,10 @@ public class BaseReq {
 
     public String sign="";
 
+    public String devId="";
+
+    public int channelId;
+
     public Object requestParams;
 
     public transient RequestParams rp;
@@ -43,11 +50,18 @@ public class BaseReq {
 
     public String getRequestData(){
         Gson gson = new Gson();
+        devId = MyApplication.devInfo.getDevId();
+        channelId = MyApplication.channelId;
+        token = MyApplication.token;
         sign = HttpUtil.getSign(this);
         return gson.toJson(this);
     }
 
     public void sendRequest(Callback.CommonCallback<String> callback){
+        if (MyApplication.devInfo.getStatus() != Constance.STATUS_NOMAL){
+            UiUtils.showTipToast(false,"你的设备因非法操作，已被禁止使用");
+            return;
+        }
         this.postRequest(UrlConfig.BASE_URL,this.getRequestData(),callback);
     }
 
@@ -76,7 +90,7 @@ public class BaseReq {
             rp.addBodyParameter("cmdType",cmdType);
             rp.addBodyParameter("token",token);
             rp.addBodyParameter("file",new File(path));
-            rp.addBodyParameter("user",UserDao.getUser().getUid());
+            rp.addBodyParameter("user",UserDao.getUser().getUser_id());
             x.http().request(HttpMethod.POST,rp,callback);
             LogUtil.e(rp.toString());
         } catch (Exception e) {

@@ -1,9 +1,6 @@
 package com.strike.downba_app.db.table;
 
 
-import com.strike.downba_app.http.UrlConfig;
-import com.strike.downba_app.utils.VerifyUtils;
-
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
@@ -13,75 +10,51 @@ import org.xutils.db.annotation.Table;
 @Table(name = "appcms_user")
 public class User {
 
-    @Column(name = "uid",isId = true)
-    private String uid;//用户id
+    @Column(name = "user_id",isId = true)
+    private String user_id;//用户id
 
-    @Column(name = "username")
-    private String username;//账号
-
-    @Column(name = "password")
-    private String password;//密码
-
-    @Column(name = "token")
-    private String token;//令牌
-
-    @Column(name = "phone")
-    private String phone;//电话号码
+    @Column(name = "user_name")
+    private String user_name;//账号
 
     @Column(name = "nickname")
-    private String nickname;//昵称
+    private String nickname;//密码
 
-    @Column(name = "icon")
-    private String icon;//头像路径
+    @Column(name = "phone_num")
+    private String phone_num;//令牌
 
-    @Column(name = "alipay")
-    private String alipay;//支付宝账号
+    @Column(name = "register_time")
+    private String register_time;//电话号码
 
-    @Column(name = "point")
-    private int point;//积分点
-    @Column(name = "regist_time")
-    private long regist_time;//注册时间
+    @Column(name = "user_email")
+    private String user_email;//昵称
+
+    @Column(name = "user_icon")
+    private String user_icon;//头像路径
+
+    @Column(name = "user_point")
+    private String user_point;//支付宝账号
+
+    @Column(name = "vip_name")
+    private int vip_name;//积分点
+    @Column(name = "address")
+    private long address;//注册时间
     @Column(name = "update_time")
     private long update_time;//更新时间
 
-    public String getUid() {
-        return uid;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getNickname() {
@@ -92,75 +65,60 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getIcon() {
-        if (icon != null && !VerifyUtils.isUrl(icon)){
-            icon = UrlConfig.BASE_URL+icon;
-        }
-        return icon;
+    public String getPhone_num() {
+        return phone_num;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setPhone_num(String phone_num) {
+        this.phone_num = phone_num;
     }
 
-    public String getAlipay() {
-        return alipay;
+    public String getRegister_time() {
+        return register_time;
     }
 
-    public void setAlipay(String alipay) {
-        this.alipay = alipay;
+    public void setRegister_time(String register_time) {
+        this.register_time = register_time;
     }
 
-    public int getPoint() {
-        return point;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (phone != user.phone) return false;
-        if (point != user.point) return false;
-        if (!uid.equals(user.uid)) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null)
-            return false;
-        if (password != null ? !password.equals(user.password) : user.password != null)
-            return false;
-        if (token != null ? !token.equals(user.token) : user.token != null) return false;
-        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null)
-            return false;
-        if (icon != null ? !icon.equals(user.icon) : user.icon != null) return false;
-        return alipay != null ? alipay.equals(user.alipay) : user.alipay == null;
-
+    public String getUser_icon() {
+        return user_icon;
     }
 
-    @Override
-    public int hashCode() {
-        int result = uid.hashCode();
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (token != null ? token.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
-        result = 31 * result + (icon != null ? icon.hashCode() : 0);
-        result = 31 * result + (alipay != null ? alipay.hashCode() : 0);
-        result = 31 * result + point;
-        return result;
+    public void setUser_icon(String user_icon) {
+        this.user_icon = user_icon;
     }
 
-    public long getRegist_time() {
-        return regist_time;
+    public String getUser_point() {
+        return user_point;
     }
 
-    public void setRegist_time(long regist_time) {
-        this.regist_time = regist_time;
+    public void setUser_point(String user_point) {
+        this.user_point = user_point;
+    }
+
+    public int getVip_name() {
+        return vip_name;
+    }
+
+    public void setVip_name(int vip_name) {
+        this.vip_name = vip_name;
+    }
+
+    public long getAddress() {
+        return address;
+    }
+
+    public void setAddress(long address) {
+        this.address = address;
     }
 
     public long getUpdate_time() {

@@ -13,6 +13,7 @@ public class DevInfo {
 	private String versionSdk; // 16 sdk版本
 	private String mac; // mac地址
 	private String cpuInfo;// cpu信息
+	private int status;//用户状态，0正常使用，1暂停使用，2已冻结
 
 	public DevInfo() {
 	}
@@ -121,5 +122,13 @@ public class DevInfo {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

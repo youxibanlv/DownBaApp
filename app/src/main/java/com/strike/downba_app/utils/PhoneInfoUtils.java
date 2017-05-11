@@ -14,7 +14,10 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.bean.DevInfo;
+
+import org.xutils.common.util.MD5;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,30 +45,38 @@ public class PhoneInfoUtils {
 	private String IMSI;
 
 	/****** 获取手机设备信息 ********/
-	public static DevInfo getPhone(Context ctx) {
+	public static DevInfo getDevInfo(Context ctx) {
 		tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
 		DevInfo info = new DevInfo();
 		try {
-			info.setImei(tm.getDeviceId());
-			info.setNetworkOperator(tm.getNetworkOperator());
-			info.setNetworkOperatorName(tm.getNetworkOperatorName());
-			info.setSubscriberId(tm.getSubscriberId());
 			info.setBrand(Build.BRAND);
 			info.setModel(Build.MODEL);
 			info.setVersionSdk(Build.VERSION.SDK);
 			info.setVersionRelease(Build.VERSION.RELEASE);
 			info.setMac(getMac(ctx));
-//			info.setUid(CommonUtils.getUserFromSp(ctx).getId());
-//			info.setChannel(ChannelUtils.getChannelCode(ctx));// 渠道号
 			HashMap<String, String> map = getCpuString();
-			info.setCpuInfo((Integer.parseInt(map.get("processor").trim()) + 1)
-					+ "," + map.get("Processor") + "," + Build.HARDWARE);
+			if (map != null){
+				info.setCpuInfo((Integer.parseInt(map.get("processor").trim()) + 1)
+						+ "," + map.get("Processor") + "," + Build.HARDWARE);
+			}
+			info.setNetworkOperator(tm.getNetworkOperator()==null?"":tm.getNetworkOperator());
+			info.setNetworkOperatorName(tm.getNetworkOperatorName()==null?"":tm.getNetworkOperatorName());
+			info.setSubscriberId(tm.getSubscriberId()==null?"":tm.getSubscriberId());
+			info.setImei(tm.getDeviceId()==null?"":tm.getSubscriberId());
+			info.setDevId(MD5.md5(info.getImei()+ HttpConstance.KEY+info.getMac()));
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return info;
 	}
 
+	public static String getDevId(Context ctx){
+		tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+		String imei = tm.getDeviceId();
+		String mac = getMac(ctx);
+		return MD5.md5(imei+HttpConstance.KEY+mac);
+	}
 	/***** 获取设备的mac地址 ******/
 	public static String getMac(Context ctx) {
 		String mac = "";
@@ -152,8 +163,8 @@ public class PhoneInfoUtils {
 	 * cpu信息
 	 */
 	static public HashMap<String, String> getCpuString() {
-		ArrayList<String> list = null;
-		HashMap<String, String> map = null;
+		ArrayList<String> list = new ArrayList<>();
+		HashMap<String, String> map = new HashMap<>();
 		if (Build.CPU_ABI.equalsIgnoreCase("x86")) {
 			return null;
 		}
@@ -165,7 +176,6 @@ public class PhoneInfoUtils {
 				list.add(temp);
 			}
 			reader.close();
-			map = new HashMap<>();
 			for (int i = 0; i < list.size(); i++) {
 				String[] strings = list.get(i).split(":");
 				if (strings.length == 2) {

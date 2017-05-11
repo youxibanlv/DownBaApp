@@ -26,9 +26,11 @@ import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.http.bean.Comment;
+import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.http.req.AddCommentReq;
 import com.strike.downba_app.http.req.AppDetailsReq;
 import com.strike.downba_app.http.req.CommentReq;
+import com.strike.downba_app.http.req.GuessReq;
 import com.strike.downba_app.http.rsp.AddCommentRsp;
 import com.strike.downba_app.http.rsp.AppDetailsRsp;
 import com.strike.downba_app.http.rsp.CommentRsp;
@@ -248,7 +250,7 @@ public class AppDetailsActivity extends BaseActivity {
         comment.setUpdate_time(System.currentTimeMillis());
         User user = UserDao.getUser();
         if (user != null) {
-            comment.setUser_name(user.getNickname() == null ? user.getUsername() : user.getNickname());
+            comment.setUser_name(TextUtils.isEmpty(user.getNickname()) ? user.getUser_name() : user.getNickname());
         } else {
             comment.setUser_name(Constance.DEFAULT_NAME);
         }
@@ -285,7 +287,7 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void getSuspect() {
-//        RecommendReq req = new RecommendReq(String.valueOf(Recommend.TYPE_SUSPECT));
+        GuessReq req = new GuessReq(String.valueOf(Recommend.TYPE_SUSPECT));
 //        req.sendRequest(new NormalCallBack() {
 //            @Override
 //            public void onSuccess(String result) {

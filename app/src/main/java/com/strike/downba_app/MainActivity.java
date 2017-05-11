@@ -9,15 +9,20 @@ import android.view.View;
 
 import com.strike.downba_app.activity.LoginActivity;
 import com.strike.downba_app.activity.ManagerActivity;
-import com.strike.downba_app.activity.SearchActivity;
 import com.strike.downba_app.activity.UserInfoActivity;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.base.BaseFragment;
-import com.strike.downba_app.db.dao.UserDao;
+import com.strike.downba_app.base.MyApplication;
 import com.strike.downba_app.fragment.AppFragment;
 import com.strike.downba_app.fragment.ArticleFragment;
 import com.strike.downba_app.fragment.GameFragment;
 import com.strike.downba_app.fragment.HomeFragment;
+import com.strike.downba_app.http.BaseRsp;
+import com.strike.downba_app.http.HttpConstance;
+import com.strike.downba_app.http.NormalCallBack;
+import com.strike.downba_app.http.bean.DevInfo;
+import com.strike.downba_app.http.req.ReportDevReq;
+import com.strike.downba_app.http.rsp.DevInfoRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.utils.UpdateManager;
@@ -25,6 +30,7 @@ import com.strike.downba_app.view.IconTabPageIndicator;
 import com.strike.downba_app.view.TabAdapter;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -39,6 +45,8 @@ public class MainActivity extends BaseActivity {
      * The instance.
      */
     public static MainActivity instance;
+
+    private int retry = 1;
 
     /**
      * The Constant TAG.
@@ -66,14 +74,46 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(fragments.size());//三页都进行预加载，避免每次都多次切换进行重新创建
         mIndicator.setViewPager(mViewPager);
+        //上报设备信息
+        reportDevInfo();
+        //版本更新
         new UpdateManager(this).checkUpdate(true);
+    }
+    private void reportDevInfo() {
+        DevInfo info = MyApplication.devInfo;
+        ReportDevReq req = new ReportDevReq(info);
+        req.sendRequest(new NormalCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                DevInfoRsp rsp = (DevInfoRsp) BaseRsp.getRsp(result,DevInfoRsp.class);
+                if (rsp != null){
+                    if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                        MyApplication.devInfo = rsp.resultData.devInfo;
+                    }else {
+                        if (retry<4){
+                            reportDevInfo();
+                            LogUtil.e("上报设备信息失败，进行第"+retry+"次上报");
+                            retry++;
+                        }else {
+                            LogUtil.e("上报设备信息失败");
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Event(value = {R.id.rv_user_icon, R.id.iv_manager, R.id.title_bar})
     private void getEvent(View view) {
         switch (view.getId()) {
             case R.id.rv_user_icon://用户信息界面
-                String token = UserDao.getToken();
+                String token = MyApplication.token;
                 if (TextUtils.isEmpty(token)) {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 } else {
@@ -84,7 +124,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(MainActivity.this, ManagerActivity.class));
                 break;
             case R.id.title_bar://搜索界面
-                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+//                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
         }
     }

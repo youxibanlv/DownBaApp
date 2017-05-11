@@ -2,6 +2,8 @@ package com.strike.downba_app.http;
 
 import android.text.TextUtils;
 
+import com.strike.downba_app.db.dao.UserDao;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 
 import org.xutils.common.util.LogUtil;
@@ -24,6 +26,9 @@ public class BaseRsp {
             try{
                 if (resultClass == BaseRsp.class || BaseRsp.class == resultClass.getSuperclass()){
                     rsp = (BaseRsp) gson.fromJson(result,resultClass);
+                    if (rsp.result == Constance.STATUS_STOP){
+                        UserDao.logOut();
+                    }
                 }
             }catch (Exception e){
                 try {

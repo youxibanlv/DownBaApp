@@ -1,4 +1,4 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
 import com.strike.downba_app.http.BaseRequest;
@@ -6,13 +6,13 @@ import com.strike.downba_app.http.BaseRequest;
 /**
  * Created by strike on 16/6/6.
  */
-public class RecommendReq extends BaseRequest {
+public class GuessReq extends BaseRequest {
 
     RequestParam requestParams;
 
-    public RecommendReq(String recommend_type){
+    public GuessReq(String recommend_type){
         cmdType = "appService";
-        methodName = "getRecommend";
+        methodName = "getGuess";
         requestParams = new RequestParam(recommend_type);
     }
     class RequestParam{

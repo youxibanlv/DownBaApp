@@ -78,7 +78,7 @@ public class BaseRequest {
             rp.addBodyParameter("cmdType",cmdType);
             rp.addBodyParameter("token",token);
             rp.addBodyParameter("file",new File(path));
-            rp.addBodyParameter("user",UserDao.getUser().getUid());
+            rp.addBodyParameter("user",UserDao.getUser().getUser_id());
             x.http().request(HttpMethod.POST,rp,callback);
             LogUtil.e(rp.toString());
         } catch (Exception e) {

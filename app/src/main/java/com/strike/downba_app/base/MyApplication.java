@@ -1,9 +1,14 @@
 package com.strike.downba_app.base;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.strike.downba_app.db.DbConfig;
+import com.strike.downba_app.db.dao.UserDao;
+import com.strike.downba_app.http.bean.DevInfo;
+import com.strike.downba_app.utils.AppUtils;
 import com.strike.downba_app.utils.CrashHandler;
+import com.strike.downba_app.utils.PhoneInfoUtils;
 
 import org.xutils.DbManager;
 import org.xutils.x;
@@ -15,6 +20,14 @@ public class MyApplication extends Application {
 
     public static DbManager appDb = null;
 
+    public static DevInfo devInfo;
+
+    public static int channelId;
+
+    public static String token;
+
+    public static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,6 +37,10 @@ public class MyApplication extends Application {
         x.Ext.setDebug(true);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
+        devInfo = PhoneInfoUtils.getDevInfo(this);
+        channelId = AppUtils.getLocalVersion(this).getChannel_id();
+        token = UserDao.getToken();
+        context = this;
     }
 
     public static DbManager getAppDb() {

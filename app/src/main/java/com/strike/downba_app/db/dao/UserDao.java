@@ -53,14 +53,15 @@ public class UserDao {
         String token = "";
         User user = getUser();
         if (user != null){
-            token = user.getToken();
+            token = user.getUser_id();
         }
         return token;
     }
 
     public static void logOut(){
         User user = getUser();
-        user.setToken("");
+        user.setUser_id("");
         saveUser(user);
+        MyApplication.token="";
     }
 }
