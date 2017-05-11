@@ -1,17 +1,15 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
-import com.strike.downba_app.http.BaseRequest;
+import com.strike.downba_app.http.BaseReq;
 
 /**
  * Created by strike on 16/8/2.
  */
-public class SubjectReq extends BaseRequest {
-
-    RequestParam requestParams;
+public class SubjectReq extends BaseReq {
 
     public SubjectReq(int pageNo,int pageSize) {
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getSubject";
         requestParams = new RequestParam(pageNo,pageSize);
     }

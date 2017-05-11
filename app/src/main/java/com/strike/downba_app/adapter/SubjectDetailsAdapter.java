@@ -12,11 +12,11 @@ import com.strike.downba_app.adapter.holder.AppListViewHolder;
 import com.strike.downba_app.adapter.holder.ImgViewHolder;
 import com.strike.downba_app.adapter.holder.InfoListViewHolder;
 import com.strike.downba_app.base.MyBaseAdapter;
-import com.strike.downba_app.db.table.App;
-import com.strike.downba_app.http.entity.Info;
+import com.strike.downba_app.http.bean.AppInfo;
+import com.strike.downba_app.http.bean.Info;
+import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
-import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -37,7 +37,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
 
     List<View> views = new ArrayList<>();
     private String logoUrl;
-    private List<App> apps = new ArrayList<>();
+    private List<AppInfo> apps = new ArrayList<>();
     private List<Info> infos = new ArrayList<>();
 
     public SubjectDetailsAdapter(Context context) {
@@ -86,13 +86,25 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
         }
     }
 
+    public void refresh(Subject subject) {
+       if (subject != null){
+           logoUrl = subject.getLogo();
+           if (subject.getSb_type() == Constance.SB_LIST_APP){
+               apps = subject.getApps();
+           }else if (subject.getSb_type() == Constance.SB_APP_INFO){
+               infos = subject.getInfos();
+           }
+           notifyDataSetChanged();
+       }
+    }
+
     public void refreshImg(String logoUrl){
         if (logoUrl!= null){
             this.logoUrl = logoUrl;
         }
         notifyDataSetChanged();
     }
-    public void refreshApps(List<App> appList){
+    public void refreshApps(List<AppInfo> appList){
         if (appList!= null && appList.size()>0){
             apps = appList;
         }
@@ -145,7 +157,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                 x.image().bind(imgHolder.icon,logoUrl);
                 break;
             case TYPE_APP:
-                App app = (App) getItem(position);
+                AppInfo app = (AppInfo) getItem(position);
                 if (app != null) {
                     if (app.getApp_logo() != null) {
                         x.image().bind(appListViewHolder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
@@ -155,10 +167,10 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                     } else {
                         appListViewHolder.tv_app_title.setText(app.getApp_title());
                     }
-                    int score = app.getApp_recomment() == null ? 0 : (int) (Float.parseFloat(app.getApp_recomment()) / 2);
+                    int score = app.getApp_grade()/2;
                     appListViewHolder.app_score.setNumStars(score);
-                    if (app.getSeo_keywords() != null) {
-                        appListViewHolder.tv_des.setText(app.getSeo_keywords());
+                    if (app.getApp_seo() != null) {
+                        appListViewHolder.tv_des.setText(app.getApp_seo());
                     } else {
                         appListViewHolder.tv_des.setText("");
                     }
@@ -168,16 +180,16 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                     if (app.getApp_version() != null) {
                         appListViewHolder.app_version.setText("版本：" + app.getApp_version());
                     }
-                    int num = NumberUtil.parseToInt(app.getApp_down());
+                    int num = app.getApp_down();
                     appListViewHolder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-                    DownLoadUtils.initDownLoad(app, appListViewHolder.tv_down);
+//                    DownLoadUtils.initDownLoad(app, appListViewHolder.tv_down);
                     appListViewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            App app1 = (App) getItem(position);
+                            AppInfo app1 = (AppInfo) getItem(position);
                             Intent intent = new Intent(context, AppDetailsActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable(Constance.APP, app1);
+//                            bundle.putSerializable(Constance.APP, app1);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }
@@ -186,7 +198,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                 break;
             case TYPE_INO:
                 final Info info = (Info) getItem(position);
-                x.image().bind(infoListViewHolder.icon,info.getInfo_img(), ImgConfig.getImgOption());
+                x.image().bind(infoListViewHolder.icon,info.getInfo_logo(), ImgConfig.getImgOption());
                 infoListViewHolder.title.setText(info.getInfo_title());
                 infoListViewHolder.body.setText(info.getInfo_desc());
                 infoListViewHolder.visitors.setText(info.getInfo_visitors()+"");

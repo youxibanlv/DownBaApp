@@ -135,7 +135,7 @@ public abstract class AbsTask<ResultType> implements Callback.Cancelable {
         IDLE(0), WAITING(1), STARTED(2), SUCCESS(3), CANCELLED(4), ERROR(5);
         private final int value;
 
-        private State(int value) {
+        State(int value) {
             this.value = value;
         }
 

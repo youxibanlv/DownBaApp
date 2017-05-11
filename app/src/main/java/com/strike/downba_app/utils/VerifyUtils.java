@@ -15,10 +15,7 @@ public class VerifyUtils {
         if (userName == null || "".equals(userName)){
             return false;
         }
-        if (isEmail(userName) || isPhoneNum(userName)){
-            return true;
-        }
-        return false;
+        return isEmail(userName) || isPhoneNum(userName);
     }
 
     // 判断输入用密码是否正确
@@ -28,11 +25,7 @@ public class VerifyUtils {
     }
     //支付宝校验
     public static boolean isAlipay(String alipay){
-        if (isEmail(alipay) || isPhoneNum(alipay)){
-            return true;
-        }else {
-            return false;
-        }
+        return isEmail(alipay) || isPhoneNum(alipay);
     }
     // 邮箱是否正确
     public static boolean isEmail(String email) {
@@ -50,10 +43,7 @@ public class VerifyUtils {
         final String pattern1 = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
         final Pattern pattern = Pattern.compile(pattern1);
         final Matcher mat = pattern.matcher(phoneNum);
-        if (!mat.find()) {
-            return false;
-        }
-        return true;
+        return mat.find();
     }
     //验证验证URL
     public static boolean isUrl(String url){
@@ -67,11 +57,7 @@ public class VerifyUtils {
 //                + "[^/][a-zA-Z0-9\\.\\,\\?\\'\\\\/\\+&%\\$\\=~_\\-@]*)*$";
 //        return Pattern.matches(UrlPatte, url);
         if (TextUtils.isEmpty(url)) return false;
-        if (url.contains("http://")){
-            return true;
-        }else{
-            return false;
-        }
+        return url.contains("http://");
     }
 
 

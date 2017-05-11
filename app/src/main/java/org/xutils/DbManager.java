@@ -147,19 +147,19 @@ public interface DbManager extends Closeable {
 
     Cursor execQuery(String sql) throws DbException;
 
-    public interface DbOpenListener {
+    interface DbOpenListener {
         void onDbOpened(DbManager db);
     }
 
-    public interface DbUpgradeListener {
+    interface DbUpgradeListener {
         void onUpgrade(DbManager db, int oldVersion, int newVersion);
     }
 
-    public interface TableCreateListener {
+    interface TableCreateListener {
         void onTableCreated(DbManager db, TableEntity<?> table);
     }
 
-    public static class DaoConfig {
+    class DaoConfig {
         private File dbDir;
         private String dbName = "xUtils.db"; // default db name
         private int dbVersion = 1;

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.download.DownloadInfo;
+import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
@@ -27,10 +28,10 @@ import java.util.List;
 /**
  * Created by strike on 16/6/14.
  */
-public class AppLIstAdapter extends MyBaseAdapter<AppInfo> {
+public class AppAdLIstAdapter extends MyBaseAdapter<AppAd> {
 
     private List<View> views = new ArrayList<>();
-    public AppLIstAdapter(Context context) {
+    public AppAdLIstAdapter(Context context) {
         super(context);
     }
 
@@ -79,7 +80,8 @@ public class AppLIstAdapter extends MyBaseAdapter<AppInfo> {
         } else {
             holder = (AppListViewHolder) convertView.getTag();
         }
-        AppInfo app = list.get(position);
+        AppAd ad = list.get(position);
+        AppInfo app = ad.getApp();
         if (app != null){
             if (app.getApp_logo()!= null){
                 x.image().bind(holder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
@@ -108,9 +110,9 @@ public class AppLIstAdapter extends MyBaseAdapter<AppInfo> {
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppInfo appInfo = list.get(position);
+                    AppAd appAd = list.get(position);
                     Intent intent = new Intent(context, AppDetailsActivity.class);
-                    intent.putExtra(Constance.ID,appInfo.getApp_id());
+                    intent.putExtra(Constance.ID,appAd.getObj_id());
                     context.startActivity(intent);
                 }
             });

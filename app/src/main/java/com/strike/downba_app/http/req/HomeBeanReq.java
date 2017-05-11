@@ -1,4 +1,4 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
 import com.strike.downba_app.http.BaseRequest;
@@ -11,7 +11,7 @@ public class HomeBeanReq extends BaseRequest {
     RequestParam requestParams;
 
     public HomeBeanReq(int pageNo,int pageSize){
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getHomeBeans";
         requestParams = new RequestParam(pageNo,pageSize);
     }

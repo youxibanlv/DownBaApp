@@ -11,7 +11,7 @@ public class DownloadUrlReq extends BaseRequest {
     RequestParam requestParams;
 
     public DownloadUrlReq(String app_id,String version,String uid){
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getUrlById";
         requestParams = new RequestParam(app_id,version,uid);
     }

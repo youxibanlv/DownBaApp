@@ -17,7 +17,6 @@ import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppHome;
-import com.strike.downba_app.http.entity.Recommend;
 import com.strike.downba_app.http.req.AppHomeReq;
 import com.strike.downba_app.http.req.WheelReq;
 import com.strike.downba_app.http.rsp.AppHomeRsp;
@@ -87,7 +86,7 @@ public class HomeFragment extends BaseFragment {
                 if (lastRefreshTime == 0 || waitTime > minWaitTime){
                     lastRefreshTime = System.currentTimeMillis();
                     pageNo = 1;
-                    getWheel(String.valueOf(Recommend.TYPE_WHEEL));
+                    getWheel();
                     getHomeList(pageNo,true);
                 }else{
                     waitTime = System.currentTimeMillis() - lastRefreshTime;
@@ -102,7 +101,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
         //加载轮播图片
-        getWheel(String.valueOf(Recommend.TYPE_WHEEL));
+        getWheel();
         getHomeList(1,true);
         return view;
     }
@@ -140,7 +139,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
     //加载轮播图
-    private void getWheel(final String type){
+    private void getWheel(){
         final WheelReq req = new WheelReq();
         req.sendRequest(new NormalCallBack() {
             @Override

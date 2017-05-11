@@ -2,14 +2,14 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.activity.SubjectActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
-import com.strike.downba_app.http.entity.Subject;
+import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
 
@@ -39,11 +39,22 @@ public class SubjectAdapter extends MyBaseAdapter<Subject> {
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SubjectActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constance.SUBJECT,subject);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                switch (subject.getSb_type()){
+                    case Constance.SB_ONE_APP:
+                        Intent intent = new Intent(context, AppDetailsActivity.class);
+                        intent.putExtra(Constance.ID,subject.getObj_id());
+                        context.startActivity(intent);
+                        break;
+                    case Constance.SB_LIST_APP:
+                        Intent sbIntent = new Intent(context, SubjectActivity.class);
+                        sbIntent.putExtra(Constance.ID,subject.getSb_id());
+                        context.startActivity(sbIntent);
+                        break;
+                    case Constance.SB_APP_INFO:
+                        // TODO: 2017/5/11 跳转app+info界面
+                        break;
+                }
+
             }
         });
         return convertView;

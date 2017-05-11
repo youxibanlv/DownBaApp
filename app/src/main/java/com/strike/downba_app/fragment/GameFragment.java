@@ -38,7 +38,7 @@ public class GameFragment extends BaseFragment {
                 if (hot == null){
                     hot = new ListFragment();
                     addFragment(R.id.fl_game,hot);
-                    hot.refresh(Constance.ORDER_HOT,Constance.PARENT_GAME);
+                    hot.refresh(Constance.ORDER_TYPE_SORT,Constance.PARENT_GAME);
                 }
                 showFragment(hot);
                 break;
@@ -46,7 +46,7 @@ public class GameFragment extends BaseFragment {
                 if (newF == null){
                     newF = new ListFragment();
                     addFragment(R.id.fl_game,newF);
-                    newF.refresh(Constance.ORDER_NEW,Constance.PARENT_GAME);
+                    newF.refresh(Constance.ORDER_TYPE_TIME,Constance.PARENT_GAME);
                 }
                 showFragment(newF);
                 break;
@@ -91,7 +91,7 @@ public class GameFragment extends BaseFragment {
                 if (hot == null){
                     hot = new ListFragment();
                     addFragment(R.id.fl_game,hot);
-                    hot.refresh(Constance.ORDER_HOT,Constance.PARENT_GAME);
+                    hot.refresh(Constance.ORDER_TYPE_SORT,Constance.PARENT_GAME);
                 }
                 showFragment(hot);
             }

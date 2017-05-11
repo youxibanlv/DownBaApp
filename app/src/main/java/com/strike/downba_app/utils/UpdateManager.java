@@ -71,8 +71,8 @@ public class UpdateManager {
 			default:
 				break;
 			}
-		};
-	};
+		}
+    };
 
 	public UpdateManager(Context context) {
 		this.mContext = context;
@@ -231,9 +231,9 @@ public class UpdateManager {
 			// 取消下载对话框显示
 			mDownloadDialog.dismiss();
 		}
-	};
+	}
 
-	/**
+    /**
 	 * 安装APK文件
 	 */
 	private void installApk() {

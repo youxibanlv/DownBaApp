@@ -1,9 +1,9 @@
-package com.strike.downba_app.http.response;
+package com.strike.downba_app.http.rsp;
 
 
-import com.strike.downba_app.http.BaseResponse;
-import com.strike.downba_app.http.entity.Info;
-import com.strike.downba_app.http.entity.PageBean;
+import com.strike.downba_app.http.BaseRsp;
+import com.strike.downba_app.http.bean.Info;
+import com.strike.downba_app.http.bean.PageBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by strike on 16/8/4.
  */
-public class InfoRsp extends BaseResponse {
+public class InfoRsp extends BaseRsp {
     public ResultData resultData = new ResultData();
 
     public class ResultData {

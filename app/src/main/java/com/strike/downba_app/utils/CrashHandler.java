@@ -94,8 +94,8 @@ public class CrashHandler implements UncaughtExceptionHandler{
 			 public void run() {
 				 Looper.prepare();  
 				 Looper.loop();      
-			 };
-		 }.start();
+			 }
+         }.start();
 		//保存日志文件   
 		 saveCatchInfo2File(ex);    
 		 return true;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.strike.downba_app.activity.CommonWebviewActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
-import com.strike.downba_app.http.entity.Info;
+import com.strike.downba_app.http.bean.Info;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downbaapp.R;
 
@@ -39,7 +39,7 @@ public class InfoListAdapter extends MyBaseAdapter<Info> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final Info info = getItem(position);
-        x.image().bind(viewHolder.icon,info.getInfo_img(), ImgConfig.getImgOption());
+        x.image().bind(viewHolder.icon,info.getInfo_logo(), ImgConfig.getImgOption());
         viewHolder.title.setText(info.getInfo_title());
         viewHolder.body.setText(info.getInfo_desc());
         viewHolder.visitors.setText(info.getInfo_visitors()+"");

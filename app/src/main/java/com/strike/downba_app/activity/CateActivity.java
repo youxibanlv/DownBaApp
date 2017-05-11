@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.base.BaseActivity;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DataChanger;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.Watcher;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Category;
-import com.strike.downba_app.http.entity.PageBean;
-import com.strike.downba_app.http.request.GetAppByCateIdReq;
-import com.strike.downba_app.http.response.GetAppListRsp;
+import com.strike.downba_app.http.bean.AppInfo;
+import com.strike.downba_app.http.bean.Cate;
+import com.strike.downba_app.http.bean.PageBean;
+import com.strike.downba_app.http.req.GetAppByCateIdReq;
+import com.strike.downba_app.http.rsp.GetAppListRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
@@ -51,8 +51,10 @@ public class CateActivity extends BaseActivity {
 
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 7,total = 0;
-    private Category category;
-    private int orderType = Constance.ORDER_NEW;
+    private Cate cate;
+    private int orderType = Constance.ORDER_TYPE_TIME;
+    private PageBean pageBean;
+
     private Watcher watcher = new Watcher() {
         @Override
         public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
@@ -66,12 +68,12 @@ public class CateActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            category = (Category) getIntent().getSerializableExtra(Constance.CATE);
+            cate = (Cate) getIntent().getSerializableExtra(Constance.CATE);
         }catch (Exception e){
             e.printStackTrace();
         }
-        if (category != null){
-            tv_title.setText(category.getCname());
+        if (cate != null){
+            tv_title.setText(cate.getCname());
         }
         DataChanger.getInstance().addObserver(watcher);
         pull_to_refresh.setMode(PullToRefreshBase.Mode.BOTH);
@@ -82,7 +84,7 @@ public class CateActivity extends BaseActivity {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
-                getAppList(true,orderType,category.getCate_id(),pageNo,pageSize);
+                getAppList(true,orderType, cate.getCate_id(),pageNo,pageSize);
             }
 
             @Override
@@ -94,7 +96,7 @@ public class CateActivity extends BaseActivity {
                     UiUtils.stopRefresh(pull_to_refresh);
                     return;
                 }
-                getAppList(false,orderType,category.getCate_id(),pageNo,pageSize);
+                getAppList(false,orderType, cate.getCate_id(),pageNo,pageSize);
 
             }
         });
@@ -103,7 +105,7 @@ public class CateActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getAppList(false,orderType,category.getCate_id(),pageNo,pageSize);
+        getAppList(false,orderType, cate.getCate_id(),pageNo,pageSize);
     }
 
     @Override
@@ -128,16 +130,14 @@ public class CateActivity extends BaseActivity {
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
-                List<App> list = rsp.getAppList();
-                if (pageNo == 1 || pageNo == 0){
-                    PageBean pageBean = rsp.getPageBean();
-                    total = pageBean.getTotalPage();
-                }
+                GetAppListRsp rsp = (GetAppListRsp) BaseRsp.getRsp(result,GetAppListRsp.class);
+                List<AppInfo> list = rsp.resultData.appList;
+                pageBean = rsp.resultData.pageBean;
+                total = pageBean.getTotalPage();
                 if (isRefresh){
-//                    adapter.refresh(list);
+                    adapter.refresh(list);
                 }else{
-//                    adapter.addData(list);
+                    adapter.addData(list);
                 }
 
             }

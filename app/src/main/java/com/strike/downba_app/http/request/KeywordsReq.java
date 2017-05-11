@@ -11,7 +11,7 @@ public class KeywordsReq extends BaseRequest {
     RequestParam requestParams;
 
     public KeywordsReq(String key,int size){
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getKeywords";
         requestParams = new RequestParam(key,size);
     }

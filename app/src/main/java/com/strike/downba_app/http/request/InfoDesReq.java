@@ -11,7 +11,7 @@ public class InfoDesReq extends BaseRequest {
     RequestParam requestParams;
 
     public InfoDesReq(int id) {
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getInfoDes";
         requestParams = new RequestParam(id);
     }

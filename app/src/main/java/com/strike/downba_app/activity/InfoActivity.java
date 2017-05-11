@@ -14,7 +14,7 @@ import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.UrlConfig;
-import com.strike.downba_app.http.entity.Info;
+import com.strike.downba_app.http.bean.Info;
 import com.strike.downba_app.http.request.InfoDesReq;
 import com.strike.downba_app.http.response.InfoDesRsp;
 import com.strike.downba_app.utils.Constance;

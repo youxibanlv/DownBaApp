@@ -24,15 +24,17 @@ import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.adapter.KeywordAdapter;
 import com.strike.downba_app.adapter.SpacesItemDecoration;
 import com.strike.downba_app.base.BaseActivity;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
+import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.http.entity.Keyword;
+import com.strike.downba_app.http.bean.PageBean;
 import com.strike.downba_app.http.request.GetAppByKeywordReq;
 import com.strike.downba_app.http.request.KeywordsReq;
-import com.strike.downba_app.http.response.GetAppListRsp;
 import com.strike.downba_app.http.response.KeywordsRsp;
+import com.strike.downba_app.http.rsp.GetAppListRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -72,6 +74,7 @@ public class SearchActivity extends BaseActivity {
     private KeyAdapter defaultKeyAdapter;
 
     private List<Keyword> keywords;
+    private PageBean pageBean;
 
 
     private int pageNo = 0,pageSize = 7,total,keySize = 5;
@@ -269,19 +272,17 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)){
-                    GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
+                    GetAppListRsp rsp = (GetAppListRsp) BaseRsp.getRsp(result,GetAppListRsp.class);
                     if (rsp!= null && rsp.result == HttpConstance.HTTP_SUCCESS){
-                        List<App> list = rsp.getAppList();
-                        if (pageNo<2){
-                            total = rsp.getPageBean().getTotalPage();
-                        }
+                        List<AppInfo> list = rsp.resultData.appList;
+                        pageBean = rsp.resultData.pageBean;
+                        total = pageBean.getTotalPage();
                         if (list != null && list.size()>0){
                             handler.obtainMessage(SHOWAPPS).sendToTarget();
                             if (isRefresh){
-//                                appLIstAdapter.refresh(list);
+                                appLIstAdapter.refresh(list);
                             }else{
-//                                appLIstAdapter.getList().addAll(list);
-                                appLIstAdapter.notifyDataSetChanged();
+                                appLIstAdapter.addData(list);
                             }
                         }else {
                             handler.obtainMessage(SHOWDEFAULT).sendToTarget();

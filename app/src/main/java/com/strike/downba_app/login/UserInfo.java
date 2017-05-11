@@ -38,6 +38,6 @@ public class UserInfo {
 		this.userNote = userNote;
 	}
 
-	public static enum Gender {MALE, FEMALE}
+	public enum Gender {MALE, FEMALE}
 
 }

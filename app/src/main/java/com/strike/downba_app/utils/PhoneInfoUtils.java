@@ -114,12 +114,8 @@ public class PhoneInfoUtils {
 
 	/****** 判断是否存在SD卡 *****/
 	public static boolean ExistSDCard() {
-		if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED)) {
-			return true;
-		} else {
-			return false;
-		}
+		return android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED);
 	}
 
 	/***** 判断wifi是否可用 ****/
@@ -127,23 +123,15 @@ public class PhoneInfoUtils {
 		ConnectivityManager manager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = manager.getActiveNetworkInfo();
-		if (info != null && info.getType() == ConnectivityManager.TYPE_WIFI) {
-			return true;
-		} else {
-			return false;
-		}
+		return info != null && info.getType() == ConnectivityManager.TYPE_WIFI;
 	}
 
 	/***** 判断gps是否打开 *******/
 	public static boolean ExistGPS(Context context) {
 		LocationManager manager = (LocationManager) context
 				.getSystemService(Context.LOCATION_SERVICE);
-		if (manager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			return true;
-		} else {
-			return false;
-		}
+		return manager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 
 	/***** 判断apk是否第一次启动 ******/
@@ -198,10 +186,7 @@ public class PhoneInfoUtils {
 			@Override
 			public boolean accept(File pathname) {
 				// Check if filename is "cpu", followed by a single digit number
-				if (Pattern.matches("cpu[0-9]", pathname.getName())) {
-					return true;
-				}
-				return false;
+				return Pattern.matches("cpu[0-9]", pathname.getName());
 			}
 		}
 

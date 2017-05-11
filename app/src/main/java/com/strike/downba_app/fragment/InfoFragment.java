@@ -8,12 +8,12 @@ import android.widget.ListView;
 
 import com.strike.downba_app.adapter.InfoListAdapter;
 import com.strike.downba_app.base.BaseFragment;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Info;
-import com.strike.downba_app.http.request.InfoReq;
-import com.strike.downba_app.http.response.InfoRsp;
+import com.strike.downba_app.http.bean.Info;
+import com.strike.downba_app.http.req.InfoReq;
+import com.strike.downba_app.http.rsp.InfoRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -88,19 +88,18 @@ public class InfoFragment extends BaseFragment {
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                InfoRsp rsp = (InfoRsp) BaseResponse.getRsp(result,InfoRsp.class);
-                List<Info> infoList = rsp.resultData.infoList;
-                if (pageNo == 1){
+                InfoRsp rsp = (InfoRsp) BaseRsp.getRsp(result,InfoRsp.class);
+                if (rsp.result==HttpConstance.HTTP_SUCCESS){
+                    List<Info> infoList = rsp.resultData.infoList;
                     totalPage = rsp.resultData.pageBean.getTotalPage();
-                }
-                if (infoList != null){
-                    pull_to_refresh.setAdapter(adapter);
-                    if (isRefresh){
-                        adapter.refresh(infoList);
-                    }else {
-                        adapter.addData(infoList);
+                    if (infoList != null){
+                        pull_to_refresh.setAdapter(adapter);
+                        if (isRefresh){
+                            adapter.refresh(infoList);
+                        }else {
+                            adapter.addData(infoList);
+                        }
                     }
-
                 }
             }
             @Override

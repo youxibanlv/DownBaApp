@@ -1,140 +1,129 @@
 package com.strike.downba_app.http.bean;
 
-import com.strike.downba_app.http.entity.Info;
+import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.TimeUtil;
+import com.strike.downba_app.utils.VerifyUtils;
 
 import java.util.List;
 
 public class Subject {
 
-	private Integer sb_id;
-	private Integer sb_type=-1;
-	private String obj_ids="";
-	private Integer obj_id=-1;
-	private String title="";
-	private String des="";
-	private String logo="";
-	private long update_time=0;
+    private Integer sb_id;
+    private Integer sb_type = -1;
+    private String obj_ids = "";
+    private Integer obj_id = -1;
+    private String title = "";
+    private String des = "";
+    private String logo = "";
+    private long update_time = 0;
 
-	private AppInfo app;
-	private List<AppInfo> apps;
-	private List<Info> infos;
-	private String dateTime;
+    private AppInfo app;
+    private List<AppInfo> apps;
+    private List<Info> infos;
+    private String dateTime;
 
-	public Subject() {
-	}
+    public Integer getSb_id() {
+        return sb_id;
+    }
 
-	public Subject(Integer sb_type, String obj_ids, Integer obj_id, String title, String des,
-			String logo) {
-		super();
-		this.sb_type = sb_type;
-		this.obj_ids = obj_ids;
-		this.obj_id = obj_id;
-		this.title = title;
-		this.des = des;
-		this.logo = logo;
-		this.update_time = System.currentTimeMillis();
-	}
+    public void setSb_id(Integer sb_id) {
+        this.sb_id = sb_id;
+    }
 
-	public Integer getSb_id() {
-		return sb_id;
-	}
+    public Integer getSb_type() {
+        return sb_type;
+    }
 
-	public void setSb_id(Integer sb_id) {
-		this.sb_id = sb_id;
-	}
+    public void setSb_type(Integer sb_type) {
+        this.sb_type = sb_type;
+    }
 
-	public Integer getSb_type() {
-		return sb_type;
-	}
+    public String getObj_ids() {
+        return obj_ids;
+    }
 
-	public void setSb_type(Integer sb_type) {
-		this.sb_type = sb_type;
-	}
+    public void setObj_ids(String obj_ids) {
+        this.obj_ids = obj_ids;
+    }
 
-	public String getObj_ids() {
-		return obj_ids;
-	}
+    public Integer getObj_id() {
+        return obj_id;
+    }
 
-	public void setObj_ids(String obj_ids) {
-		this.obj_ids = obj_ids;
-	}
+    public void setObj_id(Integer obj_id) {
+        this.obj_id = obj_id;
+    }
 
-	public Integer getObj_id() {
-		return obj_id;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setObj_id(Integer obj_id) {
-		this.obj_id = obj_id;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getDes() {
+        return des;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setDes(String des) {
+        this.des = des;
+    }
 
-	public String getDes() {
-		return des;
-	}
+    public String getLogo() {
+        if (!VerifyUtils.isUrl(logo)){
+            logo = UrlConfig.BASE_IMG_URL+logo;
+        }
+        return logo;
+    }
 
-	public void setDes(String des) {
-		this.des = des;
-	}
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
-	public String getLogo() {
-		return logo;
-	}
+    public long getUpdate_time() {
+        return update_time;
+    }
 
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
+    public void setUpdate_time(long update_time) {
+        this.update_time = update_time;
+    }
 
-	public long getUpdate_time() {
-		return update_time;
-	}
+    public List<AppInfo> getApps() {
+        return apps;
+    }
 
-	public void setUpdate_time(long update_time) {
-		this.update_time = update_time;
-	}
+    public void setApps(List<AppInfo> apps) {
+        this.apps = apps;
+    }
 
-	public List<AppInfo> getApps() {
-		return apps;
-	}
+    public List<Info> getInfos() {
+        return infos;
+    }
 
-	public void setApps(List<AppInfo> apps) {
-		this.apps = apps;
-	}
+    public void setInfos(List<Info> infos) {
+        this.infos = infos;
+    }
 
-	public List<Info> getInfos() {
-		return infos;
-	}
+    public String getDateTime() {
+        if (update_time <= 0) {
+            dateTime = "";
+        } else {
+            dateTime = TimeUtil.longToDateStr(update_time, null);
+        }
+        return dateTime;
+    }
 
-	public void setInfos(List<Info> infos) {
-		this.infos = infos;
-	}
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
 
-	public String getDateTime() {
-		if (update_time <= 0) {
-			dateTime = "";
-		} else {
-			dateTime = TimeUtil.longToDateStr(update_time, null);
-		}
-		return dateTime;
-	}
+    public AppInfo getApp() {
+        return app;
+    }
 
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
-	}
-
-	public AppInfo getApp() {
-		return app;
-	}
-
-	public void setApp(AppInfo app) {
-		this.app = app;
-	}
+    public void setApp(AppInfo app) {
+        this.app = app;
+    }
 
 }

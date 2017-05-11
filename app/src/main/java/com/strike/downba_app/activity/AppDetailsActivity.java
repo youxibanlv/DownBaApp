@@ -24,9 +24,10 @@ import com.strike.downba_app.download.Watcher;
 import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
+import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.http.bean.Comment;
-import com.strike.downba_app.http.entity.Recommend;
+import com.strike.downba_app.http.bean.Guess;
 import com.strike.downba_app.http.req.AddCommentReq;
 import com.strike.downba_app.http.req.AppDetailsReq;
 import com.strike.downba_app.http.req.CommentReq;
@@ -34,6 +35,7 @@ import com.strike.downba_app.http.req.GuessReq;
 import com.strike.downba_app.http.rsp.AddCommentRsp;
 import com.strike.downba_app.http.rsp.AppDetailsRsp;
 import com.strike.downba_app.http.rsp.CommentRsp;
+import com.strike.downba_app.http.rsp.GuessRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
@@ -143,13 +145,9 @@ public class AppDetailsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DataChanger.getInstance().addObserver(watcher);
-        try {
-            int appId = getIntent().getExtras().getInt(Constance.APP_ID);
-            if (appId > 0) {
-                getAppDetails(appId);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        int appId = getIntent().getIntExtra(Constance.ID, -1);
+        if (appId > 0) {
+            getAppDetails(appId);
         }
         imgList.setOnItemClickListener(new MyHorizontalScrollView.OnItemClickListener() {
             @Override
@@ -170,7 +168,6 @@ public class AppDetailsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSuspect();
     }
 
     @Override
@@ -181,7 +178,7 @@ public class AppDetailsActivity extends BaseActivity {
         }
     }
 
-    @Event(value = {R.id.iv_back, R.id.des_open, R.id.comment_open, R.id.btn_send,R.id.more_comment})
+    @Event(value = {R.id.iv_back, R.id.des_open, R.id.comment_open, R.id.btn_send, R.id.more_comment})
     private void getEvent(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -218,20 +215,21 @@ public class AppDetailsActivity extends BaseActivity {
                 req.sendRequest(new NormalCallBack() {
                     @Override
                     public void onSuccess(String result) {
-                        CommentRsp rsp = (CommentRsp) BaseRsp.getRsp(result,CommentRsp.class);
-                        if (rsp.result == HttpConstance.HTTP_SUCCESS){
+                        CommentRsp rsp = (CommentRsp) BaseRsp.getRsp(result, CommentRsp.class);
+                        if (rsp.result == HttpConstance.HTTP_SUCCESS) {
                             List<Comment> comments = rsp.resultData.comments;
-                            if (comments!= null && comments.size()>0){
+                            if (comments != null && comments.size() > 0) {
                                 commentAdapter.addData(comments);
                             }
-                            if (rsp.resultData.total>commentAdapter.getList().size()){
+                            if (rsp.resultData.total > commentAdapter.getList().size()) {
                                 more_comment.setVisibility(View.VISIBLE);
                                 commentNo++;
-                            }else {
+                            } else {
                                 more_comment.setVisibility(View.GONE);
                             }
                         }
                     }
+
                     @Override
                     public void onFinished() {
                         dismissProgressDialog();
@@ -267,9 +265,9 @@ public class AppDetailsActivity extends BaseActivity {
                         lv_comment.setVisibility(View.VISIBLE);
                         no_comment.setVisibility(View.GONE);
                         commentAdapter.refresh(list);
-                        if (rsp.resultData.total>list.size()){
+                        if (rsp.resultData.total > list.size()) {
                             more_comment.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             more_comment.setVisibility(View.GONE);
                         }
                     } else {
@@ -287,29 +285,27 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void getSuspect() {
-        GuessReq req = new GuessReq(String.valueOf(Recommend.TYPE_SUSPECT));
-//        req.sendRequest(new NormalCallBack() {
-//            @Override
-//            public void onSuccess(String result) {
-//                RecommendRsp rsp = (RecommendRsp) BaseResponse.getRsp(result,RecommendRsp.class);
-//                if (rsp.result == HttpConstance.HTTP_SUCCESS){
-//                    List<Recommend> list = rsp.getAppList();
-//                    if (list!= null && list.size()>0){
-//                        List<App> apps = new ArrayList<>();
-//                        for (Recommend recommend:list){
-//                            apps.add(recommend.getApp());
-//                        }
-//                        suspectAdapter.setList(apps);
-////                        suspectAdapter.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFinished() {
-//
-//            }
-//        });
+        GuessReq req = new GuessReq(app.getCate_id());
+        req.sendRequest(new NormalCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                GuessRsp rsp = (GuessRsp) BaseRsp.getRsp(result, GuessRsp.class);
+                if (rsp.result == HttpConstance.HTTP_SUCCESS) {
+                    Guess guess = rsp.resultData.guess;
+                    if (guess != null) {
+                        List<AppAd> list = guess.getObjs();
+                        if (list != null && list.size() > 0) {
+                            suspectAdapter.setList(list);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void getAppDetails(int app_id) {
@@ -326,6 +322,7 @@ public class AppDetailsActivity extends BaseActivity {
                             if (app != null) {
                                 initView();
                                 loadResource();
+                                getSuspect();
                             }
                         }
                     }
@@ -350,14 +347,14 @@ public class AppDetailsActivity extends BaseActivity {
             lv_comment.setVisibility(View.VISIBLE);
             no_comment.setVisibility(View.GONE);
             commentAdapter.refresh(app.getComments());
-            if (app.getTotalComment() > Constance.DEFAULT_COMMENT_SIZE) {
-                more_comment.setVisibility(View.VISIBLE);
-            } else {
-                more_comment.setVisibility(View.GONE);
-            }
         } else {
             lv_comment.setVisibility(View.GONE);
             no_comment.setVisibility(View.VISIBLE);
+        }
+        if (app.getTotalComment() > Constance.DEFAULT_COMMENT_SIZE) {
+            more_comment.setVisibility(View.VISIBLE);
+        } else {
+            more_comment.setVisibility(View.GONE);
         }
         if (app.getApp_des() != null) {
             String des = app.getApp_des();

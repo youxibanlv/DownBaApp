@@ -11,7 +11,7 @@ public class GetAppsByIdStringReq extends BaseRequest {
     RequestParam requestParams;
 
     public GetAppsByIdStringReq(String idList){
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getAppsByIdString";
         requestParams = new RequestParam(idList);
     }

@@ -42,7 +42,7 @@ public class HomeAdapter extends BaseAdapter {
     private List<AppAd> wheelPages = new ArrayList<>();//轮播图集合
     private List<AppHome> homeBeens = new ArrayList<>();//首页元素
 
-    private List<AppLIstAdapter> listAdapters = new ArrayList<>();
+    private List<AppAdLIstAdapter> listAdapters = new ArrayList<>();
     private List<GridRecommendAdapter> gridAdapters = new ArrayList<>();
 
     private Context context;
@@ -51,7 +51,7 @@ public class HomeAdapter extends BaseAdapter {
     public void refreshHolder(DownloadInfo info) {
         //刷新列表项
         if (listAdapters.size()>0){
-            for (AppLIstAdapter adapter : listAdapters){
+            for (AppAdLIstAdapter adapter : listAdapters){
                 adapter.refreshHolder(info);
             }
         }
@@ -201,11 +201,11 @@ public class HomeAdapter extends BaseAdapter {
                 break;
             case TYPE_LIST:
                 appListViewHolder.tv_recommend.setText(bean.getTitle2());
-                AppLIstAdapter appListAdapter = new AppLIstAdapter(context);
-                appListViewHolder.lv_recommend.setAdapter(appListAdapter);
-                appListAdapter.refresh(bean.getAppAdApp());
+                AppAdLIstAdapter appAdListAdapter = new AppAdLIstAdapter(context);
+                appListViewHolder.lv_recommend.setAdapter(appAdListAdapter);
+                appAdListAdapter.refresh(bean.getAppAdApp());
                 //添加到adapter集合，方便刷新下载进度
-                listAdapters.add(appListAdapter);
+                listAdapters.add(appAdListAdapter);
                 break;
             case TYPE_SUBJECT:
                 if (bean.getBanner()!= null && !TextUtils.isEmpty(bean.getBanner().getLogo())) {

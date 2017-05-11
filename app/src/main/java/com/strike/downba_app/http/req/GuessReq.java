@@ -1,26 +1,24 @@
 package com.strike.downba_app.http.req;
 
 
-import com.strike.downba_app.http.BaseRequest;
+import com.strike.downba_app.http.BaseReq;
 
 /**
  * Created by strike on 16/6/6.
  */
-public class GuessReq extends BaseRequest {
+public class GuessReq extends BaseReq {
 
-    RequestParam requestParams;
-
-    public GuessReq(String recommend_type){
-        cmdType = "appService";
+    public GuessReq(int cateId){
+        cmdType = "appBusiness";
         methodName = "getGuess";
-        requestParams = new RequestParam(recommend_type);
+        requestParams = new RequestParam(cateId);
     }
     class RequestParam{
-        String recommend_type;
+        int cateId;
 
-        public RequestParam(String recommend_type){
+        public RequestParam(int cateId){
 
-            this.recommend_type = recommend_type;
+            this.cateId = cateId;
         }
     }
 }

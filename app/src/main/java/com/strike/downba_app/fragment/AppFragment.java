@@ -36,7 +36,7 @@ public class AppFragment extends BaseFragment {
                 if (hot == null) {
                     hot = new ListFragment();
                     addFragment(R.id.fl_app, hot);
-                    hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+                    hot.refresh(Constance.ORDER_TYPE_SORT, Constance.PARENT_APP);
                 }
                 showFragment(hot);
                 break;
@@ -44,7 +44,7 @@ public class AppFragment extends BaseFragment {
                 if (newF == null) {
                     newF = new ListFragment();
                     addFragment(R.id.fl_app, newF);
-                    newF.refresh(Constance.ORDER_NEW, Constance.PARENT_APP);
+                    newF.refresh(Constance.ORDER_TYPE_TIME, Constance.PARENT_APP);
                 }
                 showFragment(newF);
                 break;
@@ -90,7 +90,7 @@ public class AppFragment extends BaseFragment {
                 if (hot == null) {
                     hot = new ListFragment();
                     addFragment(R.id.fl_app, hot);
-                    hot.refresh(Constance.ORDER_HOT, Constance.PARENT_APP);
+                    hot.refresh(Constance.ORDER_TYPE_SORT, Constance.PARENT_APP);
                 }
                 showFragment(hot);
             }

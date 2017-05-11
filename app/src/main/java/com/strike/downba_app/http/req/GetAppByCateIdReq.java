@@ -1,16 +1,15 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
-import com.strike.downba_app.http.BaseRequest;
+import com.strike.downba_app.http.BaseReq;
 
 /**
  * Created by strike on 16/7/3.
  */
-public class GetAppByCateIdReq extends BaseRequest {
+public class GetAppByCateIdReq extends BaseReq {
 
-    RequestParam requestParams;
     public GetAppByCateIdReq(int cate_id,int orderType,int pageNo,int pageSize){
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getAppListByCate";
         requestParams = new RequestParam(cate_id,orderType,pageNo,pageSize);
     }

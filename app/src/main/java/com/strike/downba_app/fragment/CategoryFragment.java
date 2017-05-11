@@ -14,12 +14,12 @@ import android.widget.TextView;
 import com.strike.downba_app.activity.CateActivity;
 import com.strike.downba_app.base.BaseFragment;
 import com.strike.downba_app.base.MyBaseAdapter;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Category;
-import com.strike.downba_app.http.request.GetCategoryReq;
-import com.strike.downba_app.http.response.GetCategoryRsp;
+import com.strike.downba_app.http.bean.Cate;
+import com.strike.downba_app.http.req.GetCategoryReq;
+import com.strike.downba_app.http.rsp.GetCategoryRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
 
@@ -71,8 +71,8 @@ public class CategoryFragment extends BaseFragment {
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                GetCategoryRsp rsp = (GetCategoryRsp) BaseResponse.getRsp(result,GetCategoryRsp.class);
-                List<Category> list = rsp.getResultList();
+                GetCategoryRsp rsp = (GetCategoryRsp) BaseRsp.getRsp(result,GetCategoryRsp.class);
+                List<Cate> list = rsp.resultData.list;
                 if (list!= null && list.size()>0){
                     adapter.refresh(list);
                 }
@@ -87,7 +87,7 @@ public class CategoryFragment extends BaseFragment {
         });
     }
 
-    class GridAdapter extends MyBaseAdapter<Category>{
+    class GridAdapter extends MyBaseAdapter<Cate>{
 
         public GridAdapter(Context context) {
             super(context);
@@ -103,14 +103,14 @@ public class CategoryFragment extends BaseFragment {
             }else{
                 holder = (ViewHolder) convertView.getTag();
             }
-            final Category category = getItem(position);
-            holder.name.setText(category.getCname());
-            x.image().bind(holder.icon,category.getCimg());
+            final Cate cate = getItem(position);
+            holder.name.setText(cate.getCname());
+            x.image().bind(holder.icon, cate.getCimg());
             holder.rl_catel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CateActivity.class);
-                    intent.putExtra(Constance.CATE,category);
+                    intent.putExtra(Constance.CATE, cate);
                     context.startActivity(intent);
                 }
             });

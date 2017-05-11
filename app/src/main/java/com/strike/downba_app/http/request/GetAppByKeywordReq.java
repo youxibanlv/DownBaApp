@@ -12,7 +12,7 @@ public class GetAppByKeywordReq extends BaseRequest {
     RequestParam requestParams;
 
     public GetAppByKeywordReq(String key,int pageNo,int pageSize) {
-        cmdType = "appService";
+        cmdType = "appBusiness";
         methodName = "getAppByKeyword";
         requestParams = new RequestParam(key,pageNo,pageSize);
     }

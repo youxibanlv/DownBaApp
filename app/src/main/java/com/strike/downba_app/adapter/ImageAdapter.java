@@ -2,7 +2,6 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.strike.downba_app.activity.AppDetailsActivity;
+import com.strike.downba_app.activity.SubjectActivity;
 import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.utils.Constance;
@@ -71,13 +71,13 @@ public class ImageAdapter extends PagerAdapter {
                     switch (sb.getSb_type()){
                         case Constance.SB_ONE_APP://跳转详情
                             Intent intent = new Intent(context, AppDetailsActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putInt(Constance.APP_ID,sb.getObj_id());
-                            intent.putExtras(bundle);
+                            intent.putExtra(Constance.ID,sb.getObj_id());
                             context.startActivity(intent);
                             break;
                         case Constance.SB_LIST_APP://app列表
-
+                            Intent sbIntent = new Intent(context, SubjectActivity.class);
+                            sbIntent.putExtra(Constance.ID,sb.getSb_id());
+                            context.startActivity(sbIntent);
                             break;
                         case Constance.SB_APP_INFO://app+资讯
 

@@ -10,17 +10,16 @@ import android.widget.ListView;
 
 import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.base.BaseFragment;
-import com.strike.downba_app.db.table.App;
 import com.strike.downba_app.download.DataChanger;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.download.Watcher;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.PageBean;
-import com.strike.downba_app.http.request.GetAppByCateIdReq;
-import com.strike.downba_app.http.response.GetAppListRsp;
-import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.http.bean.AppInfo;
+import com.strike.downba_app.http.bean.PageBean;
+import com.strike.downba_app.http.req.GetAppByCateIdReq;
+import com.strike.downba_app.http.rsp.GetAppListRsp;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
 import com.strike.downba_app.view.library.PullToRefreshListView;
@@ -47,6 +46,7 @@ public class ListFragment extends BaseFragment {
     private View view;
     private AppLIstAdapter adapter;
     private int pageNo = 1,pageSize = 7,total = 0;
+    private PageBean pageBean;
     private Context context;
     private Watcher watcher = new Watcher() {
         @Override
@@ -84,16 +84,10 @@ public class ListFragment extends BaseFragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 getAppList(true,orderType,cateId,pageNo,pageSize);
-
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                if (orderType == Constance.ORDER_HOT){
-                    UiUtils.showTipToast(false,getString(R.string.this_is_last));
-                    UiUtils.stopRefresh(pull_to_refresh);
-                    return;
-                }
                 if (pageNo < total){
                     pageNo ++;
                 }else{
@@ -126,18 +120,17 @@ public class ListFragment extends BaseFragment {
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                GetAppListRsp rsp = (GetAppListRsp) BaseResponse.getRsp(result,GetAppListRsp.class);
-                List<App> list = rsp.getAppList();
-                if (pageNo == 1 || pageNo == 0){
-                    PageBean pageBean = rsp.getPageBean();
+                GetAppListRsp rsp = (GetAppListRsp) BaseRsp.getRsp(result,GetAppListRsp.class);
+                if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS){
+                    List<AppInfo> list = rsp.resultData.appList;
+                    pageBean = rsp.resultData.pageBean;
                     total = pageBean.getTotalPage();
+                    if (isRefresh){
+                        adapter.refresh(list);
+                    }else {
+                        adapter.addData(list);
+                    }
                 }
-               if (isRefresh){
-//                   adapter.refresh(list);
-               }else{
-//                   adapter.addData(list);
-               }
-
             }
 
             @Override

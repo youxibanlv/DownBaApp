@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
  */
 public interface Callback {
 
-    public interface CommonCallback<ResultType> extends Callback {
+    interface CommonCallback<ResultType> extends Callback {
         void onSuccess(ResultType result);
 
         void onError(Throwable ex, boolean isOnCallback);
@@ -18,23 +18,23 @@ public interface Callback {
         void onFinished();
     }
 
-    public interface TypedCallback<ResultType> extends CommonCallback<ResultType> {
+    interface TypedCallback<ResultType> extends CommonCallback<ResultType> {
         Type getLoadType();
     }
 
-    public interface CacheCallback<ResultType> extends CommonCallback<ResultType> {
+    interface CacheCallback<ResultType> extends CommonCallback<ResultType> {
         boolean onCache(ResultType result);
     }
 
-    public interface ProxyCacheCallback<ResultType> extends CacheCallback<ResultType> {
+    interface ProxyCacheCallback<ResultType> extends CacheCallback<ResultType> {
         boolean onlyCache();
     }
 
-    public interface PrepareCallback<PrepareType, ResultType> extends CommonCallback<ResultType> {
+    interface PrepareCallback<PrepareType, ResultType> extends CommonCallback<ResultType> {
         ResultType prepare(PrepareType rawData);
     }
 
-    public interface ProgressCallback<ResultType> extends CommonCallback<ResultType> {
+    interface ProgressCallback<ResultType> extends CommonCallback<ResultType> {
         void onWaiting();
 
         void onStarted();
@@ -42,7 +42,7 @@ public interface Callback {
         void onLoading(long total, long current, boolean isDownloading);
     }
 
-    public interface GroupCallback<ItemType> extends Callback {
+    interface GroupCallback<ItemType> extends Callback {
         void onSuccess(ItemType item);
 
         void onError(ItemType item, Throwable ex, boolean isOnCallback);
@@ -54,17 +54,17 @@ public interface Callback {
         void onAllFinished();
     }
 
-    public interface Callable<ResultType> {
+    interface Callable<ResultType> {
         void call(ResultType result);
     }
 
-    public interface Cancelable {
+    interface Cancelable {
         void cancel();
 
         boolean isCancelled();
     }
 
-    public static class CancelledException extends RuntimeException {
+    class CancelledException extends RuntimeException {
         public CancelledException(String detailMessage) {
             super(detailMessage);
         }

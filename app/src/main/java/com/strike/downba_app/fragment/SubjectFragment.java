@@ -8,12 +8,12 @@ import android.widget.ListView;
 
 import com.strike.downba_app.adapter.SubjectAdapter;
 import com.strike.downba_app.base.BaseFragment;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Subject;
-import com.strike.downba_app.http.request.SubjectReq;
-import com.strike.downba_app.http.response.SubjectRsp;
+import com.strike.downba_app.http.bean.Subject;
+import com.strike.downba_app.http.req.SubjectReq;
+import com.strike.downba_app.http.rsp.SubjectRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -65,6 +65,7 @@ public class SubjectFragment extends BaseFragment {
                 getSubject(false);
             }
         });
+        pull_to_refresh.setAdapter(subjectAdapter);
         return view;
     }
 
@@ -82,18 +83,16 @@ public class SubjectFragment extends BaseFragment {
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                SubjectRsp rsp = (SubjectRsp) BaseResponse.getRsp(result, SubjectRsp.class);
-                if (pageNo == 0 || pageNo == 1){
+                SubjectRsp rsp = (SubjectRsp) BaseRsp.getRsp(result, SubjectRsp.class);
+                if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS){
+                    List<Subject> list = rsp.resultData.subjects;
                     totalPage = rsp.resultData.pageBean.getTotalPage();
+                    if (isRefresh) {
+                        subjectAdapter.refresh(list);
+                    } else {
+                        subjectAdapter.addData(list);
+                    }
                 }
-                List<Subject> list = rsp.resultData.subjects;
-                pull_to_refresh.setAdapter(subjectAdapter);
-                if (isRefresh) {
-                    subjectAdapter.refresh(list);
-                } else {
-                    subjectAdapter.addData(list);
-                }
-
             }
 
             @Override
