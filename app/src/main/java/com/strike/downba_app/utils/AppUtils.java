@@ -10,7 +10,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import com.strike.downba_app.base.AppConfig;
 import com.strike.downba_app.http.entity.Version;
+
+import java.io.File;
 
 /**
  * Created by strike on 16/6/17.
@@ -20,6 +23,29 @@ import com.strike.downba_app.http.entity.Version;
 public class AppUtils {
 
 
+    /**
+     * 检测Sdcard是否存在
+     *
+     * @return
+     */
+    public static boolean isExitsSdcard() {
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+            return true;
+        else
+            return false;
+    }
+    /**
+     * 获取保存图片的目录
+     *
+     * @return
+     */
+    public static File getAlbumDir() {
+        File dir = new File(AppConfig.cameraPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return dir;
+    }
     //获取本地app版本号和渠道号
     public static Version getLocalVersion(Context mContext) {
         Version version = new Version();
@@ -38,7 +64,7 @@ public class AppUtils {
     /**
      * 获取图片的真实地址
      *
-     * @param contentUri
+     * @param
      * @return String
      */
     @SuppressLint("NewApi")

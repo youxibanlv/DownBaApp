@@ -1,26 +1,16 @@
 package com.strike.downba_app.http.entity;
 
 public class Version {
-    private int id;
-    private int version_code;
+    private Integer id;
+    private Integer version_code;
     private String version_name;
-    private int channel_id;
+    private Integer channel_id;
     private long update_time;
     private String version_info;
     private String url;
     private String dateTime;
+    private String channel_name;
 
-    public Version(int id, int version_code, String url, String version_name, int channel_id, long update_time,
-                   String version_info) {
-        super();
-        this.id = id;
-        this.url = url;
-        this.version_code = version_code;
-        this.version_name = version_name;
-        this.channel_id = channel_id;
-        this.update_time = update_time;
-        this.version_info = version_info;
-    }
 
     public Version() {
         super();
@@ -91,4 +81,11 @@ public class Version {
     }
 
 
+    public String getChannel_name() {
+        return channel_name;
+    }
+
+    public void setChannel_name(String channel_name) {
+        this.channel_name = channel_name;
+    }
 }

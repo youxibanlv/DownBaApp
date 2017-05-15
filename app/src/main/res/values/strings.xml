@@ -40,7 +40,7 @@
     <string name="info">应用简介：</string>
     <string name="img">截图：</string>
     <string name="guess_you_like">猜你喜欢</string>
-    <string name="loading">加载中，请稍后</string>
+    <string name="loading">加载中，请稍后。。。</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="uer_center">个人中心</string>
     <string name="cancel">取消</string>

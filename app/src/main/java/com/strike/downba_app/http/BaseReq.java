@@ -3,7 +3,6 @@ package com.strike.downba_app.http;
 
 import com.strike.downba_app.base.AppConfig;
 import com.strike.downba_app.base.MyApplication;
-import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 
@@ -16,6 +15,8 @@ import org.xutils.x;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import gson.Gson;
 
@@ -41,7 +42,7 @@ public class BaseReq {
 
     public String devId="";
 
-    public int channelId;
+    public String channelId;
 
     public Object requestParams;
 
@@ -62,7 +63,7 @@ public class BaseReq {
             UiUtils.showTipToast(false,"你的设备因非法操作，已被禁止使用");
             return;
         }
-        this.postRequest(UrlConfig.BASE_URL,this.getRequestData(),callback);
+        this.postRequest(UrlConfig.BUSINESS,this.getRequestData(),callback);
     }
 
     private void postRequest(String url,String requestData,final Callback.CommonCallback<String> callback){
@@ -84,13 +85,24 @@ public class BaseReq {
 
     public void upLoadFile(String path,Callback.CommonCallback<String> callback){
         try {
-            rp = new RequestParams(UrlConfig.BASE_URL,null,null,null);
+            rp = new RequestParams(UrlConfig.UPLOAD,null,null,null);
             rp.setMultipart(true);
             rp.addBodyParameter("methodName",methodName);
             rp.addBodyParameter("cmdType",cmdType);
-            rp.addBodyParameter("token",token);
+            rp.addBodyParameter("token",MyApplication.token);
             rp.addBodyParameter("file",new File(path));
-            rp.addBodyParameter("user",UserDao.getUser().getUser_id());
+            rp.addBodyParameter("devId",MyApplication.devInfo.getDevId());
+            rp.addBodyParameter("channelId",MyApplication.channelId+"");
+
+            Map<String,String> map = new HashMap<>();
+            map.put("methodName",methodName);
+            map.put("cmdType",cmdType);
+            map.put("token",MyApplication.token);
+            map.put("devId",MyApplication.devInfo.getDevId());
+            map.put("channelId",MyApplication.channelId);
+            map.put("requestParams","");
+
+            rp.addBodyParameter("sign", HttpUtil.getSign(map));
             x.http().request(HttpMethod.POST,rp,callback);
             LogUtil.e(rp.toString());
         } catch (Exception e) {

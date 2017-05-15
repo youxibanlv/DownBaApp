@@ -56,7 +56,7 @@ public class ImgDetailsActivity extends FragmentActivity {
         // 单个图片的路径
         String url = getIntent().getStringExtra(EXTRA_IMAGE_URLS);
         if (!TextUtils.isEmpty(url)&& !VerifyUtils.isUrl(url)){
-            url = UrlConfig.BASE_IMG_URL+url;
+            url = UrlConfig.BASE_URL+url;
         }
         if (urls == null && url != null) {
             urls = new ArrayList<String>();
@@ -122,7 +122,7 @@ public class ImgDetailsActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             String url = fileList.get(position);
             if (!TextUtils.isEmpty(url)&& !VerifyUtils.isUrl(url)){
-                url = UrlConfig.BASE_IMG_URL+url;
+                url = UrlConfig.BASE_URL+url;
             }
             return ImageDetailFragment.newInstance(url);
         }

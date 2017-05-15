@@ -13,8 +13,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
-import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.bean.DevInfo;
 
 import org.xutils.common.util.MD5;
@@ -25,7 +25,9 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,10 +41,7 @@ import java.util.regex.Pattern;
  */
 public class PhoneInfoUtils {
 	static TelephonyManager tm;
-	/**
-	 * 国际移动用户识别码
-	 */
-	private String IMSI;
+
 
 	/****** 获取手机设备信息 ********/
 	public static DevInfo getDevInfo(Context ctx) {
@@ -56,32 +55,64 @@ public class PhoneInfoUtils {
 			info.setMac(getMac(ctx));
 			HashMap<String, String> map = getCpuString();
 			if (map != null){
-				info.setCpuInfo((Integer.parseInt(map.get("processor").trim()) + 1)
-						+ "," + map.get("Processor") + "," + Build.HARDWARE);
+                info.setCpuInfo(map.toString());
 			}
 			info.setNetworkOperator(tm.getNetworkOperator()==null?"":tm.getNetworkOperator());
 			info.setNetworkOperatorName(tm.getNetworkOperatorName()==null?"":tm.getNetworkOperatorName());
 			info.setSubscriberId(tm.getSubscriberId()==null?"":tm.getSubscriberId());
-			info.setImei(tm.getDeviceId()==null?"":tm.getSubscriberId());
-			info.setDevId(MD5.md5(info.getImei()+ HttpConstance.KEY+info.getMac()));
+			info.setImei(tm.getDeviceId()==null?"":tm.getDeviceId());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-
-		return info;
+		}finally {
+            info.setDevId(getDevId(ctx));
+            return  info;
+        }
 	}
 
 	public static String getDevId(Context ctx){
-		tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = tm.getDeviceId();
-		String mac = getMac(ctx);
-		return MD5.md5(imei+HttpConstance.KEY+mac);
+		StringBuilder deviceId = new StringBuilder();
+		deviceId.append(System.currentTimeMillis()+"a");
+		try {
+			if (!TextUtils.isEmpty(getMac(ctx))){
+				deviceId.append("mac");
+				deviceId.append(getMac(ctx));
+				return MD5.md5(deviceId.toString());
+			}
+			tm = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+			String imei = tm.getDeviceId();
+			if (!TextUtils.isEmpty(imei)){
+				deviceId.append("imei");
+				deviceId.append(imei);
+				return MD5.md5(deviceId.toString());
+			}
+			//序列号（sn）
+			String sn = tm.getSimSerialNumber();
+			if (!TextUtils.isEmpty(sn)){
+				deviceId.append("sn");
+				deviceId.append(sn);
+				return MD5.md5(deviceId.toString());
+			}
+			//如果上面都没有,收集设备参数信息
+			Field[] fields = Build.class.getDeclaredFields();
+			for (Field field : fields) {
+				try {
+					field.setAccessible(true);
+					deviceId.append(field.getName());
+					deviceId.append(field.get(null).toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return MD5.md5(deviceId.toString());
+		}catch (Exception e){
+
+		}
+		return MD5.md5(deviceId.toString());
 	}
 	/***** 获取设备的mac地址 ******/
 	public static String getMac(Context ctx) {
 		String mac = "";
-		WifiManager wifiManager = (WifiManager) ctx
-				.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 		if (wifiInfo.getMacAddress() != null) {
 			mac = wifiInfo.getMacAddress();
@@ -89,28 +120,28 @@ public class PhoneInfoUtils {
 		return mac;
 	}
 
-	// /***** 获取cpu信息 *****/
-	// public static String getCpuInfo() {
-	// // 这个类是一个很好用的工具，java中可以执行java命令，android中可以执行shell命令
-	// Runtime mRuntime = Runtime.getRuntime();
-	// try {
-	// // Process中封装了返回的结果和执行错误的结果
-	// Process mProcess = mRuntime.exec("/proc/cpuinfo");
-	// BufferedReader mReader = new BufferedReader(new InputStreamReader(
-	// mProcess.getInputStream()));
-	// StringBuffer mRespBuff = new StringBuffer();
-	// char[] buff = new char[1024];
-	// int ch = 0;
-	// while ((ch = mReader.read(buff)) != -1) {
-	// mRespBuff.append(buff, 0, ch);
-	// }
-	// mReader.close();
-	// return mRespBuff.toString();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// return "";
-	// }
+	/***** 获取cpu信息 *****/
+	public static String getCpuInfo() {
+		// 这个类是一个很好用的工具，java中可以执行java命令，android中可以执行shell命令
+		Runtime mRuntime = Runtime.getRuntime();
+		try {
+			// Process中封装了返回的结果和执行错误的结果
+			Process mProcess = mRuntime.exec("/proc/cpuinfo");
+			BufferedReader mReader = new BufferedReader(new InputStreamReader(
+					mProcess.getInputStream()));
+			StringBuffer mRespBuff = new StringBuffer();
+			char[] buff = new char[1024];
+			int ch = 0;
+			while ((ch = mReader.read(buff)) != -1) {
+				mRespBuff.append(buff, 0, ch);
+			}
+			mReader.close();
+			return mRespBuff.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	/****** 判断是否存在SD卡 *****/
 	public static boolean ExistSDCard() {

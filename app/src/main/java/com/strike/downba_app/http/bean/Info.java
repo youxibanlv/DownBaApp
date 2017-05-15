@@ -4,7 +4,9 @@ package com.strike.downba_app.http.bean;
 import com.strike.downba_app.http.UrlConfig;
 import com.strike.downba_app.utils.VerifyUtils;
 
-public class Info {
+import java.io.Serializable;
+
+public class Info implements Serializable {
 	private Integer id;
 	private Integer info_id=0;
 	private Integer cate_id=0;
@@ -52,7 +54,7 @@ public class Info {
 
 	public String getInfo_logo() {
 		if (!VerifyUtils.isUrl(info_logo)){
-			info_logo = UrlConfig.BASE_IMG_URL+info_logo;
+			info_logo = UrlConfig.BASE_URL+info_logo;
 		}
 		return info_logo;
 	}

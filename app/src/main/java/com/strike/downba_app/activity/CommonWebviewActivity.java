@@ -15,10 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.strike.downba_app.base.BaseActivity;
-import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.http.BaseRsp;
+import com.strike.downba_app.http.HttpConstance;
+import com.strike.downba_app.http.NormalCallBack;
+import com.strike.downba_app.http.req.InfoDetailsReq;
+import com.strike.downba_app.http.rsp.InfoDetailsRsp;
+import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.VerifyUtils;
 import com.strike.downbaapp.R;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -50,10 +55,12 @@ public class CommonWebviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         webTitle = intent.getStringExtra(WEB_TITLE);
-        id = intent.getIntExtra(INFO_ID, -1);
+        id = intent.getIntExtra(Constance.ID,-1);
         //http://www.82down.com/index.php?tpl=content_info&id=909
 //        webUrl = UrlConfig.WEB_URL+"/index.php?tpl=content_info&id="+id;
-        webUrl = UrlConfig.BASE_URL + "/appService/getInfoDes.do?id="+id;
+
+         getUrl(id);
+//        webUrl = UrlConfig.BASE_URL + "/appService/getInfoDes.do?id="+id;
         if (webview != null) {
             WebSettings webSettings = webview.getSettings();
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -116,7 +123,7 @@ public class CommonWebviewActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         tv_title.setText("详情界面");
-        LogUtil.e(webUrl);
+//        LogUtil.e(webUrl);
     }
 
     // 设置回退
@@ -128,6 +135,28 @@ public class CommonWebviewActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void getUrl(int infoId) {
+        InfoDetailsReq req = new InfoDetailsReq(infoId);
+        req.sendRequest(new NormalCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                InfoDetailsRsp rsp = (InfoDetailsRsp) BaseRsp.getRsp(result,InfoDetailsRsp.class);
+                if (rsp.result == HttpConstance.HTTP_SUCCESS){
+//                    webUrl = rsp.resultData.url;
+                    if (!VerifyUtils.isUrl(webUrl)){
+                        webUrl = "http://192.168.206.54:8080/"+webUrl;
+                    }
+                    webview.loadUrl(webUrl);
+                }
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 

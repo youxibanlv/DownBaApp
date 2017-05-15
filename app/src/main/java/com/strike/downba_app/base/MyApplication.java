@@ -22,7 +22,7 @@ public class MyApplication extends Application {
 
     public static DevInfo devInfo;
 
-    public static int channelId;
+    public static String channelId;
 
     public static String token;
 
@@ -38,7 +38,7 @@ public class MyApplication extends Application {
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
         devInfo = PhoneInfoUtils.getDevInfo(this);
-        channelId = AppUtils.getLocalVersion(this).getChannel_id();
+        channelId = String.valueOf(AppUtils.getLocalVersion(this).getChannel_id());
         token = UserDao.getToken();
         context = this;
     }

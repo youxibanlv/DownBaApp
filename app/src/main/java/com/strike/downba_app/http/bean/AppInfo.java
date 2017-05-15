@@ -79,7 +79,7 @@ public class AppInfo {
 	
 	public String getApp_logo() {
 		if (!VerifyUtils.isUrl(app_logo)){
-			app_logo = UrlConfig.BASE_IMG_URL+app_logo;
+			app_logo = UrlConfig.BASE_URL+app_logo;
 		}
 		return app_logo;
 	}

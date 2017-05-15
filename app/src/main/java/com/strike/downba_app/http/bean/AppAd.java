@@ -58,7 +58,7 @@ public class AppAd implements Serializable {
 	public String getLogo() {
 		if (TextUtils.isEmpty(logo)) return "";
 		if (!VerifyUtils.isUrl(logo)){
-			logo = UrlConfig.BASE_IMG_URL+logo.trim();
+			logo = UrlConfig.BASE_URL+logo.trim();
 		}
 		return logo;
 	}

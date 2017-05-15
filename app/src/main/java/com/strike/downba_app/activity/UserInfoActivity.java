@@ -14,15 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.strike.downba_app.MainActivity;
-import com.strike.downba_app.base.AppConfig;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.db.table.User;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.request.UpdateUserReq;
-import com.strike.downba_app.http.response.UserRsp;
+import com.strike.downba_app.http.rsp.UserInfoRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.AppUtils;
 import com.strike.downba_app.utils.Constance;
@@ -52,7 +51,7 @@ public class UserInfoActivity extends BaseActivity {
 
     public final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;// 拍照
     public final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 200;// 相册(只能选照片)
-    public final int OPEN_VIDO_ACTIVITY_REQUEST_CODE = 300;// 打开视频录制
+    public final int REQUEST_CROP = 300;// 裁剪
     public final int PICK_VIDOFILE_ACTIVITY_REQUEST_CODE = 400;// 相册(只能选视频)
 
     private String photoPath;
@@ -77,6 +76,7 @@ public class UserInfoActivity extends BaseActivity {
     private EditText edt_alipay;
 
     private User user;
+    private Uri takeCameraUri;
 
 
     @Override
@@ -86,11 +86,11 @@ public class UserInfoActivity extends BaseActivity {
         popupWindow.lv_choice_upload.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0) {
                     creatUpdialog();
-                }else if (position == 1){
-                    openCamera();
-                }else {
+                } else if (position == 1) {
+                    takeCamera();
+                } else {
                     return;
                 }
             }
@@ -133,12 +133,13 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {
-                    UserRsp rsp = (UserRsp) BaseResponse.getRsp(result, UserRsp.class);
+                    UserInfoRsp rsp = (UserInfoRsp) BaseRsp.getRsp(result, UserInfoRsp.class);
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
-                        user = rsp.resultData;
+                        user = rsp.resultData.user;
                         if (user != null) {
                             UserDao.saveUser(user);
                             UiUtils.showTipToast(true, "修改成功！");
+                            init();
                         }
                     }
                 }
@@ -193,7 +194,7 @@ public class UserInfoActivity extends BaseActivity {
                 ChoiceBean bean2 = new ChoiceBean(R.mipmap.camera, "拍照");
                 List<ChoiceBean> list = new ArrayList<>();
                 list.add(bean);
-//                list.add(bean2);
+                list.add(bean2);
                 popupWindow.refresh(list);
                 if (!popupWindow.isShowing()) {
                     popupWindow.showAtLocation(findViewById(R.id.rl_show),
@@ -219,48 +220,64 @@ public class UserInfoActivity extends BaseActivity {
     /*
      * 打开相机
      */
-    private void openCamera() {
+    private void takeCamera() {
+        if (!AppUtils.isExitsSdcard()) {
+            UiUtils.showTipToast(false, "SD卡不存在");
+            return;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timeStamp = format.format(new Date());
+        String imageFileName = timeStamp + ".jpg";
+        File image = new File(AppUtils.getAlbumDir(), imageFileName);
+//            mCurrentPhotoPath = image.getAbsolutePath();
+        /**
+         * 使用隐式intent进行跳转
+         */
+        try {
+            if (image.exists()) {
+                image.delete();
+            }
+            image.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        takeCameraUri = Uri.fromFile(image);
+        photoPath = AppUtils.getRealPathFromURI(this, takeCameraUri);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoPath = new File(AppConfig.cameraPath
-                + File.separator
-                + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date(System
-                .currentTimeMillis())) + ".png").getPath();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                Uri.fromFile(new File(photoPath)));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, takeCameraUri);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LogUtil.e("界面被回收");
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case RESULT_OK:
-                Intent cameraIntent = new Intent(this, UpLoadActivity.class);
-                switch (requestCode) {
-                    case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:// 拍照
-                        if (photoPath != null) {
-                            cameraIntent.putExtra(Constance.IMG, photoPath);
+        if (resultCode == RESULT_OK) {
+            Intent cameraIntent = new Intent(this, UpLoadActivity.class);
+            switch (requestCode) {
+                case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:// 拍照
+                    if (photoPath != null) {
+                        cameraIntent.putExtra(Constance.IMG, photoPath);
+                        this.startActivity(cameraIntent);
+                    }
+                    break;
+                case PICK_IMAGE_ACTIVITY_REQUEST_CODE:
+                    Uri uri = data.getData();
+                    if (uri != null) {
+                        String realpath = AppUtils.getRealPathFromURI(
+                                UserInfoActivity.this, uri);
+                        if (realpath != null) {
+                            cameraIntent.putExtra(Constance.IMG, realpath);
+                            this.startActivity(cameraIntent);
                         }
-                        break;
-                    case PICK_IMAGE_ACTIVITY_REQUEST_CODE:// 选照片
-                        Uri uri = data.getData();
-                        if (uri != null) {
-                            String realpath = AppUtils.getRealPathFromURI(
-                                    UserInfoActivity.this, uri);
-                            if (realpath != null) {
-                                cameraIntent.putExtra(Constance.IMG, realpath);
-                            }
-                        }
-                        break;
-                }
-
-                this.startActivity(cameraIntent);
+                    }
+                    break;
+            }
         }
     }
-
 }

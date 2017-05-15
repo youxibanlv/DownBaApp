@@ -16,15 +16,16 @@ public class AppConfig {
         String BASE_PATH = null;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             BASE_PATH = Environment.getExternalStorageDirectory() + File.separator + "DownBaApp/";
+
         }else{
-//            BASE_PATH = Environment.getExternalStoragePublicDirectory()
+//            BASE_PATH = Environment.getExternalStoragePublicDirectory();
         }
         return BASE_PATH;
     }
 //    public static final String BASE_PATH = Environment.getExternalStorageDirectory() + File.separator + "82down";
 
     // 得到照片路经
-    public static final String cameraPath = getBasePath() + "/DCIM/Camera";
+    public static final String cameraPath = getBasePath() + "/img/";
     /**
      * 日志的存储路径
      */
@@ -53,5 +54,4 @@ public class AppConfig {
      */
     public static boolean DEBUG = true;
 
-    public static final String DOWNLOAD_APK_NAME = "82down.apk";
 }

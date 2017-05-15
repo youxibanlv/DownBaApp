@@ -2,16 +2,14 @@ package com.strike.downba_app.http.request;
 
 
 import com.strike.downba_app.db.table.User;
-import com.strike.downba_app.http.BaseRequest;
+import com.strike.downba_app.http.BaseReq;
 
 /**
  * Created by strike on 16/7/7.
  */
-public class UpdateUserReq extends BaseRequest {
-    RequestParam requestParams;
-
+public class UpdateUserReq extends BaseReq {
     public UpdateUserReq(User user){
-        cmdType = "userService";
+        cmdType = "userBusiness";
         methodName = "updateUser";
         requestParams = new RequestParam(user);
     }

@@ -9,16 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.strike.downba_app.activity.CommonWebviewActivity;
+import com.strike.downba_app.activity.InfoActivity;
 import com.strike.downba_app.base.MyBaseAdapter;
 import com.strike.downba_app.http.bean.Info;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import static com.strike.downba_app.activity.CommonWebviewActivity.WEB_TITLE;
 
 /**
  * Created by strike on 16/8/4.
@@ -46,10 +45,15 @@ public class InfoListAdapter extends MyBaseAdapter<Info> {
         viewHolder.ll_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CommonWebviewActivity.class);
+//                Intent intent = new Intent(context, CommonWebviewActivity.class);
+//                intent.putExtra(Constance.ID,info.getInfo_id());
+//                context.startActivity(intent);
+
+                Intent intent = new Intent(context, InfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt(CommonWebviewActivity.INFO_ID,info.getInfo_id());
-                bundle.putString(WEB_TITLE,info.getInfo_title());
+                bundle.putSerializable(Constance.INFO,info);
+//                bundle.putInt(CommonWebviewActivity.INFO_ID,info.getInfo_id());
+//                bundle.putString(WEB_TITLE,info.getInfo_title());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

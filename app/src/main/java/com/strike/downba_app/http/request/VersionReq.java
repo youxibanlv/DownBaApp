@@ -7,7 +7,7 @@ import com.strike.downba_app.http.entity.Version;
 public class VersionReq extends BaseRequest {
 
 	public VersionReq(Version version) {
-		cmdType = "versionService";
+		cmdType = "versionBusiness";
 		methodName = "checkUpdate";
 		requestParams = new RequestParam(version);
 	}

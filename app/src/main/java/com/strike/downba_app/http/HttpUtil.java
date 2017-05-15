@@ -42,6 +42,22 @@ public class HttpUtil {
         String content = contentBuffer.toString();
         String sign = MD5.md5(content);
         return sign;
+    }
 
+    public static String getSign(Map<String,String> map){
+        StringBuilder contentBuffer = new StringBuilder();
+        Gson gson = new Gson();
+        Object[] signParamArray = map.keySet().toArray();
+        Arrays.sort(signParamArray);
+        for (Object key : signParamArray) {
+            String value = map.get(key);
+            if (!"sign".equals(key) && !"key".equals(key) && !"rp".equals(key)) {// sign key 不参与签名
+                contentBuffer.append(key + "=" + gson.toJson(value) + "&");
+            }
+        }
+        contentBuffer.append("key="+HttpConstance.KEY);
+        String content = contentBuffer.toString();
+        String sign = MD5.md5(content);
+        return sign;
     }
 }

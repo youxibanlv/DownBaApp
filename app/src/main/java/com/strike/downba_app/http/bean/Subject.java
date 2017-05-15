@@ -72,7 +72,7 @@ public class Subject {
 
     public String getLogo() {
         if (!VerifyUtils.isUrl(logo)){
-            logo = UrlConfig.BASE_IMG_URL+logo;
+            logo = UrlConfig.BASE_URL+logo;
         }
         return logo;
     }

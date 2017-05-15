@@ -1,6 +1,9 @@
 package com.strike.downba_app.db.table;
 
 
+import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.utils.VerifyUtils;
+
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
@@ -90,6 +93,9 @@ public class User {
     }
 
     public String getUser_icon() {
+        if (!VerifyUtils.isUrl(user_icon)){
+            user_icon = UrlConfig.BASE_URL+user_icon;
+        }
         return user_icon;
     }
 

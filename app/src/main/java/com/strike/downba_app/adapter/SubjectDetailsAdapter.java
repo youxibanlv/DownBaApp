@@ -157,7 +157,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                 x.image().bind(imgHolder.icon,logoUrl);
                 break;
             case TYPE_APP:
-                AppInfo app = (AppInfo) getItem(position);
+                final AppInfo app = (AppInfo) getItem(position);
                 if (app != null) {
                     if (app.getApp_logo() != null) {
                         x.image().bind(appListViewHolder.iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
@@ -186,11 +186,8 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                     appListViewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AppInfo app1 = (AppInfo) getItem(position);
                             Intent intent = new Intent(context, AppDetailsActivity.class);
-                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable(Constance.APP, app1);
-                            intent.putExtras(bundle);
+                            intent.putExtra(Constance.ID,app.getApp_id());
                             context.startActivity(intent);
                         }
                     });

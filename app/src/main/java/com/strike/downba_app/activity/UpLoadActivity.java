@@ -9,18 +9,22 @@ import android.widget.ImageView;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.db.table.User;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.request.UploadUserIconReq;
-import com.strike.downba_app.http.response.UserRsp;
+import com.strike.downba_app.http.req.UploadUserIconReq;
+import com.strike.downba_app.http.rsp.UserInfoRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downbaapp.R;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * Created by strike on 16/7/11.
@@ -38,8 +42,9 @@ public class UpLoadActivity extends BaseActivity {
         super.onResume();
         path1 = getIntent().getStringExtra(Constance.IMG);
         if (!TextUtils.isEmpty(path1)){
-            up_img.setImageBitmap(reSizePic(path1,480,640));
+            up_img.setImageBitmap(reSizePic(path1,200,200));
         }
+        LogUtil.e(path1);
     }
     @Event(value = {R.id.btn_update,R.id.iv_back})
     private void getEvent(View view){
@@ -57,13 +62,14 @@ public class UpLoadActivity extends BaseActivity {
     }
     //上传头像
     private void upDataUserIcon(String path){
-        UploadUserIconReq req = new UploadUserIconReq(path,UserDao.getUser());
+        UploadUserIconReq req = new UploadUserIconReq(path);
+        showProgressDialogCloseDelay(getString(R.string.loading),HttpConstance.DEFAULT_TIMEOUT);
         req.upLoadFile(path, new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                UserRsp rsp = (UserRsp) BaseResponse.getRsp(result, UserRsp.class);
+                UserInfoRsp rsp = (UserInfoRsp) BaseRsp.getRsp(result, UserInfoRsp.class);
                 if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
-                    User user = rsp.resultData;
+                    User user = rsp.resultData.user;
                     if (user != null) {
                         UserDao.saveUser(user);
                         UiUtils.showTipToast(true, "修改成功！");
@@ -71,14 +77,13 @@ public class UpLoadActivity extends BaseActivity {
                     }
                 }
             }
-
             @Override
             public void onFinished() {
-
+                dismissProgressDialog();
             }
         });
     }
-    //图片压缩
+    //图片压缩 /storage/emulated/0/DownBaApp/img/20170515_112014.jpg
     public Bitmap reSizePic(String path, int width, int heith) {
 
         BitmapFactory.Options option = new BitmapFactory.Options();
@@ -106,6 +111,21 @@ public class UpLoadActivity extends BaseActivity {
 
         Bitmap res = BitmapFactory.decodeFile(path, option);
 
+        String fileName = "tem"+path.substring(path.lastIndexOf("/")+1,path.length());
+        String realPath = path.substring(0,path.lastIndexOf("/")+1);
+        File file = new File(realPath,fileName);
+        if (file.exists()){
+            file.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            res.compress(Bitmap.CompressFormat.PNG,40,out);
+            out.flush();
+            out.close();
+            path1 = realPath + fileName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return res;
 
     }

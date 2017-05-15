@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.strike.downba_app.adapter.SubjectDetailsAdapter;
 import com.strike.downba_app.base.BaseActivity;
 import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.http.req.SbDetailsReq;
-import com.strike.downba_app.http.request.GetAppsByIdStringReq;
-import com.strike.downba_app.http.rsp.GetAppListRsp;
 import com.strike.downba_app.http.rsp.SbDetailsRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downbaapp.R;
@@ -23,8 +21,6 @@ import com.strike.downbaapp.R;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-
-import java.util.List;
 
 /**
  * Created by strike on 16/8/3.
@@ -34,6 +30,8 @@ public class SubjectActivity extends BaseActivity {
 
     @ViewInject(R.id.pull_to_refresh)
     private ListView pull_to_refresh;
+    @ViewInject(R.id.tv_title)
+    private TextView tv_title;
 
     private Subject subject;
     private SubjectDetailsAdapter adapter;
@@ -60,26 +58,7 @@ public class SubjectActivity extends BaseActivity {
                 if (rsp.result == HttpConstance.HTTP_SUCCESS){
                     subject = rsp.resultData.subject;
                     adapter.refresh(subject);
-                }
-            }
-
-            @Override
-            public void onFinished() {
-                dismissProgressDialog();
-            }
-        });
-    }
-
-    private void getAppsByIdList(String idList){
-        GetAppsByIdStringReq req = new GetAppsByIdStringReq(idList);
-        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
-        req.sendRequest(new NormalCallBack() {
-            @Override
-            public void onSuccess(String result) {
-                GetAppListRsp rsp = (GetAppListRsp) BaseRsp.getRsp(result,GetAppListRsp.class);
-                List<AppInfo> list = rsp.resultData.appList;
-                if (list != null){
-                    adapter.refreshApps(list);
+                    tv_title.setText(subject.getTitle());
                 }
             }
 

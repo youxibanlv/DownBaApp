@@ -40,7 +40,7 @@ public class Cate implements Serializable{
     }
     public String getCimg() {
         if (!VerifyUtils.isUrl(cimg)){
-            cimg = UrlConfig.BASE_IMG_URL+cimg;
+            cimg = UrlConfig.BASE_URL+cimg;
         }
         return cimg;
     }

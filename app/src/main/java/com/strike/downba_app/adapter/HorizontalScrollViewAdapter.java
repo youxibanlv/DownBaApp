@@ -43,7 +43,7 @@ public class HorizontalScrollViewAdapter {
     public String getItem(int position) {
         String url = urls.get(position);
         if (!TextUtils.isEmpty(url)&& !VerifyUtils.isUrl(url)){
-           url = UrlConfig.BASE_IMG_URL+url;
+           url = UrlConfig.BASE_URL+url;
         }
         return url;
     }
