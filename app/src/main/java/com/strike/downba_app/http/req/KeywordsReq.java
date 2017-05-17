@@ -1,14 +1,12 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
-import com.strike.downba_app.http.BaseRequest;
+import com.strike.downba_app.http.BaseReq;
 
 /**
  * Created by strike on 16/6/12.
  */
-public class KeywordsReq extends BaseRequest {
-
-    RequestParam requestParams;
+public class KeywordsReq extends BaseReq {
 
     public KeywordsReq(String key,int size){
         cmdType = "appBusiness";

@@ -1,10 +1,10 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
-import com.strike.downba_app.http.BaseRequest;
-import com.strike.downba_app.http.entity.Version;
+import com.strike.downba_app.http.BaseReq;
+import com.strike.downba_app.http.bean.Version;
 
-public class VersionReq extends BaseRequest {
+public class VersionReq extends BaseReq {
 
 	public VersionReq(Version version) {
 		cmdType = "versionBusiness";

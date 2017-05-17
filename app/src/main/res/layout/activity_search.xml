@@ -42,7 +42,7 @@
                 android:background="@color/default_input_bg"
                 android:hint="输入搜索关键词"
                 android:lines="1"
-                android:maxLength="20"
+                android:maxLength="10"
                 android:paddingLeft="@dimen/wdp25"
                 android:paddingRight="@dimen/wdp25"
                 android:textColorHint="@color/text_hit"
@@ -99,6 +99,7 @@
                 android:layout_marginTop="@dimen/wdp30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 android:paddingBottom="30dp"
                 android:layout_below="@id/title" />
 

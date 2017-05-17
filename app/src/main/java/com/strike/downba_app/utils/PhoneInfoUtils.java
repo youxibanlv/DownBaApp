@@ -71,7 +71,7 @@ public class PhoneInfoUtils {
 
 	public static String getDevId(Context ctx){
 		StringBuilder deviceId = new StringBuilder();
-		deviceId.append(System.currentTimeMillis()+"a");
+		deviceId.append("a");
 		try {
 			if (!TextUtils.isEmpty(getMac(ctx))){
 				deviceId.append("mac");

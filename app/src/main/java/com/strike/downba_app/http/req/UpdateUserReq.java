@@ -1,4 +1,4 @@
-package com.strike.downba_app.http.request;
+package com.strike.downba_app.http.req;
 
 
 import com.strike.downba_app.db.table.User;

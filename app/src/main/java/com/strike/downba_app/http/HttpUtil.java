@@ -1,5 +1,7 @@
 package com.strike.downba_app.http;
 
+import com.google.gson.Gson;
+
 import org.xutils.common.util.MD5;
 
 import java.lang.reflect.Field;
@@ -7,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import gson.Gson;
 
 /**
  * Created by strike on 2017/5/4.

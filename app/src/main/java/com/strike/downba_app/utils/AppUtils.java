@@ -11,7 +11,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 import com.strike.downba_app.base.AppConfig;
-import com.strike.downba_app.http.entity.Version;
+import com.strike.downba_app.http.bean.Version;
 
 import java.io.File;
 

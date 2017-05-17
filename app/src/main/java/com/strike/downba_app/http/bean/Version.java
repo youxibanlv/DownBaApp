@@ -1,4 +1,7 @@
-package com.strike.downba_app.http.entity;
+package com.strike.downba_app.http.bean;
+
+import com.strike.downba_app.http.UrlConfig;
+import com.strike.downba_app.utils.VerifyUtils;
 
 public class Version {
     private Integer id;
@@ -73,6 +76,9 @@ public class Version {
     }
 
     public String getUrl() {
+        if (!VerifyUtils.isUrl(url)){
+            url = UrlConfig.BASE_URL+url;
+        }
         return url;
     }
 

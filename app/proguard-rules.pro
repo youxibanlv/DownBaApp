@@ -20,7 +20,6 @@
 -dontpreverify           # 混淆时是否做预校验
 -verbose                # 混淆时是否记录日志
 
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
 
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
 -keep public class * extends android.app.Application   # 保持哪些类不被混淆
@@ -30,7 +29,7 @@
 -keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
 -keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
 -keep public class com.android.vending.licensing.ILicensingService    # 保持哪些类不被混淆
-
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/* # 混淆时所采用的算法
 -keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
     native <methods>;
 }
@@ -50,10 +49,41 @@
 -keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
     public static final android.os.Parcelable$Creator *;
 }
- #gson
-#-libraryjars libs/gson-2.2.2.jar
+##---------------Begin: proguard configuration for Gson  ----------
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
 -keepattributes Signature
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }
+
 # Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { *; }
+-keep class com.strike.downba_app.http.** { *; }
+##---------------End: proguard configuration for Gson  ----------
+
+-keep class com.strike.downba_app.http.NormalCallBack{
+     public <methods>;
+}
+-keepclassmembers class com.strike.downba_app.http.BaseReq{
+ public *;
+}
+#反射
+-keepattributes EnclosingMethod
+
+#xutils
+-keep class org.xutils.cache.* { *; }
+-keep class org.xutils.common.**{*;}
+-keep class org.xutils.config.*{*;}
+-keep class org.xutils.db.**{*;}
+-keep class org.xutils.ex.*{*;}
+-keep class org.xutils.http.**{*;}
+-keep class org.xutils.image.*{*;}
+-keep class org.xutils.view.**{*;}
+-keep class org.xutils.*{*;}
+
+
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,Annotation,EnclosingMethod

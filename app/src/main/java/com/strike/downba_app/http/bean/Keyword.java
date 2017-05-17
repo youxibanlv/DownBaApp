@@ -1,4 +1,4 @@
-package com.strike.downba_app.http.entity;
+package com.strike.downba_app.http.bean;
 
 /**
  * Created by strike on 16/6/12.

@@ -24,17 +24,16 @@ import com.strike.downba_app.adapter.AppLIstAdapter;
 import com.strike.downba_app.adapter.KeywordAdapter;
 import com.strike.downba_app.adapter.SpacesItemDecoration;
 import com.strike.downba_app.base.BaseActivity;
-import com.strike.downba_app.http.BaseResponse;
 import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
 import com.strike.downba_app.http.bean.AppInfo;
-import com.strike.downba_app.http.entity.Keyword;
+import com.strike.downba_app.http.bean.Keyword;
 import com.strike.downba_app.http.bean.PageBean;
-import com.strike.downba_app.http.request.GetAppByKeywordReq;
-import com.strike.downba_app.http.request.KeywordsReq;
-import com.strike.downba_app.http.response.KeywordsRsp;
+import com.strike.downba_app.http.req.KeywordsReq;
+import com.strike.downba_app.http.req.GetAppByKeywordReq;
 import com.strike.downba_app.http.rsp.GetAppListRsp;
+import com.strike.downba_app.http.rsp.KeywordsRsp;
 import com.strike.downba_app.utils.PullToRefreshUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.library.PullToRefreshBase;
@@ -103,7 +102,7 @@ public class SearchActivity extends BaseActivity {
         appLIstAdapter = new AppLIstAdapter(this);
         pull_to_refresh.setAdapter(appLIstAdapter);
 
-        rl_key.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.HORIZONTAL));
+        rl_key.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
         defaultKeyAdapter = new KeyAdapter();
         rl_key.setAdapter(defaultKeyAdapter);
         rl_key.addItemDecoration(new SpacesItemDecoration(16));
@@ -157,11 +156,12 @@ public class SearchActivity extends BaseActivity {
     }
     //获取热搜词
     private void getDefaultKey(){
-        KeywordsReq req = new KeywordsReq("", 12);
+        KeywordsReq req = new KeywordsReq("", 9);
+        showProgressDialogCloseDelay(getString(R.string.loading), HttpConstance.DEFAULT_TIMEOUT);
         req.sendRequest(new NormalCallBack() {
             @Override
             public void onSuccess(String result) {
-                KeywordsRsp rsp = (KeywordsRsp) BaseResponse.getRsp(result,KeywordsRsp.class);
+                KeywordsRsp rsp = (KeywordsRsp) BaseRsp.getRsp(result,KeywordsRsp.class);
                 List<Keyword> list = rsp.getKeywords();
                 if (list!= null && list.size()>0){
                    defaultKeyAdapter.refresh(list);
@@ -170,7 +170,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                dismissProgressDialog();
             }
         });
     }
@@ -178,6 +178,9 @@ public class SearchActivity extends BaseActivity {
     private void getEvent(View view){
         switch (view.getId()){
             case R.id.iv_back:
+                if (popupWindow != null){
+                    popupWindow = null;
+                }
                 finish();
                 break;
             case R.id.btn_search:
@@ -194,7 +197,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {
-                    KeywordsRsp rsp = (KeywordsRsp) BaseResponse.getRsp(result, KeywordsRsp.class);
+                    KeywordsRsp rsp = (KeywordsRsp) BaseRsp.getRsp(result, KeywordsRsp.class);
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
                         keywords = rsp.getKeywords();
                         showPopuWindow();
@@ -204,7 +207,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                dismissProgressDialog();
             }
         });
     }
@@ -231,7 +234,7 @@ public class SearchActivity extends BaseActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
            final Keyword keyword = list.get(position);
             holder.keyword.setText(keyword.getQ());
-            if (position<3){
+            if (keyword.getQorder()!=0){
                 holder.keyword.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_keyword_select));
                 holder.keyword.setTextColor(context.getResources().getColor(R.color.default_bg));
             }else{
@@ -336,4 +339,6 @@ public class SearchActivity extends BaseActivity {
         }
         adapter.refresh(keywords);
     }
+
+
 }

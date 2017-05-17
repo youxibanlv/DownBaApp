@@ -1,6 +1,7 @@
 package com.strike.downba_app.http;
 
 
+import com.google.gson.Gson;
 import com.strike.downba_app.base.AppConfig;
 import com.strike.downba_app.base.MyApplication;
 import com.strike.downba_app.utils.Constance;
@@ -18,7 +19,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import gson.Gson;
 
 /**
  * Created by strike on 16/5/31.

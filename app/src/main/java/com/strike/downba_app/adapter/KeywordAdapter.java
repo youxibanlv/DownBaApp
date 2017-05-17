@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.strike.downba_app.http.entity.Keyword;
+import com.strike.downba_app.http.bean.Keyword;
 import com.strike.downbaapp.R;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class KeywordAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null){
             convertView = inflater.inflate(R.layout.item_pop,parent,false);
             holder = new ViewHolder();

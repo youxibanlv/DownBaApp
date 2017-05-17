@@ -20,7 +20,7 @@ import com.strike.downba_app.db.table.User;
 import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.request.UpdateUserReq;
+import com.strike.downba_app.http.req.UpdateUserReq;
 import com.strike.downba_app.http.rsp.UserInfoRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.AppUtils;

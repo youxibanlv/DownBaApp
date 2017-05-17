@@ -19,12 +19,12 @@ import android.widget.RelativeLayout;
 
 import com.strike.downba_app.activity.SearchActivity;
 import com.strike.downba_app.adapter.KeywordAdapter;
-import com.strike.downba_app.http.BaseResponse;
+import com.strike.downba_app.http.BaseRsp;
 import com.strike.downba_app.http.HttpConstance;
 import com.strike.downba_app.http.NormalCallBack;
-import com.strike.downba_app.http.entity.Keyword;
-import com.strike.downba_app.http.request.KeywordsReq;
-import com.strike.downba_app.http.response.KeywordsRsp;
+import com.strike.downba_app.http.bean.Keyword;
+import com.strike.downba_app.http.req.KeywordsReq;
+import com.strike.downba_app.http.rsp.KeywordsRsp;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downbaapp.R;
@@ -110,7 +110,7 @@ public class SearchTitleBar extends RelativeLayout {
             @Override
             public void onSuccess(String result) {
                 if (!TextUtils.isEmpty(result)) {
-                    KeywordsRsp rsp = (KeywordsRsp) BaseResponse.getRsp(result, KeywordsRsp.class);
+                    KeywordsRsp rsp = (KeywordsRsp) BaseRsp.getRsp(result, KeywordsRsp.class);
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
                         keywords = rsp.getKeywords();
                         showPopuWindow();

@@ -2,13 +2,13 @@ package com.strike.downba_app.http;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.utils.UiUtils;
 
 import org.xutils.common.util.LogUtil;
 
-import gson.Gson;
 
 /**
  * Created by strike on 16/5/31.
