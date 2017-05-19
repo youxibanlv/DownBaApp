@@ -11,35 +11,11 @@ public class HttpConstance {
 
     public static final String KEY = "YoXIB%aNlv&*St#@ike";
 
-    /*******cmdType*******/
-//    public static final int SEV_APP = 1;
-//    public static final int SEV_USER = 2;
-//    public static final int SEV_VERSION = 3;
-//
-//
-//    /*******methodName*******/
-//    public static final int getAppHome = 0x0001;//查询首页
-//    public static final int getWheel = 0x002;//查询轮播图
-//    public static final int getAppDetails = 0x003;//查询app详情
-//    public static final int addComment = 0x004;//发表评论
-//    public static final int getComments = 0x005;//查询评论列表
-//    public static final int reportDev=0x006;//上报设备信息
-//
-//
-//    public static final HashMap<String,Integer> cmdMap = new HashMap<>();
-//    static {
-//        cmdMap.put("appBusiness",SEV_APP);
-//    }
-//
-//
-//    public static final HashMap<String,Integer> methodMap = new HashMap<>();
-//
-//    static {
-//        methodMap.put("getAppHome",getAppHome);
-//        methodMap.put("getWheel",getWheel);
-//        methodMap.put("getAppDetails",getAppDetails);
-//        methodMap.put("addComment",addComment);
-//        methodMap.put("getComments",getComments);
-//        methodMap.put("reportDev",reportDev);
-//    }
+    public static final int DOWN_WAIT = 0;//下载等待
+    public static final int DOWN_LOADING = 1;//下载中
+    public static final int DOWN_CANCEL = 2;//取消下载
+    public static final int DOWN_SUCCESS = 3;//下载成功
+    public static final int DOWN_ERROR = 4;//下载失败
+
+
 }

@@ -77,7 +77,7 @@ public final class DownloadManager {
         return downloadInfoList.size();
     }
 
-    public DownloadInfo getDownloadInfo(String objId) {
+    public DownloadInfo getDownloadInfo(Integer objId) {
         if (downloadInfoList != null && downloadInfoList.size()>0){
             for (DownloadInfo info : downloadInfoList){
                 if (objId.equals(info.getObjId())){
@@ -87,7 +87,7 @@ public final class DownloadManager {
         }
         return null;
     }
-    public synchronized void startDownload(String url, String objId) throws DbException {
+    public synchronized void startDownload(String url, int objId) throws DbException {
         String savePath = AppConfig.DOWN_PATH + objId+".apk";
         String fileSavePath = new File(savePath).getAbsolutePath();
         DownloadInfo downloadInfo = db.selector(DownloadInfo.class)

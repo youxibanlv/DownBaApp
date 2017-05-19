@@ -9,7 +9,7 @@ import com.strike.downba_app.http.BaseReq;
 public class UploadUserIconReq extends BaseReq {
 
     public UploadUserIconReq (String filePath){
-        cmdType = "uploadBusiness";
+        cmdType = "fileBusiness";
         methodName = "uploadIcon";
         requestParams = new RequestParam(filePath);
     }

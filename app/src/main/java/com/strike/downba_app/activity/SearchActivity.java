@@ -165,6 +165,7 @@ public class SearchActivity extends BaseActivity {
                 List<Keyword> list = rsp.getKeywords();
                 if (list!= null && list.size()>0){
                    defaultKeyAdapter.refresh(list);
+                    handler.obtainMessage(SHOWDEFAULT).sendToTarget();
                 }
             }
 
@@ -201,6 +202,7 @@ public class SearchActivity extends BaseActivity {
                     if (rsp != null && rsp.result == HttpConstance.HTTP_SUCCESS) {
                         keywords = rsp.getKeywords();
                         showPopuWindow();
+                        adapter.refresh(keywords);
                     }
                 }
             }
@@ -287,6 +289,7 @@ public class SearchActivity extends BaseActivity {
                             }else{
                                 appLIstAdapter.addData(list);
                             }
+                            handler.obtainMessage(SHOWAPPS).sendToTarget();
                         }else {
                             handler.obtainMessage(SHOWDEFAULT).sendToTarget();
                         }

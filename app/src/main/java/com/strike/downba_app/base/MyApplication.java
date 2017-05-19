@@ -41,6 +41,7 @@ public class MyApplication extends Application {
         channelId = String.valueOf(AppUtils.getLocalVersion(this).getChannel_id());
         token = UserDao.getToken();
         context = this;
+        AppContext.setContext(context);
     }
 
     public static DbManager getAppDb() {

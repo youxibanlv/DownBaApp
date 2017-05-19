@@ -17,6 +17,7 @@ import com.strike.downba_app.http.bean.Info;
 import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -182,7 +183,7 @@ public class SubjectDetailsAdapter extends MyBaseAdapter {
                     }
                     int num = app.getApp_down();
                     appListViewHolder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-//                    DownLoadUtils.initDownLoad(app, appListViewHolder.tv_down);
+                    DownLoadUtils.initDownLoad(app.getUrl(),app.getApp_id(), appListViewHolder.tv_down);
                     appListViewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

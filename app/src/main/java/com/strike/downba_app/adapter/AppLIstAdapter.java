@@ -15,6 +15,7 @@ import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -104,7 +105,7 @@ public class AppLIstAdapter extends MyBaseAdapter<AppInfo> {
             }
             int num = app.getApp_down();
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-//            DownLoadUtils.initDownLoad(app,holder.tv_down);
+            DownLoadUtils.initDownLoad(app.getUrl(),app.getApp_id(),holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,9 +115,10 @@ public class AppLIstAdapter extends MyBaseAdapter<AppInfo> {
                     context.startActivity(intent);
                 }
             });
+            convertView.setTag(R.id.pull_to_refresh,app.getApp_id());
+            views.add(convertView);
         }
-        convertView.setTag(R.id.pull_to_refresh,app.getApp_id());
-        views.add(convertView);
+
         return convertView;
     }
 

@@ -1,5 +1,8 @@
 package com.strike.downba_app.download;
 
+import com.strike.downba_app.http.DefaultCallBack;
+import com.strike.downba_app.http.HttpConstance;
+import com.strike.downba_app.http.req.DownInfoReq;
 import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.UiUtils;
 
@@ -20,6 +23,7 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
     private DataChanger changer;
     private boolean cancelled = false;
     private Cancelable cancelable;
+    private DefaultCallBack defaultCallBack = new DefaultCallBack();
 
     public DownloadCallback(DownloadInfo info) {
         this.downloadInfo = info;
@@ -30,7 +34,7 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
         this.downloadManager = downloadManager;
     }
 
-    public boolean switchViewHolder(DownloadInfo info){
+    public boolean switchViewHolder(DownloadInfo info) {
         if (downloadInfo == null) return false;
         if (!downloadInfo.getObjId().equals(info.getObjId())) {
             try {
@@ -48,6 +52,7 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
         }
         return true;
     }
+
     public void setCancelable(Cancelable cancelable) {
         this.cancelable = cancelable;
     }
@@ -58,6 +63,8 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             downloadInfo.setState(DownloadState.WAITING);
             downloadManager.updateDownloadInfo(downloadInfo);
             changer.notifyObservers(downloadInfo);
+            DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(), HttpConstance.DOWN_WAIT, "");
+            req.sendRequest(defaultCallBack);
         } catch (DbException ex) {
             LogUtil.e(ex.getMessage(), ex);
         }
@@ -83,6 +90,33 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
                 downloadInfo.setProgress((int) (current * 100 / total));
                 downloadManager.updateDownloadInfo(downloadInfo);
                 changer.notifyDownloadDataChange(downloadInfo);
+                //更新下载信息
+                int cu = (int) (current / 1000);
+                LogUtil.e("cu % (5*1000)=========="+ cu % (5*1000));
+                if (cu % (5*1000) < 200) {
+                    DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+                            HttpConstance.DOWN_LOADING, "");
+                    req.sendRequest(defaultCallBack);
+                }
+
+
+//                int percent = downloadInfo.getProgress();
+//                if (total > (50 * 1024 * 1024)) {
+//                    //大于50M，每 5 M 上报一次
+//                    int cu = (int) (current / 1000);
+//                    LogUtil.e("cu % (5*1000)=========="+ cu % (5*1000));
+//                    if (cu % (5*1000) < 200) {
+//                        DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+//                                HttpConstance.DOWN_LOADING, "");
+//                        req.sendRequest(defaultCallBack);
+//                    }
+//                } else {
+//                    if (percent > 0 && percent % 10 == 0) {
+//                        DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+//                                HttpConstance.DOWN_LOADING, "");
+//                        req.sendRequest(defaultCallBack);
+//                    }
+//                }
             } catch (DbException ex) {
                 LogUtil.e(ex.getMessage(), ex);
             }
@@ -95,12 +129,19 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
             try {
                 downloadInfo.setState(DownloadState.FINISHED);
                 downloadManager.updateDownloadInfo(downloadInfo);
-                if ( DownLoadUtils.checkApk(downloadInfo)){
+                if (DownLoadUtils.checkApk(downloadInfo)) {
                     DownLoadUtils.install(downloadInfo);
-                }else{
+                    DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+                            HttpConstance.DOWN_SUCCESS, "下载完成");
+                    req.sendRequest(defaultCallBack);
+                } else {
                     DownLoadUtils.deleteApk(downloadInfo);
                     downloadInfo.setState(DownloadState.WAITING);
                     downloadManager.updateDownloadInfo(downloadInfo);
+
+                    DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+                            HttpConstance.DOWN_ERROR, "apk出错，重新下载");
+                    req.sendRequest(defaultCallBack);
                 }
                 changer.notifyDownloadDataChange(downloadInfo);
             } catch (DbException ex) {
@@ -116,10 +157,13 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
                 downloadInfo.setState(DownloadState.ERROR);
                 downloadManager.updateDownloadInfo(downloadInfo);
                 changer.notifyDownloadDataChange(downloadInfo);
+                DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+                        HttpConstance.DOWN_ERROR, ex.getMessage());
+                req.sendRequest(defaultCallBack);
             } catch (DbException e) {
                 LogUtil.e(e.getMessage(), e);
             }
-            UiUtils.showTipToast(false,ex.getMessage());
+            UiUtils.showTipToast(false, ex.getMessage());
         }
     }
 
@@ -130,6 +174,9 @@ class DownloadCallback implements Callback.CommonCallback<File>, Callback.Progre
                 downloadInfo.setState(DownloadState.STOPPED);
                 downloadManager.updateDownloadInfo(downloadInfo);
                 changer.notifyDownloadDataChange(downloadInfo);
+                DownInfoReq req = new DownInfoReq(downloadInfo.getObjId(), downloadInfo.getProgress(),
+                        HttpConstance.DOWN_CANCEL, "用户取消下载");
+                req.sendRequest(defaultCallBack);
             } catch (DbException ex) {
                 LogUtil.e(ex.getMessage(), ex);
             }

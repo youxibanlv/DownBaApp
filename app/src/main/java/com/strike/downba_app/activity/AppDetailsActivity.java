@@ -38,6 +38,7 @@ import com.strike.downba_app.http.rsp.CommentRsp;
 import com.strike.downba_app.http.rsp.GuessRsp;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.UiUtils;
 import com.strike.downba_app.view.MyHorizontalScrollView;
 import com.strike.downba_app.view.MyListView;
@@ -118,7 +119,7 @@ public class AppDetailsActivity extends BaseActivity {
     private Watcher watcher = new Watcher() {
         @Override
         public void ontifyDownloadDataChange(Observable observable, DownloadInfo info) {
-            if (info != null && info.getObjId().equals(app.getApp_id())) {
+            if (info != null && app!=null && info.getObjId().equals(app.getApp_id())) {
                 tv_down.setBackgroundColor(context.getResources().getColor(R.color.text_gray));
                 switch (info.getState()) {
                     case WAITING:
@@ -365,7 +366,7 @@ public class AppDetailsActivity extends BaseActivity {
     }
 
     private void initView() {
-//        DownLoadUtils.initDownLoad(app,tv_down);
+        DownLoadUtils.initDownLoad(app.getUrl(),app.getApp_id(),tv_down);
         if (app.getApp_logo() != null) {
             x.image().bind(iv_app_icon, app.getApp_logo(), ImgConfig.getImgOption());
         }

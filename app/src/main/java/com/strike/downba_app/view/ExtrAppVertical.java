@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downbaapp.R;
 
 import org.xutils.view.annotation.ViewInject;
@@ -99,6 +100,6 @@ public class ExtrAppVertical extends LinearLayout {
         if (app_size != null) {
             app_size.setText(size);
         }
-//        DownLoadUtils.initDownLoad(app,app_install);
+        DownLoadUtils.initDownLoad(app.getUrl(),app.getApp_id(),app_install);
     }
 }

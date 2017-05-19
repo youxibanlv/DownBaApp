@@ -16,6 +16,7 @@ import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppInfo;
 import com.strike.downba_app.images.ImgConfig;
 import com.strike.downba_app.utils.Constance;
+import com.strike.downba_app.utils.DownLoadUtils;
 import com.strike.downba_app.utils.NumberUtil;
 import com.strike.downbaapp.R;
 
@@ -106,7 +107,7 @@ public class AppAdLIstAdapter extends MyBaseAdapter<AppAd> {
             }
             int num = app.getApp_down();
             holder.tv_down_num.setText("下载：" + NumberUtil.numToString(num));
-//            DownLoadUtils.initDownLoad(app,holder.tv_down);
+            DownLoadUtils.initDownLoad(app.getUrl(),app.getApp_id(),holder.tv_down);
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

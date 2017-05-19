@@ -93,19 +93,21 @@
     <LinearLayout
         android:layout_width="@dimen/wdp100"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/wdp10"
-        android:paddingBottom="@dimen/wdp10"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/wdp10"
+        android:paddingTop="@dimen/wdp10">
+
         <TextView
             android:id="@+id/tv_down"
             android:layout_width="match_parent"
+            android:layout_height="@dimen/wdp40"
             android:background="@drawable/download_bg"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_height="@dimen/wdp40"
             android:text="@string/install"
-            android:textSize="@dimen/wdp20"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/wdp20" />
+
         <TextView
             android:id="@+id/tv_down_num"
             android:layout_width="match_parent"
@@ -113,6 +115,6 @@
             android:layout_marginTop="@dimen/wdp20"
             android:lines="1"
             android:textColor="@color/text_gray"
-            android:textSize="@dimen/wdp16"/>
+            android:textSize="@dimen/wdp16" />
     </LinearLayout>
 </LinearLayout>

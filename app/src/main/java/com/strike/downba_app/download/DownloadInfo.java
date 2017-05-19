@@ -24,7 +24,7 @@ public class DownloadInfo {
     private String url;
 
     @Column(name = "objId")
-    private String objId;
+    private Integer objId;
 
     @Column(name = "fileSavePath")
     private String fileSavePath;
@@ -66,13 +66,6 @@ public class DownloadInfo {
         this.url = url;
     }
 
-    public String getObjId() {
-        return objId;
-    }
-
-    public void setObjId(String objId) {
-        this.objId = objId;
-    }
 
     public String getFileSavePath() {
         return fileSavePath;
@@ -128,5 +121,13 @@ public class DownloadInfo {
     @Override
     public int hashCode() {
         return (int) (id ^ (id >>> 32));
+    }
+
+    public Integer getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 }

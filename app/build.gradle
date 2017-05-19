@@ -4,10 +4,10 @@ android {
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.strike.downbaapp"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [CHANNEL_VALUE: "10000"]
