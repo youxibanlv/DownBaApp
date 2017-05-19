@@ -10,6 +10,8 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.strike.downba_app.base.AppConfig;
+import com.strike.downba_app.http.DefaultCallBack;
+import com.strike.downba_app.http.req.UploadErrorReq;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -180,31 +182,10 @@ public class CrashHandler implements UncaughtExceptionHandler{
 	  * 
 	  * */
 	 private void sendCrashLog2PM(String fileName){  
-//		 if(!new File(fileName).exists()){
-//			 return;
-//		 }
-//		 String channel = ChannelUtils.getChannelCode(mContext);
-//		 Integer versionCode = new UpdateManager(mContext).getVersionCode();
-//		 if (channel== null || versionCode == null) {
-//			return;
-//		}
-//		 RequestParams params = new RequestParams();
-//		 params.addBodyParameter(MyInterface.CHANNEL, channel);
-//		 params.addBodyParameter(MyInterface.VERSION, versionCode+"");
-//		 params.addBodyParameter(MyInterface.MYFILE, new File(fileName));
-//		 new HttpUtils().send(HttpMethod.POST, MyInterface.I_UPLOAD_ERROR_MSG, params, new RequestCallBack<String>() {
-//
-//			@Override
-//			public void onFailure(HttpException arg0, String arg1) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public void onSuccess(ResponseInfo<String> arg0) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+		 if(!new File(fileName).exists()){
+			 return;
+		 }
+		 UploadErrorReq req = new UploadErrorReq(fileName);
+		 req.upLoadFile(fileName, new DefaultCallBack());
 	 }
 }
