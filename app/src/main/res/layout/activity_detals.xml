@@ -215,12 +215,9 @@
                 android:id="@+id/tv_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/wdp20"
-                android:layout_marginRight="@dimen/wdp20"
-                android:layout_marginTop="@dimen/wdp20"
-                android:letterSpacing="@dimen/wdp10"
-                android:lineSpacingExtra="@dimen/wdp10"
-                android:textSize="@dimen/wdp24" />
+                android:paddingLeft="@dimen/wdp20"
+                android:paddingRight="@dimen/wdp20"
+                />
             <TextView
                 android:id="@+id/des_open"
                 android:layout_width="wrap_content"

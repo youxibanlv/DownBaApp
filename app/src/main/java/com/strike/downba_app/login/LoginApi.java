@@ -54,7 +54,7 @@ public class LoginApi implements Callback {
         }
 
         //使用SSO授权，通过客户单授权
-        plat.SSOSetting(false);
+        plat.SSOSetting(true);
         plat.setPlatformActionListener(new PlatformActionListener() {
             public void onComplete(Platform plat, int action,HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {

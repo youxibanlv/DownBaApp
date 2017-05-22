@@ -102,6 +102,7 @@ public class PhoneInfoUtils {
 					field.setAccessible(true);
 					deviceId.append(field.getName());
 					deviceId.append(field.get(null).toString());
+					deviceId.append(System.currentTimeMillis());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
