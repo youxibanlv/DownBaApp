@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.strike.downbaapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -19,11 +26,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name="com.strike.downba_app.base.MyApplication"
         android:allowBackup="true"
@@ -34,6 +42,10 @@
         <meta-data
             android:name="CHANNEL"
             android:value="${CHANNEL_VALUE}" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="541035fcd74c0c0f77380e943ca7fc08 " />
+
         <activity android:name="com.strike.downba_app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,20 +56,21 @@
         <!--微信分享回调 -->
         <activity
             android:name="com.strike.downba_app.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>
                 <data android:scheme="tencent100371282" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -71,26 +84,28 @@
             <!--集成line客户端登录授权，需要添如下格式的过滤器-->
             <intent-filter>
                 <data android:scheme="line.1477692153" />
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
-        <activity android:name="com.strike.downba_app.activity.RegisterActivity"/>
-        <activity android:name="com.strike.downba_app.activity.LoginActivity"/>
-        <activity android:name="com.strike.downba_app.activity.UserInfoActivity"/>
-        <activity android:name="com.strike.downba_app.activity.SearchActivity"/>
-        <activity android:name="com.strike.downba_app.activity.AppDetailsActivity"/>
-        <activity android:name="com.strike.downba_app.activity.CateActivity"/>
-        <activity android:name="com.strike.downba_app.activity.ImgDetailsActivity"/>
-        <activity android:name="com.strike.downba_app.activity.UpLoadActivity"/>
-        <activity android:name="com.strike.downba_app.activity.SubjectActivity"/>
-        <activity android:name="com.strike.downba_app.activity.InfoActivity"/>
-        <activity android:name="com.strike.downba_app.activity.CommonWebviewActivity"/>
-        <activity android:name="com.strike.downba_app.activity.ProtocolActivity"/>
-        <activity android:name="com.strike.downba_app.activity.ManagerActivity"/>
-        <activity android:name="com.strike.downba_app.activity.AppActivity"/>
+        <activity android:name="com.strike.downba_app.activity.RegisterActivity" />
+        <activity android:name="com.strike.downba_app.activity.LoginActivity" />
+        <activity android:name="com.strike.downba_app.activity.UserInfoActivity" />
+        <activity android:name="com.strike.downba_app.activity.SearchActivity" />
+        <activity android:name="com.strike.downba_app.activity.AppDetailsActivity" />
+        <activity android:name="com.strike.downba_app.activity.CateActivity" />
+        <activity android:name="com.strike.downba_app.activity.ImgDetailsActivity" />
+        <activity android:name="com.strike.downba_app.activity.UpLoadActivity" />
+        <activity android:name="com.strike.downba_app.activity.SubjectActivity" />
+        <activity android:name="com.strike.downba_app.activity.InfoActivity" />
+        <activity android:name="com.strike.downba_app.activity.CommonWebviewActivity" />
+        <activity android:name="com.strike.downba_app.activity.ProtocolActivity" />
+        <activity android:name="com.strike.downba_app.activity.ManagerActivity" />
+        <activity android:name="com.strike.downba_app.activity.AppActivity" />
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
 
 </manifest>

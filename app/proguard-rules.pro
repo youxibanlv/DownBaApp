@@ -84,6 +84,6 @@
 -keep class org.xutils.image.*{*;}
 -keep class org.xutils.view.**{*;}
 -keep class org.xutils.*{*;}
-
+-keep class org.xutils.** { *; }
 
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,Annotation,EnclosingMethod
