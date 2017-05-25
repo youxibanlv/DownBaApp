@@ -3,6 +3,10 @@ package com.strike.downba_app.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.strike.downba_app.db.DbConfig;
 import com.strike.downba_app.db.dao.UserDao;
 import com.strike.downba_app.http.bean.DevInfo;
@@ -11,6 +15,7 @@ import com.strike.downba_app.utils.CrashHandler;
 import com.strike.downba_app.utils.PhoneInfoUtils;
 
 import org.xutils.DbManager;
+import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 /**
@@ -26,7 +31,25 @@ public class MyApplication extends Application {
 
     public static String token;
 
+    public static String cityCode;
+
+    public static String adCode;
+
     public static Context context;
+
+    //声明AMapLocationClient类对象
+    private AMapLocationClient mLocationClient;
+
+    private AMapLocationClientOption mLocationOption;
+
+    private AMapLocationListener mLocationListener;
+
+    public static DbManager getAppDb() {
+        if (appDb == null) {
+            appDb = x.getDb(DbConfig.APP_DB_CONFIG);
+        }
+        return appDb;
+    }
 
     @Override
     public void onCreate() {
@@ -42,12 +65,39 @@ public class MyApplication extends Application {
         token = UserDao.getToken();
         context = this;
         AppContext.setContext(context);
+        setLocation();
     }
 
-    public static DbManager getAppDb() {
-        if (appDb == null) {
-            appDb = x.getDb(DbConfig.APP_DB_CONFIG);
-        }
-        return appDb;
+    private void setLocation() {
+        mLocationClient = new AMapLocationClient(this);
+        mLocationOption = new AMapLocationClientOption();
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+        mLocationOption.setOnceLocation(true);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        mLocationOption.setHttpTimeOut(20000);
+        //关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+        mLocationListener = new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        //可在其中解析amapLocation获取相应内容。
+                        cityCode = aMapLocation.getCityCode();
+                        adCode = aMapLocation.getAdCode();
+                        mLocationClient.stopLocation();
+                    } else {
+                        LogUtil.e("location Error, ErrCode:" + aMapLocation.getErrorCode()
+                                + ", errInfo:" + aMapLocation.getErrorInfo());
+                    }
+                }
+            }
+        };
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationClient.setLocationOption(mLocationOption);
+        mLocationClient.startLocation();
     }
 }

@@ -5,7 +5,6 @@ import android.widget.ImageView;
 
 import com.strike.downbaapp.R;
 
-import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
 
 /**
@@ -14,19 +13,18 @@ import org.xutils.image.ImageOptions;
 public class ImgConfig {
     public static ImageOptions getImgOption(){
         ImageOptions options = new ImageOptions.Builder()
-                .setRadius(DensityUtil.dip2px(5))
                 .setFailureDrawableId(R.mipmap.load_faild)
                 .setLoadingDrawableId(R.mipmap.loading)
                 .setIgnoreGif(false)
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(true)
                 .setAutoRotate(true)
+//                .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
                 .build();
         return options;
     }
     public static ImageOptions getImgOptionNoCache(){
         ImageOptions options = new ImageOptions.Builder()
-                .setRadius(DensityUtil.dip2px(5))
                 .setFailureDrawableId(R.mipmap.load_faild)
                 .setLoadingDrawableId(R.mipmap.loading)
                 .setIgnoreGif(false)
@@ -38,7 +36,6 @@ public class ImgConfig {
     }
     public static ImageOptions getMatrixImgOption(){
         ImageOptions options = new ImageOptions.Builder()
-                .setRadius(DensityUtil.dip2px(5))
                 .setFailureDrawableId(R.mipmap.load_faild)
                 .setLoadingDrawableId(R.mipmap.loading)
                 .setIgnoreGif(false)

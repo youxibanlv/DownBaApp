@@ -65,7 +65,6 @@ public class MainActivity extends BaseActivity {
 
     private TabAdapter mAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

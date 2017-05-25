@@ -261,21 +261,30 @@ public class UserInfoActivity extends BaseActivity {
             Intent cameraIntent = new Intent(this, UpLoadActivity.class);
             switch (requestCode) {
                 case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:// 拍照
-                    if (photoPath != null) {
-                        cameraIntent.putExtra(Constance.IMG, photoPath);
-                        this.startActivity(cameraIntent);
+                    try {
+                        if (photoPath != null) {
+                            cameraIntent.putExtra(Constance.IMG, photoPath);
+                            this.startActivity(cameraIntent);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                     break;
                 case PICK_IMAGE_ACTIVITY_REQUEST_CODE:
-                    Uri uri = data.getData();
-                    if (uri != null) {
-                        String realpath = AppUtils.getRealPathFromURI(
-                                UserInfoActivity.this, uri);
-                        if (realpath != null) {
-                            cameraIntent.putExtra(Constance.IMG, realpath);
-                            this.startActivity(cameraIntent);
+                    try {
+                        Uri uri = data.getData();
+                        if (uri != null) {
+                            String realpath = AppUtils.getRealPathFromURI(
+                                    UserInfoActivity.this, uri);
+                            if (realpath != null) {
+                                cameraIntent.putExtra(Constance.IMG, realpath);
+                                this.startActivity(cameraIntent);
+                            }
                         }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
+
                     break;
             }
         }

@@ -38,44 +38,50 @@ public class BaseReq {
      */
     public String token = "";
 
-    public String sign="";
+    public String sign = "";
 
-    public String devId="";
+    public String devId = "";
 
     public String channelId;
+
+    public String cityCode;
+
+    public String adCode;
 
     public Object requestParams;
 
     public transient RequestParams rp;
 
 
-    public String getRequestData(){
+    public String getRequestData() {
         Gson gson = new Gson();
         devId = MyApplication.devInfo.getDevId();
         channelId = MyApplication.channelId;
         token = MyApplication.token;
+        cityCode = MyApplication.cityCode==null?"":MyApplication.cityCode;
+        adCode = MyApplication.adCode == null?"":MyApplication.adCode;
         sign = HttpUtil.getSign(this);
         return gson.toJson(this);
     }
 
-    public void sendRequest(Callback.CommonCallback<String> callback){
-        if (MyApplication.devInfo.getStatus() != Constance.STATUS_NOMAL){
-            UiUtils.showTipToast(false,"你的设备因非法操作，已被禁止使用");
+    public void sendRequest(Callback.CommonCallback<String> callback) {
+        if (MyApplication.devInfo.getStatus() != Constance.STATUS_NOMAL) {
+            UiUtils.showTipToast(false, "你的设备因非法操作，已被禁止使用");
             return;
         }
-        this.postRequest(UrlConfig.BUSINESS,this.getRequestData(),callback);
+        this.postRequest(UrlConfig.BUSINESS, this.getRequestData(), callback);
     }
 
-    private void postRequest(String url,String requestData,final Callback.CommonCallback<String> callback){
+    private void postRequest(String url, String requestData, final Callback.CommonCallback<String> callback) {
         try {
-            LogUtil.e("url:"+url);
+            LogUtil.e("url:" + url);
             StringBody sb = new StringBody(requestData, AppConfig.DEFAULT_CHARSET);
-            rp = new RequestParams(url,null,null,null);
+            rp = new RequestParams(url, null, null, null);
             rp.setRequestBody(sb);
-            if (callback instanceof NormalCallBack){
+            if (callback instanceof NormalCallBack) {
                 ((NormalCallBack) callback).setRequestTime(System.currentTimeMillis());
             }
-            x.http().request(HttpMethod.POST,rp,callback);
+            x.http().request(HttpMethod.POST, rp, callback);
             LogUtil.e(requestData);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -83,27 +89,31 @@ public class BaseReq {
 
     }
 
-    public void upLoadFile(String path,Callback.CommonCallback<String> callback){
+    public void upLoadFile(String path, Callback.CommonCallback<String> callback) {
         try {
-            rp = new RequestParams(UrlConfig.UPLOAD,null,null,null);
+            rp = new RequestParams(UrlConfig.UPLOAD, null, null, null);
             rp.setMultipart(true);
-            rp.addBodyParameter("methodName",methodName);
-            rp.addBodyParameter("cmdType",cmdType);
-            rp.addBodyParameter("token",MyApplication.token);
-            rp.addBodyParameter("file",new File(path));
-            rp.addBodyParameter("devId",MyApplication.devInfo.getDevId());
-            rp.addBodyParameter("channelId",MyApplication.channelId+"");
+            rp.addBodyParameter("methodName", methodName);
+            rp.addBodyParameter("cmdType", cmdType);
+            rp.addBodyParameter("token", MyApplication.token);
+            rp.addBodyParameter("file", new File(path));
+            rp.addBodyParameter("devId", MyApplication.devInfo.getDevId());
+            rp.addBodyParameter("channelId", MyApplication.channelId + "");
+            rp.addBodyParameter("cityCode",MyApplication.cityCode);
+            rp.addBodyParameter("adCode",MyApplication.adCode);
 
-            Map<String,String> map = new HashMap<>();
-            map.put("methodName",methodName);
-            map.put("cmdType",cmdType);
-            map.put("token",MyApplication.token);
-            map.put("devId",MyApplication.devInfo.getDevId());
-            map.put("channelId",MyApplication.channelId);
-            map.put("requestParams","");
+            Map<String, String> map = new HashMap<>();
+            map.put("methodName", methodName);
+            map.put("cmdType", cmdType);
+            map.put("token", MyApplication.token);
+            map.put("devId", MyApplication.devInfo.getDevId());
+            map.put("channelId", MyApplication.channelId);
+            map.put("requestParams", "");
+            map.put("adCode",MyApplication.adCode);
+            map.put("cityCode",MyApplication.cityCode);
 
             rp.addBodyParameter("sign", HttpUtil.getSign(map));
-            x.http().request(HttpMethod.POST,rp,callback);
+            x.http().request(HttpMethod.POST, rp, callback);
             LogUtil.e(rp.toString());
         } catch (Exception e) {
             e.printStackTrace();
