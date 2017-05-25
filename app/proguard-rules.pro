@@ -74,16 +74,22 @@
 #反射
 -keepattributes EnclosingMethod
 
-#xutils
--keep class org.xutils.cache.* { *; }
--keep class org.xutils.common.**{*;}
--keep class org.xutils.config.*{*;}
--keep class org.xutils.db.**{*;}
--keep class org.xutils.ex.*{*;}
--keep class org.xutils.http.**{*;}
--keep class org.xutils.image.*{*;}
--keep class org.xutils.view.**{*;}
--keep class org.xutils.*{*;}
--keep class org.xutils.** { *; }
+################### region for xUtils
+-keepattributes Signature,*Annotation*
+-keep public class org.xutils.** {
+    public protected *;
+}
+-keep public interface org.xutils.** {
+    public protected *;
+}
+-keepclassmembers class * extends org.xutils.** {
+    public protected *;
+}
+-keepclassmembers @org.xutils.db.annotation.* class * {*;}
+-keepclassmembers @org.xutils.http.annotation.* class * {*;}
+-keepclassmembers class * {
+    @org.xutils.view.annotation.Event <methods>;
+}
+#################### end region
 
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,Annotation,EnclosingMethod

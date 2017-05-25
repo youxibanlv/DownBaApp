@@ -3,9 +3,9 @@
     package="com.strike.downbaapp">
 
     <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,7 +21,6 @@
     <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -34,7 +33,7 @@
 
     <application
         android:name="com.strike.downba_app.base.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -44,7 +43,7 @@
             android:value="${CHANNEL_VALUE}" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="541035fcd74c0c0f77380e943ca7fc08 " />
+            android:value="541035fcd74c0c0f77380e943ca7fc08" />
 
         <activity android:name="com.strike.downba_app.MainActivity">
             <intent-filter>
@@ -105,7 +104,7 @@
         <activity android:name="com.strike.downba_app.activity.ProtocolActivity" />
         <activity android:name="com.strike.downba_app.activity.ManagerActivity" />
         <activity android:name="com.strike.downba_app.activity.AppActivity" />
-        <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.amap.api.location.APSService"/>
     </application>
 
 </manifest>
