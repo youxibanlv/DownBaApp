@@ -62,15 +62,15 @@
         SortId="1"
         AppKey="1872712914"
         AppSecret="4419e3a2aaa9276d62366ad88bae4799"
-        RedirectUrl="http://www.sharesdk.cn"
+        RedirectUrl="https://api.weibo.com/oauth2/default.html"
         ShareByAppClient="true"
         Enable="true" />
 
     <QZone
         Id="3"
         SortId="3"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1106102659"
+        AppKey="5VUdrWbRYBWanVjT"
         Enable="true" />
     
     <!-- 
@@ -112,8 +112,8 @@
 	<QQ
         Id="7"
         SortId="7"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1106102659"
+        AppKey="5VUdrWbRYBWanVjT"
         ShareByAppClient="true"
         Enable="true" />
     

@@ -2,7 +2,6 @@ package com.strike.downba_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.strike.downba_app.activity.AppDetailsActivity;
 import com.strike.downba_app.activity.SubjectActivity;
 import com.strike.downba_app.download.DownloadInfo;
 import com.strike.downba_app.http.bean.AppAd;
 import com.strike.downba_app.http.bean.AppHome;
+import com.strike.downba_app.http.bean.Subject;
 import com.strike.downba_app.utils.Constance;
 import com.strike.downba_app.view.NoScrollGridView;
 import com.strike.downba_app.view.WheelViewPage;
@@ -26,8 +27,6 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.strike.downbaapp.R.string.subject;
 
 /**
  * Created by strike on 16/6/7.
@@ -208,18 +207,30 @@ public class HomeAdapter extends BaseAdapter {
                 listAdapters.add(appAdListAdapter);
                 break;
             case TYPE_SUBJECT:
-                if (bean.getBanner()!= null && !TextUtils.isEmpty(bean.getBanner().getLogo())) {
-                    x.image().bind(subjectHolder.icon, bean.getBanner().getLogo());
+                final AppAd banner = bean.getBanner();
+                if (banner!= null && !TextUtils.isEmpty(banner.getLogo())) {
+                    x.image().bind(subjectHolder.icon, banner.getLogo());
                 }
                 subjectHolder.icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Subject subject = bean.getSubject();
-                        Intent intent = new Intent(context, SubjectActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Constance.SUBJECT,subject);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
+                        Subject sb = banner.getSubject();
+                        switch (sb.getSb_type()){
+                            case Constance.SB_ONE_APP:
+                                Intent oneAppIntent = new Intent(context, AppDetailsActivity.class);
+                                oneAppIntent.putExtra(Constance.ID,sb.getObj_id());
+                                context.startActivity(oneAppIntent);
+                                break;
+                            case Constance.SB_LIST_APP:
+                                Intent intent = new Intent(context, SubjectActivity.class);
+                                intent.putExtra(Constance.ID,banner.getObj_id());
+                                context.startActivity(intent);
+                                break;
+                            case Constance.SB_APP_INFO:
+
+                                break;
+                        }
+
                     }
                 });
                 break;

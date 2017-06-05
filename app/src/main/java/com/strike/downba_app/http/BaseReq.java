@@ -44,9 +44,9 @@ public class BaseReq {
 
     public String channelId;
 
-    public String cityCode;
+    public String longitude;
 
-    public String adCode;
+    public String latitude;
 
     public Object requestParams;
 
@@ -58,8 +58,8 @@ public class BaseReq {
         devId = MyApplication.devInfo.getDevId();
         channelId = MyApplication.channelId;
         token = MyApplication.token;
-        cityCode = MyApplication.cityCode==null?"":MyApplication.cityCode;
-        adCode = MyApplication.adCode == null?"":MyApplication.adCode;
+        longitude = String.valueOf(MyApplication.longitude);
+        latitude = String.valueOf(MyApplication.latitude);
         sign = HttpUtil.getSign(this);
         return gson.toJson(this);
     }
@@ -99,8 +99,8 @@ public class BaseReq {
             rp.addBodyParameter("file", new File(path));
             rp.addBodyParameter("devId", MyApplication.devInfo.getDevId());
             rp.addBodyParameter("channelId", MyApplication.channelId + "");
-            rp.addBodyParameter("cityCode",MyApplication.cityCode);
-            rp.addBodyParameter("adCode",MyApplication.adCode);
+            rp.addBodyParameter("longitude", String.valueOf(MyApplication.longitude));
+            rp.addBodyParameter("latitude",String.valueOf(MyApplication.latitude));
 
             Map<String, String> map = new HashMap<>();
             map.put("methodName", methodName);
@@ -109,8 +109,8 @@ public class BaseReq {
             map.put("devId", MyApplication.devInfo.getDevId());
             map.put("channelId", MyApplication.channelId);
             map.put("requestParams", "");
-            map.put("adCode",MyApplication.adCode);
-            map.put("cityCode",MyApplication.cityCode);
+            map.put("longitude", String.valueOf(MyApplication.longitude));
+            map.put("latitude",String.valueOf(MyApplication.latitude));
 
             rp.addBodyParameter("sign", HttpUtil.getSign(map));
             x.http().request(HttpMethod.POST, rp, callback);

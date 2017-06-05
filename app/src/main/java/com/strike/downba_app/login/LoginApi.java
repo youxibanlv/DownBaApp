@@ -15,7 +15,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 public class LoginApi implements Callback {
     private static final int MSG_AUTH_CANCEL = 1;
-    private static final int MSG_AUTH_ERROR= 2;
+    private static final int MSG_AUTH_ERROR = 2;
     private static final int MSG_AUTH_COMPLETE = 3;
 
     private OnLoginListener loginListener;
@@ -31,8 +31,8 @@ public class LoginApi implements Callback {
         this.platform = platform;
     }
 
-    public void setOnLoginListener(OnLoginListener login){
-        this.loginListener=login;
+    public void setOnLoginListener(OnLoginListener login) {
+        this.loginListener = login;
     }
 
     public void login(Context context) {
@@ -54,14 +54,14 @@ public class LoginApi implements Callback {
         }
 
         //使用SSO授权，通过客户单授权
-        plat.SSOSetting(true);
+        plat.SSOSetting(false);
         plat.setPlatformActionListener(new PlatformActionListener() {
-            public void onComplete(Platform plat, int action,HashMap<String, Object> res) {
+            public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
                     Message msg = new Message();
                     msg.what = MSG_AUTH_COMPLETE;
                     msg.arg2 = action;
-                    msg.obj =  new Object[] {plat.getName(), res};
+                    msg.obj = new Object[]{plat.getName(), res};
                     handler.sendMessage(msg);
                 }
             }
@@ -87,37 +87,39 @@ public class LoginApi implements Callback {
                 }
             }
         });
+
         plat.showUser(null);
     }
 
-    /**处理操作结果*/
+    /**
+     * 处理操作结果
+     */
     public boolean handleMessage(Message msg) {
-        switch(msg.what) {
+        switch (msg.what) {
             case MSG_AUTH_CANCEL: {
                 // 取消
                 Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show();
-            } break;
+            }
+            break;
             case MSG_AUTH_ERROR: {
                 // 失败
                 Throwable t = (Throwable) msg.obj;
                 String text = "caught error: " + t.getMessage();
                 Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
-            } break;
+            }
+            break;
             case MSG_AUTH_COMPLETE: {
                 // 成功
                 Object[] objs = (Object[]) msg.obj;
                 String plat = (String) objs[0];
                 @SuppressWarnings("unchecked")
                 HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
-                if (loginListener!= null && loginListener.onLogin(plat, res)) {
-//                    RegisterPage.setOnLoginListener(loginListener);
-//                    RegisterPage.setPlatform(plat);
-//                    Intent intent=new Intent(context, RegisterPage.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
+                if (loginListener != null){
+                    loginListener.onLogin(plat,res);
                 }
-            } break;
+            }
+            break;
         }
         return false;
     }
