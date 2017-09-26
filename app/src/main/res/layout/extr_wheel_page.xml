@@ -5,7 +5,9 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_hottest"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/bg_divider"
+        />
 
     <LinearLayout
         android:id="@+id/ll_hottest_indicator"
@@ -15,4 +17,27 @@
         android:paddingRight="@dimen/wdp20"
         android:gravity="right"
         android:orientation="horizontal" />
+    <LinearLayout
+        android:layout_width="@dimen/wdp480"
+        android:layout_height="@dimen/wdp50"
+        android:background="@drawable/bg_search"
+        android:layout_marginBottom="@dimen/wdp25"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/wdp15"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal|bottom"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/search_icon"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:layout_marginRight="@dimen/wdp20"
+            android:layout_marginLeft="@dimen/wdp20"
+            />
+    </LinearLayout>
 </FrameLayout>

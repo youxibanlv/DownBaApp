@@ -31,9 +31,9 @@ public class MyApplication extends Application {
 
     public static String token;
 
-    public static double longitude = 0;//精度
+    public static String adCode;//精度
 
-    public static double latitude = 0;//纬度
+    public static String cityCode;//纬度
 
 
     public static Context context;
@@ -87,8 +87,8 @@ public class MyApplication extends Application {
                 if (aMapLocation != null) {
                     if (aMapLocation.getErrorCode() == 0) {
                         //可在其中解析amapLocation获取相应内容。
-                        latitude = aMapLocation.getLatitude();
-                        longitude = aMapLocation.getLongitude();
+                        adCode = aMapLocation.getAdCode();
+                        cityCode = aMapLocation.getCityCode();
                         mLocationClient.stopLocation();
                     } else {
                         LogUtil.e("location Error, ErrCode:" + aMapLocation.getErrorCode()

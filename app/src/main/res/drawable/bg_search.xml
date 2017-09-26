@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/wdp10"
+        android:bottomLeftRadius="@dimen/wdp10"
+        android:topLeftRadius="@dimen/wdp10"
+        android:topRightRadius="@dimen/wdp10"
+        android:bottomRightRadius="@dimen/wdp10"/>
+    <solid android:color="#ffffff"/>
+</shape>
